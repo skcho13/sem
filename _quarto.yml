@@ -16,7 +16,7 @@ website:
   bread-crumbs: false
   title: "{{< fa chart-bar >}} CHA Statistics II in R"
   description: "Lecture notes for structural equation modelling in R"
-  site-url: "https://r2.modellings.art"
+  site-url: "https://sem.modellings.art"
   site-path: "/"
   open-graph: 
     site-name: CHA Statistics II in R

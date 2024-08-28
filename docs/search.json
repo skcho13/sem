@@ -178,7 +178,7 @@
     "href": "contents/setup.html",
     "title": "환경설정",
     "section": "",
-    "text": "R 다운로드 및 설치\n\nWindows인 경우 &gt; Download R for Windows &gt; base &gt; Download R-4.3.3 for Windows\n\n다운로드 링크\n\nMac인 경우 &gt; Download R for macOS &gt; R-4.3.3.pkg 또는 R-4.3.3-arm64.pkg (Apple silicon)\n\n다운로드 링크 Apple silicon (M1-3) Macs:\n다운로드 링크 for older Intel Macs\n\n\nRStudio 다운로드 및 설치\n\n2: Install RStudio",
+    "text": "R 다운로드 및 설치\n\nWindows인 경우 &gt; Download R for Windows &gt; base\nMac인 경우 &gt; Download R for macOS &gt; Apple silicon 또는 Intel Macs 선택\n\nRStudio 다운로드 및 설치\n\n2: Install RStudio",
     "crumbs": [
       "R tutorial",
       "Setup"
@@ -189,7 +189,7 @@
     "href": "contents/setup.html#r-및-rstudio-설치",
     "title": "환경설정",
     "section": "",
-    "text": "R 다운로드 및 설치\n\nWindows인 경우 &gt; Download R for Windows &gt; base &gt; Download R-4.3.3 for Windows\n\n다운로드 링크\n\nMac인 경우 &gt; Download R for macOS &gt; R-4.3.3.pkg 또는 R-4.3.3-arm64.pkg (Apple silicon)\n\n다운로드 링크 Apple silicon (M1-3) Macs:\n다운로드 링크 for older Intel Macs\n\n\nRStudio 다운로드 및 설치\n\n2: Install RStudio",
+    "text": "R 다운로드 및 설치\n\nWindows인 경우 &gt; Download R for Windows &gt; base\nMac인 경우 &gt; Download R for macOS &gt; Apple silicon 또는 Intel Macs 선택\n\nRStudio 다운로드 및 설치\n\n2: Install RStudio",
     "crumbs": [
       "R tutorial",
       "Setup"
@@ -416,7 +416,7 @@
     "href": "index.html",
     "title": "Welcome",
     "section": "",
-    "text": "강사: 조성균\nemail: sk.cho@snu.ac.kr\n수업시간: 월 7:00 ~ 9:50PM\n면담 시간: 수업 후\nWebsite: sem2.modellings.art\n과제: Notice\n질문: Communicate/Ask",
+    "text": "강사: 조성균\nemail: sk.cho@snu.ac.kr\n수업시간: 월 7:00 ~ 9:50PM\n면담 시간: 수업 후\nWebsite: sem.modellings.art\n과제: Notice\n질문: Communicate/Ask",
     "crumbs": [
       "Welcome"
     ]
@@ -426,7 +426,7 @@
     "href": "index.html#강의-정보",
     "title": "Welcome",
     "section": "",
-    "text": "강사: 조성균\nemail: sk.cho@snu.ac.kr\n수업시간: 월 7:00 ~ 9:50PM\n면담 시간: 수업 후\nWebsite: sem2.modellings.art\n과제: Notice\n질문: Communicate/Ask",
+    "text": "강사: 조성균\nemail: sk.cho@snu.ac.kr\n수업시간: 월 7:00 ~ 9:50PM\n면담 시간: 수업 후\nWebsite: sem.modellings.art\n과제: Notice\n질문: Communicate/Ask",
     "crumbs": [
       "Welcome"
     ]
