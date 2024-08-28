@@ -1,0 +1,55 @@
+---
+title: Welcome
+subtitle: 차의과학대학교 임상상담심리대학원 중급통계, 2024 2학기
+date: last-modified
+author: Sungkyun Cho
+---
+## 강의 정보
+강사: 조성균  
+email: sk.cho@snu.ac.kr  
+수업시간: 월 7:00 ~ 9:50PM  
+면담 시간: 수업 후  
+Website: [sem.modellings.art](https://sem.modellings.art)
+
+과제: Notice  
+질문: Communicate/Ask
+
+## 강의 개요
+
+심리통계에서 배운 회귀분석을 기반으로 하여, 잠재변수(latent variable)을 포함해 여러 변수들 간의 관계에 대한 가설에 대한 통계적 검증을 위한 구조모형을 다룹니다. 이는 확인적 요인 분석 (confirmatory factor analysis, CFA)과 경로분석 (path analysis)을 통합한 구조방정식모형 (Structural equation model, SEM)의 프레임워크를 포함하며, 인과관계의 대한 추론을 위해 SEM을 활용하는 방법과 그 한계에 대해 다룹니다. 본 수업에서는 R의 SEM 패키지들을 활용해 실습을 하며, 다양한 실제 사례를 통해 분석의 결과를 통계 이론의 이해를 바탕으로 올바로 해석할 수 있는 능력을 갖춥니다.
+
+### 교재 및 R 코드
+:::: {.columns}
+
+::: {.column width="75%"}
+
+*다중회귀분석과 구조방정식모형분석 - 다중회귀분석을 넘어 (3판), 2024* by Timothy Z. Keith (지은이), 노석준 (옮긴이)
+
+원제: *Multiple Regression and Beyond: An Introduction to Multiple Regression and Structural Equation Modeling, Third Edition (2019)*
+
+**실습을 위한 참고 홈페이지**: [R Cookbook for Structural Equation Modeling](https://gabriellajg.github.io/EPSY-579-R-Cookbook-for-SEM/)
+:::
+
+::: {.column width="25%"}
+![](contents/images/keith.jpg){width="150"}
+:::
+
+::::
+
+
+### 참고도서
+
+*Principles and Practice of Structural Equation Modeling (5e), 2023* by Rex B. Kline,
+
+
+### R 참고도서
+
+[*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham and Garrett Grolemund
+
+
+
+## 수업 활동
+출석 (10%), 일반과제 (30%), 중간고사 대체 과제 (30%), 기말고사 (30%)
+
+<!-- ## 수업 일정
+1주.  -->
