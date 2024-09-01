@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://r2.modellings.art/contents/baser.html</loc>
+    <loc>https://sem.modellings.art/contents/baser.html</loc>
     <lastmod>2024-03-08T07:28:51.897Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/contents/notice.html</loc>
+    <loc>https://sem.modellings.art/contents/notice.html</loc>
     <lastmod>2024-03-07T20:03:44.784Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/contents/visualize.html</loc>
+    <loc>https://sem.modellings.art/contents/visualize.html</loc>
     <lastmod>2023-03-22T19:50:25.000Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/contents/setup.html</loc>
+    <loc>https://sem.modellings.art/contents/setup.html</loc>
     <lastmod>2024-08-28T18:32:31.311Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/contents/cleaning.html</loc>
+    <loc>https://sem.modellings.art/contents/cleaning.html</loc>
     <lastmod>2024-03-22T07:43:52.759Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/contents/import.html</loc>
+    <loc>https://sem.modellings.art/contents/import.html</loc>
     <lastmod>2024-03-15T17:17:13.848Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/contents/tidyverse.html</loc>
+    <loc>https://sem.modellings.art/contents/tidyverse.html</loc>
     <lastmod>2024-03-15T16:40:48.938Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/about.html</loc>
+    <loc>https://sem.modellings.art/about.html</loc>
     <lastmod>2023-02-12T04:02:01.000Z</lastmod>
   </url>
   <url>
-    <loc>https://r2.modellings.art/index.html</loc>
-    <lastmod>2024-08-28T18:30:55.472Z</lastmod>
-  </url>
-  <url>
     <loc>https://sem.modellings.art/index.html</loc>
-    <lastmod>2024-08-28T18:30:55.472Z</lastmod>
+    <lastmod>2024-08-29T19:20:30.743Z</lastmod>
   </url>
 </urlset>

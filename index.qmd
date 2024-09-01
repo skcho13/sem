@@ -27,7 +27,12 @@ Website: [sem.modellings.art](https://sem.modellings.art)
 
 원제: *Multiple Regression and Beyond: An Introduction to Multiple Regression and Structural Equation Modeling, Third Edition (2019)*
 
-**실습을 위한 참고 홈페이지**: [R Cookbook for Structural Equation Modeling](https://gabriellajg.github.io/EPSY-579-R-Cookbook-for-SEM/)
+저자 웹사이트: [https://tzkeith.com](https://tzkeith.com)
+
+**실습을 위한 참고 홈페이지**
+
+- [R Cookbook for Structural Equation Modeling](https://gabriellajg.github.io/EPSY-579-R-Cookbook-for-SEM/)  by Ge Jiang
+- [Github repository](https://github.com/gabriellajg/EPSY-579-R-Cookbook-for-SEM)
 :::
 
 ::: {.column width="25%"}
