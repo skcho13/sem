@@ -1,0 +1,91 @@
+project:
+  type: website
+  output-dir: docs
+  resources: CNAME
+  render: 
+    - "*.qmd"
+    - "*.ipynb"
+    - "!contents/ignore/"
+    # - "!exercise*.ipynb"
+    # - "!contents/case3_sol.qmd"
+    # - "!contents/reports.qmd"
+
+website:
+  # google-analytics: "G-3JGE58SZ6T"
+  page-navigation: true
+  bread-crumbs: false
+  title: "{{< fa chart-bar >}} CHA Statistics II in R"
+  description: "Lecture notes for structural equation modelling in R"
+  site-url: "https://sem.modellings.art"
+  site-path: "/"
+  open-graph: 
+    site-name: CHA Statistics II in R
+  # repo-url:
+  # repo-actions: [edit, issue]
+
+  page-footer:
+    # right: "This page is built with [Quarto](https://quarto.org/)."
+    left: This work © 2024 by Sungkyun Cho is licensed under CC BY-NC-SA 4.0 
+    # left: "&copy; Copyright 2023, Sungkyun Cho"
+    # background: 
+
+  sidebar:
+    # background: "#F6F6FF"
+    # logo: 
+    pinned: false
+    alignment: left
+    style: "floating"
+    search: true
+    collapse-level: 3
+    
+    contents:
+      - href: index.qmd
+      - href: contents/notice.qmd
+      # - href: contents/pollr.qmd
+      #   text: "설문"
+      - text: ---
+      - section: R tutorial
+        contents:
+          - href: contents/setup.ipynb
+            text: Setup
+          - href: contents/baser.qmd
+          - href: contents/tidyverse.ipynb
+          - href: contents/import.ipynb
+          - href: contents/cleaning.ipynb
+          - href: contents/visualize.ipynb
+
+      - text: ---
+      - section: Statistics
+        # contents:
+        #   - href: contents/overview.ipynb
+        #   - href: contents/regression1.ipynb
+        #     text: Simple Regression
+          
+      - text: ---
+      - section: Communicate
+        contents:
+          - href: https://docs.google.com/document/d/1OQ1D7d4MxEfMZmo_FLj29rGWqvWADKmGc_QD9g5h_ho/edit?usp=sharing
+            text: Ask
+          # - href: https://docs.google.com/document/d/1NjaZzQdVq22csZLMuCI9GDZmTY-hFHypkFlEBb4Yx9s/edit?usp=sharing
+          #   text: Consult
+          # - href: https://docs.google.com/document/d/1rznMbrQOfHBnYIJvWE-T6YW5jN0yBXQGiohDVLS5Qp4/edit?usp=sharing
+          #   text: Group Project
+
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+    code-fold: false
+    code-overflow: wrap
+    code-summary: "Show the code"
+    theme: [sandstone, theme-light.scss]
+    # monofont: 'FiraCode-Light'
+    fontsize: 1.1em
+    linestretch: 2
+    code-copy: true
+    highlight-style: Ayu-light
+    link-external-newwindow: true
+    grid:
+      body-width: 900px
+      margin-width: 200px
