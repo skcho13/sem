@@ -56,10 +56,12 @@ website:
 
       - text: ---
       - section: Statistics
-        # contents:
-        #   - href: contents/overview.ipynb
-        #   - href: contents/regression1.ipynb
-        #     text: Simple Regression
+        contents:
+          - href: contents/chap13.ipynb
+          - href: contents/chap16.ipynb
+          - href: contents/chap18.ipynb
+          - href: contents/chap19.ipynb
+          #- href: contents/fit-index.qmd
           
       - text: ---
       - section: Communicate
