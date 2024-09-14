@@ -327,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="60">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
@@ -338,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-2" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
+<div id="cell-2" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>hw <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 18 latent var SEM 2/HW latent matrix.sav"</span>)</span>
@@ -368,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   eng_12 &lt;dbl&gt;, math_12 &lt;dbl&gt;, sci_12 &lt;dbl&gt;, ss_12 &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<div id="cell-3" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
+<div id="cell-3" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nels_sav_full <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/n=1000,stud &amp; par_3.sav"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"byfaminc"</span>, <span class="st">"parocc"</span>, <span class="st">"bypared"</span>, <span class="st">"ethnic"</span>, <span class="st">"f1txhstd"</span>, <span class="st">"f1txsstd"</span>, <span class="st">"f1txrstd"</span>, <span class="st">"f1txmstd"</span>, <span class="st">"bytxhstd"</span>, <span class="st">"bytxsstd"</span>, <span class="st">"bytxrstd"</span>, <span class="st">"bytxmstd"</span>, <span class="st">"f1s36a1"</span>,  <span class="st">"f1s36a2"</span>, <span class="st">"byhomewk"</span>)</span>
@@ -377,7 +377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>hw_raw <span class="sc">|&gt;</span> psych<span class="sc">::</span><span class="fu">lowerCor</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
+<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hwcov <span class="ot">&lt;-</span> hw[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">15</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">16</span>)] <span class="sc">|&gt;</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
@@ -419,15 +419,15 @@ sci_12   0.58  1.44   5.76    5.59   7.19  6.12
 ss_12    0.59  1.55   6.54    5.88   6.12  8.25</code></pre>
 </div>
 </div>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>hw_sim <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(hwcov, <span class="at">n =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"exact"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">as.numeric</span>(hwcov <span class="sc">-</span> <span class="fu">cov</span>(hw_sim)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
--3.39684010659664
+-3.39684010659574
 </div>
 </div>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">  eminor =~ Minority</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ bypared + byfaminc + parocc</span></span>
@@ -584,7 +584,7 @@ Defined Parameters:
 </code></pre>
 </div>
 </div>
-<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For simulate data</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sem_fit_raw <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_sim)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_raw, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -719,7 +719,7 @@ Defined Parameters:
 </div>
 <section id="all-indirect-paths-from-family-background-to-grandes-total-effect" class="level3">
 <h3 class="anchored" data-anchor-id="all-indirect-paths-from-family-background-to-grandes-total-effect">All indirect paths from family background to grandes: total effect</h3>
-<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="33">
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All indirect paths from family background to grandes: total effect</span></span>
@@ -738,7 +738,7 @@ Path(s):
 3 famback -&gt; hw -&gt; grades           </code></pre>
 </div>
 </div>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="34">
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ind_est_std <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> sem_fit_raw, <span class="at">R =</span> <span class="dv">1000</span>,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
@@ -748,15 +748,15 @@ Path(s):
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>ind_est_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=12s  </code></pre>
+<pre><code>  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=17s  </code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>
 ==  Indirect Effect(s) (Both x-variable(s) and y-variable(s) Standardized)  ==
                                      std CI.lo CI.hi Sig
-famback -&gt; prevach -&gt; hw -&gt; grades 0.060 0.036 0.109 Sig
-famback -&gt; prevach -&gt; grades       0.274 0.221 0.329 Sig
-famback -&gt; hw -&gt; grades            0.054 0.017 0.105 Sig
+famback -&gt; prevach -&gt; hw -&gt; grades 0.060 0.034 0.106 Sig
+famback -&gt; prevach -&gt; grades       0.274 0.220 0.329 Sig
+famback -&gt; hw -&gt; grades            0.054 0.017 0.104 Sig
 
  - [CI.lo to CI.hi] are 95.0% bias-corrected confidence intervals by
    nonparametric bootstrapping with 1000 samples.
@@ -764,7 +764,7 @@ famback -&gt; hw -&gt; grades            0.054 0.017 0.105 Sig
  </code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]] <span class="co"># total effect</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>
@@ -774,7 +774,7 @@ famback -&gt; hw -&gt; grades            0.054 0.017 0.105 Sig
  Path:                famback -&gt; prevach -&gt; grades      
  Path:                famback -&gt; hw -&gt; grades           
  Function of Effects: 0.388                             
- 95.0% Bootstrap CI:  [0.335 to 0.439]                  
+ 95.0% Bootstrap CI:  [0.334 to 0.441]                  
 
 Computation of the Function of Effects:
  ((famback-&gt;prevach-&gt;hw-&gt;grades)
@@ -786,7 +786,7 @@ Bias-corrected confidence interval formed by nonparametric
 bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 </div>
-<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">indirect_effect</span>(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> sem_fit_raw,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"famback"</span>,</span>
@@ -826,7 +826,7 @@ NOTE:
 </section>
 <section id="all-indirect-paths-from-minority-to-grades-total-effect" class="level3">
 <h3 class="anchored" data-anchor-id="all-indirect-paths-from-minority-to-grades-total-effect">All indirect paths from minority to grades: total effect</h3>
-<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
+<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="71">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># All indirect paths from minority to grades: total effect</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>paths2 <span class="ot">&lt;-</span> <span class="fu">all_indirect_paths</span>(sem_fit_raw,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"eminor"</span>,</span>
@@ -843,7 +843,7 @@ Path(s):
 3 eminor -&gt; hw -&gt; grades           </code></pre>
 </div>
 </div>
-<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ind_est_std2 <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths2,</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> sem_fit_raw, <span class="at">R =</span> <span class="dv">1000</span>,</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
@@ -858,9 +858,9 @@ Path(s):
 <pre><code>
 ==  Indirect Effect(s) (Both x-variable(s) and y-variable(s) Standardized)  ==
                                      std  CI.lo  CI.hi Sig
-eminor -&gt; prevach -&gt; hw -&gt; grades -0.010 -0.023 -0.003 Sig
-eminor -&gt; prevach -&gt; grades       -0.045 -0.077 -0.013 Sig
-eminor -&gt; hw -&gt; grades             0.030  0.003  0.070 Sig
+eminor -&gt; prevach -&gt; hw -&gt; grades -0.010 -0.024 -0.003 Sig
+eminor -&gt; prevach -&gt; grades       -0.045 -0.084 -0.012 Sig
+eminor -&gt; hw -&gt; grades             0.030  0.004  0.066 Sig
 
  - [CI.lo to CI.hi] are 95.0% bias-corrected confidence intervals by
    nonparametric bootstrapping with 1000 samples.
@@ -868,7 +868,7 @@ eminor -&gt; hw -&gt; grades             0.030  0.003  0.070 Sig
  </code></pre>
 </div>
 </div>
-<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
+<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ind_est_std2[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std2[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std2[[<span class="dv">3</span>]] <span class="co"># total effect</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>
@@ -878,7 +878,7 @@ eminor -&gt; hw -&gt; grades             0.030  0.003  0.070 Sig
  Path:                eminor -&gt; prevach -&gt; grades      
  Path:                eminor -&gt; hw -&gt; grades           
  Function of Effects: -0.025                           
- 95.0% Bootstrap CI:  [-0.074 to 0.030]                
+ 95.0% Bootstrap CI:  [-0.074 to 0.027]                
 
 Computation of the Function of Effects:
  ((eminor-&gt;prevach-&gt;hw-&gt;grades)
@@ -893,7 +893,7 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 </section>
 <section id="multi-group" class="level3">
 <h3 class="anchored" data-anchor-id="multi-group">Multi-group</h3>
-<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="40">
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>hw_mg_minor <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="st">"data/chap 18 latent var SEM 2/minority matrix.xls"</span>)</span>
@@ -929,23 +929,23 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 <span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(hw_multigroup) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(hw_multigroup))</span>
 <span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>hw_multigroup <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   bypared  byfaminc   parocc bytxrstd bytxmstd bytxsstd bytxhstd     hw_8
-1 4.241136  9.539088 51.36233 54.90054 55.30287 46.20344 47.90755 1.901280
-2 2.533918 12.476243 82.40424 60.04942 61.99253 55.24925 57.93221 2.266771
-3 2.997464 14.396761 78.22307 43.26104 39.86515 39.53191 36.02678 2.157474
-4 3.123412  9.146832 51.37951 45.61876 46.59908 48.84640 39.44524 1.688876
-5 4.795318  9.295362 64.89943 67.31889 67.58730 74.66985 69.42429 2.161667
-6 1.631700 12.129856 56.70377 46.52074 60.52231 52.27228 49.22310 1.999805
-      hw10    eng_12  math_12   sci_12    ss_12    group
-1 4.794832  4.019241 4.763743 1.842176 3.127701 minority
-2 6.684935 11.075153 7.497462 7.040717 7.753743 minority
-3 4.375377  6.334300 4.500281 5.777013 4.958751 minority
-4 4.050661  4.488926 4.448010 3.792466 4.058798 minority
-5 4.377667 10.053731 9.654807 8.600518 9.704114 minority
-6 5.264791  8.137198 9.838173 6.502873 9.399577 minority</code></pre>
+<pre><code>    bypared  byfaminc    parocc bytxrstd bytxmstd bytxsstd bytxhstd       hw_8
+1 0.3828372  7.139510  3.443991 50.81496 42.23264 40.78801 47.26533  1.0615476
+2 1.6257304  8.967486 13.142849 49.69350 53.78078 47.55894 40.93426  2.8156877
+3 1.1518519  5.788364 58.299023 43.94204 34.66668 30.53849 41.88674 -0.6045725
+4 4.2245456  8.207493 58.776117 50.37986 47.96402 50.28590 45.82648  1.1304863
+5 2.8003436  8.554826 31.127037 40.34252 48.09470 46.18106 47.44408 -0.3079130
+6 4.5135428 15.393487 81.967618 72.28261 76.40078 70.26384 63.79064  2.4412002
+      hw10    eng_12   math_12   sci_12       ss_12    group
+1 4.939912 2.0199859 -1.903368 1.627215 -0.01998056 minority
+2 4.861003 9.3495783  7.201756 8.267503  5.68175432 minority
+3 3.635397 1.6409249  2.495852 2.468783  1.27290397 minority
+4 3.798215 0.9150152  2.409651 2.532526  6.17228111 minority
+5 3.066908 3.9071210  5.153388 5.235629  5.75677822 minority
+6 3.287299 7.9835941  8.577843 6.882267  6.95743065 minority</code></pre>
 </div>
 </div>
-<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="41">
+<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
@@ -971,7 +971,7 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 <span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 414 iterations
+<pre><code>lavaan 0.6-18 ended normally after 412 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -983,11 +983,11 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 
 Model Test User Model:
                                                       
-  Test statistic                               223.175
+  Test statistic                               223.177
   Degrees of freedom                               112
   P-value (Chi-square)                           0.000
   Test statistic for each group:
-    minority                                    95.604
+    minority                                    95.606
     white                                      127.571
 
 Model Test Baseline Model:
@@ -1003,12 +1003,12 @@ User Model versus Baseline Model:
 
 Loglikelihood and Information Criteria:
 
-  Loglikelihood user model (H0)             -33497.853
+  Loglikelihood user model (H0)             -33497.854
   Loglikelihood unrestricted model (H1)     -33386.266
                                                       
-  Akaike (AIC)                               67187.706
-  Bayesian (BIC)                             67661.221
-  Sample-size adjusted Bayesian (SABIC)      67356.315
+  Akaike (AIC)                               67187.708
+  Bayesian (BIC)                             67661.223
+  Sample-size adjusted Bayesian (SABIC)      67356.317
 
 Root Mean Square Error of Approximation:
 
@@ -1035,7 +1035,7 @@ Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   famback =~                                                            
     parocc            1.000                              19.007    0.793
-    bypared           0.059    0.005   11.770    0.000    1.112    0.801
+    bypared           0.059    0.005   11.771    0.000    1.112    0.801
     byfaminc          0.103    0.010   10.666    0.000    1.961    0.692
   prevach =~                                                            
     bytxrstd          1.000                               8.514    0.859
@@ -1056,11 +1056,11 @@ Regressions:
   prevach ~                                                             
     famback           0.263    0.032    8.278    0.000    0.586    0.586
   grades ~                                                              
-    prevach           3.200   66.665    0.048    0.962   10.647   10.647
-    hw              -46.744 1035.826   -0.045    0.964   -9.936   -9.936
+    prevach           3.125   63.376    0.049    0.961   10.396   10.396
+    hw              -45.575  984.791   -0.046    0.963   -9.685   -9.685
   hw ~                                                                  
     prevach           0.065    0.014    4.595    0.000    1.011    1.011
-    famback          -0.000    0.004   -0.045    0.964   -0.006   -0.006
+    famback          -0.000    0.004   -0.047    0.963   -0.006   -0.006
 
 Covariances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -1077,7 +1077,7 @@ Intercepts:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
    .parocc           43.085    1.448   29.755    0.000   43.085    1.798
    .bypared           2.849    0.084   33.953    0.000    2.849    2.051
-   .byfaminc          8.757    0.171   51.131    0.000    8.757    3.089
+   .byfaminc          8.757    0.171   51.130    0.000    8.757    3.089
    .bytxrstd         48.537    0.599   81.056    0.000   48.537    4.897
    .bytxmstd         49.808    0.626   79.526    0.000   49.808    4.804
    .bytxsstd         47.959    0.600   79.907    0.000   47.959    4.827
@@ -1091,23 +1091,23 @@ Intercepts:
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .parocc          213.212   29.517    7.223    0.000  213.212    0.371
+   .parocc          213.210   29.518    7.223    0.000  213.210    0.371
    .bypared           0.691    0.099    6.993    0.000    0.691    0.358
    .byfaminc          4.193    0.447    9.378    0.000    4.193    0.522
    .bytxrstd         25.756    3.009    8.560    0.000   25.756    0.262
    .bytxmstd         26.302    3.181    8.268    0.000   26.302    0.245
    .bytxsstd         33.096    3.475    9.525    0.000   33.096    0.335
    .bytxhstd         33.025    3.448    9.577    0.000   33.025    0.339
-   .hw10              3.068    0.281   10.932    0.000    3.068    0.912
-   .hw_8              1.112    0.114    9.772    0.000    1.112    0.857
+   .hw10              3.068    0.281   10.933    0.000    3.068    0.912
+   .hw_8              1.112    0.114    9.774    0.000    1.112    0.857
    .eng_12            1.039    0.148    7.029    0.000    1.039    0.137
    .math_12           2.321    0.230   10.076    0.000    2.321    0.306
    .sci_12            1.670    0.181    9.241    0.000    1.670    0.230
    .ss_12             1.647    0.195    8.433    0.000    1.647    0.186
-    famback         361.269   51.153    7.063    0.000    1.000    1.000
+    famback         361.281   51.154    7.063    0.000    1.000    1.000
    .prevach          47.575    6.080    7.825    0.000    0.656    0.656
-   .hw               -0.005    0.103   -0.045    0.964   -0.016   -0.016
-   .grades           14.069  226.082    0.062    0.950    2.148    2.148
+   .hw               -0.005    0.103   -0.046    0.963   -0.016   -0.016
+   .grades           13.806  214.777    0.064    0.949    2.108    2.108
 
 
 Group 2 [white]:
@@ -1172,7 +1172,7 @@ Intercepts:
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .parocc          189.274   14.140   13.386    0.000  189.274    0.484
+   .parocc          189.275   14.140   13.386    0.000  189.275    0.484
    .bypared           0.431    0.056    7.687    0.000    0.431    0.291
    .byfaminc          3.299    0.198   16.701    0.000    3.299    0.649
    .bytxrstd         29.775    2.045   14.556    0.000   29.775    0.288
@@ -1185,27 +1185,27 @@ Variances:
    .math_12           2.401    0.141   17.014    0.000    2.401    0.336
    .sci_12            1.645    0.108   15.261    0.000    1.645    0.229
    .ss_12             1.262    0.099   12.770    0.000    1.262    0.160
-    famback         201.843   20.408    9.890    0.000    1.000    1.000
+    famback         201.842   20.408    9.890    0.000    1.000    1.000
    .prevach          55.591    4.259   13.054    0.000    0.755    0.755
    .hw                1.271    0.275    4.623    0.000    0.776    0.776
    .grades            3.005    0.215   13.978    0.000    0.514    0.514
 </code></pre>
 </div>
 </div>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(sem_fit_mg, <span class="st">"cov.lv"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(sem_fit_mg, <span class="at">what =</span> <span class="st">"est"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$minority
          fambck  prevch      hw  grades
-famback 361.269                        
-prevach  94.884  72.495                
-hw        6.071   4.668   0.296        
-grades   19.870  13.811   1.106   6.550
+famback 361.281                        
+prevach  94.886  72.495                
+hw        6.070   4.668   0.296        
+grades   19.872  13.811   1.106   6.550
 
 $white
          fambck  prevch      hw  grades
-famback 201.843                        
+famback 201.842                        
 prevach  60.406  73.668                
 hw        7.113   4.677   1.638        
 grades   12.780  13.715   1.498   5.852
@@ -1229,7 +1229,7 @@ ss_12     0.000  0.000 0.000  1.049
 
 $minority$theta
           parocc  bypard  byfmnc  bytxrs  bytxms  bytxss  bytxhs    hw10
-parocc   213.212                                                        
+parocc   213.210                                                        
 bypared    0.000   0.691                                                
 byfaminc   0.000   0.000   4.193                                        
 bytxrstd   0.000   0.000   0.000  25.756                                
@@ -1259,17 +1259,17 @@ ss_12      0.000   0.000   0.000   0.000   1.647
 
 $minority$psi
          fambck  prevch      hw  grades
-famback 361.269                        
+famback 361.281                        
 prevach   0.000  47.575                
 hw        0.000   0.000  -0.005        
-grades    0.000   0.000   0.000  14.069
+grades    0.000   0.000   0.000  13.806
 
 $minority$beta
         fambck prevch      hw grades
 famback  0.000  0.000   0.000      0
 prevach  0.263  0.000   0.000      0
 hw       0.000  0.065   0.000      0
-grades   0.000  3.200 -46.744      0
+grades   0.000  3.125 -45.575      0
 
 $minority$nu
          intrcp
@@ -1314,7 +1314,7 @@ ss_12     0.000  0.000 0.000  1.065
 
 $white$theta
           parocc  bypard  byfmnc  bytxrs  bytxms  bytxss  bytxhs    hw10
-parocc   189.274                                                        
+parocc   189.275                                                        
 bypared    0.000   0.431                                                
 byfaminc   0.000   0.000   3.299                                        
 bytxrstd   0.000   0.000   0.000  29.775                                
@@ -1344,7 +1344,7 @@ ss_12      0.000   0.000   0.000   0.000   1.262
 
 $white$psi
          fambck  prevch      hw  grades
-famback 201.843                        
+famback 201.842                        
 prevach   0.000  55.591                
 hw        0.000   0.000   1.271        
 grades    0.000   0.000   0.000   3.005
@@ -1382,7 +1382,7 @@ grades       0
 </code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="43">
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="77">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contrain factor loadings</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sem_fit_mg2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
@@ -1393,7 +1393,7 @@ grades       0
 <span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg2, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 397 iterations
+<pre><code>lavaan 0.6-18 ended normally after 381 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -1406,11 +1406,11 @@ grades       0
 
 Model Test User Model:
                                                       
-  Test statistic                               238.778
+  Test statistic                               238.780
   Degrees of freedom                               121
   P-value (Chi-square)                           0.000
   Test statistic for each group:
-    minority                                   106.830
+    minority                                   106.831
     white                                      131.949
 
 Model Test Baseline Model:
@@ -1429,9 +1429,9 @@ Loglikelihood and Information Criteria:
   Loglikelihood user model (H0)             -33505.655
   Loglikelihood unrestricted model (H1)     -33386.266
                                                       
-  Akaike (AIC)                               67185.310
-  Bayesian (BIC)                             67614.433
-  Sample-size adjusted Bayesian (SABIC)      67338.111
+  Akaike (AIC)                               67185.311
+  Bayesian (BIC)                             67614.434
+  Sample-size adjusted Bayesian (SABIC)      67338.113
 
 Root Mean Square Error of Approximation:
 
@@ -1457,7 +1457,7 @@ Group 1 [minority]:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   famback =~                                                            
-    parocc            1.000                              17.928    0.760
+    parocc            1.000                              17.929    0.760
     bypared (.p2.)    0.067    0.003   20.083    0.000    1.207    0.846
     byfamnc (.p3.)    0.096    0.006   17.481    0.000    1.727    0.629
   prevach =~                                                            
@@ -1466,7 +1466,7 @@ Latent Variables:
     bytxsst (.p6.)    0.978    0.030   32.678    0.000    8.340    0.826
     bytxhst (.p7.)    0.962    0.030   32.151    0.000    8.209    0.823
   hw =~                                                                 
-    hw10              1.000                               0.679    0.361
+    hw10              1.000                               0.678    0.361
     hw_8    (.p9.)    0.468    0.061    7.685    0.000    0.317    0.286
   grades =~                                                             
     eng_12            1.000                               2.527    0.926
@@ -1479,8 +1479,8 @@ Regressions:
   prevach ~                                                             
     famback           0.282    0.031    9.079    0.000    0.592    0.592
   grades ~                                                              
-    prevach          -2.916    0.478   -6.102    0.000   -9.843   -9.843
-    hw               39.428    2.357   16.726    0.000   10.587   10.587
+    prevach          -2.947    0.483   -6.106    0.000   -9.947   -9.947
+    hw               39.821    2.381   16.727    0.000   10.691   10.691
   hw ~                                                                  
     prevach           0.078    0.011    6.990    0.000    0.986    0.986
     famback           0.000    0.000    0.806    0.420    0.006    0.006
@@ -1498,7 +1498,7 @@ Covariances:
 
 Intercepts:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .parocc           43.085    1.425   30.232    0.000   43.085    1.826
+   .parocc           43.085    1.425   30.231    0.000   43.085    1.826
    .bypared           2.849    0.086   33.058    0.000    2.849    1.997
    .byfaminc          8.757    0.166   52.839    0.000    8.757    3.192
    .bytxrstd         48.537    0.599   80.980    0.000   48.537    4.892
@@ -1517,7 +1517,7 @@ Variances:
    .parocc          235.082   27.675    8.494    0.000  235.082    0.422
    .bypared           0.578    0.096    6.031    0.000    0.578    0.284
    .byfaminc          4.543    0.442   10.284    0.000    4.543    0.604
-   .bytxrstd         25.675    2.946    8.715    0.000   25.675    0.261
+   .bytxrstd         25.676    2.946    8.715    0.000   25.676    0.261
    .bytxmstd         27.839    3.136    8.878    0.000   27.839    0.271
    .bytxsstd         32.420    3.423    9.471    0.000   32.420    0.318
    .bytxhstd         32.120    3.371    9.528    0.000   32.120    0.323
@@ -1527,10 +1527,10 @@ Variances:
    .math_12           2.320    0.228   10.161    0.000    2.320    0.310
    .sci_12            1.643    0.179    9.178    0.000    1.643    0.219
    .ss_12             1.652    0.192    8.612    0.000    1.652    0.187
-    famback         321.430   39.202    8.199    0.000    1.000    1.000
+    famback         321.434   39.202    8.199    0.000    1.000    1.000
    .prevach          47.246    5.437    8.690    0.000    0.649    0.649
    .hw                0.010    0.005    1.917    0.055    0.021    0.021
-   .grades          -11.533    6.103   -1.890    0.059   -1.806   -1.806
+   .grades          -11.683    6.164   -1.895    0.058   -1.830   -1.830
 
 
 Group 2 [white]:
@@ -1595,7 +1595,7 @@ Intercepts:
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .parocc          182.116   13.639   13.352    0.000  182.116    0.460
+   .parocc          182.115   13.639   13.352    0.000  182.115    0.460
    .bypared           0.480    0.050    9.615    0.000    0.480    0.331
    .byfaminc          3.233    0.196   16.479    0.000    3.233    0.620
    .bytxrstd         29.799    2.030   14.681    0.000   29.799    0.288
@@ -1608,14 +1608,14 @@ Variances:
    .math_12           2.401    0.141   17.038    0.000    2.401    0.334
    .sci_12            1.655    0.107   15.444    0.000    1.655    0.234
    .ss_12             1.261    0.098   12.866    0.000    1.261    0.159
-    famback         213.887   19.110   11.192    0.000    1.000    1.000
+    famback         213.888   19.110   11.192    0.000    1.000    1.000
    .prevach          55.447    4.061   13.654    0.000    0.753    0.753
    .hw                1.051    0.209    5.032    0.000    0.759    0.759
    .grades            3.031    0.213   14.223    0.000    0.513    0.513
 </code></pre>
 </div>
 </div>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="44">
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="78">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg, sem_fit_mg2) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1623,13 +1623,13 @@ Variances:
 Chi-Squared Difference Test
 
              Df   AIC   BIC  Chisq Chisq diff    RMSEA Df diff Pr(&gt;Chisq)  
-sem_fit_mg  112 67188 67661 223.17                                         
-sem_fit_mg2 121 67185 67614 238.78     15.604 0.037837       9    0.07564 .
+sem_fit_mg  112 67188 67661 223.18                                         
+sem_fit_mg2 121 67185 67614 238.78     15.603 0.037835       9    0.07565 .
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="45">
+<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="79">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrains the effect of homework</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg3 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
@@ -1656,7 +1656,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg3, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 302 iterations
+<pre><code>lavaan 0.6-18 ended normally after 311 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -1878,7 +1878,7 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="80">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg2, sem_fit_mg3) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1887,10 +1887,10 @@ Chi-Squared Difference Test
 
              Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)
 sem_fit_mg2 121 67185 67614 238.78                                    
-sem_fit_mg3 122 67182 67606 236.98    -1.7941     0       1          1</code></pre>
+sem_fit_mg3 122 67182 67606 236.98    -1.7954     0       1          1</code></pre>
 </div>
 </div>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="81">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrain all the effects</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sem_fit_mg4 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
@@ -1986,7 +1986,7 @@ Regressions:
   prevach ~                                                             
     famback (.18.)    0.288    0.021   13.859    0.000    0.600    0.600
   grades ~                                                              
-    prevach (.19.)    0.152    0.011   13.290    0.000    0.512    0.512
+    prevach (.19.)    0.152    0.011   13.289    0.000    0.512    0.512
     hw      (.20.)    0.548    0.122    4.485    0.000    0.217    0.217
   hw ~                                                                  
     prevach (.21.)    0.053    0.008    6.710    0.000    0.450    0.450
@@ -2067,7 +2067,7 @@ Regressions:
   prevach ~                                                             
     famback (.18.)    0.288    0.021   13.859    0.000    0.494    0.494
   grades ~                                                              
-    prevach (.19.)    0.152    0.011   13.290    0.000    0.535    0.535
+    prevach (.19.)    0.152    0.011   13.289    0.000    0.535    0.535
     hw      (.20.)    0.548    0.122    4.485    0.000    0.265    0.265
   hw ~                                                                  
     prevach (.21.)    0.053    0.008    6.710    0.000    0.386    0.386
@@ -2110,7 +2110,7 @@ Variances:
    .bytxsstd         29.695    1.995   14.887    0.000   29.695    0.298
    .bytxhstd         30.875    2.038   15.149    0.000   30.875    0.313
    .hw10              2.290    0.229   10.003    0.000    2.290    0.624
-   .hw_8              0.999    0.066   15.026    0.000    0.999    0.774
+   .hw_8              0.999    0.066   15.027    0.000    0.999    0.774
    .eng_12            1.052    0.084   12.502    0.000    1.052    0.151
    .math_12           2.401    0.141   17.038    0.000    2.401    0.335
    .sci_12            1.656    0.107   15.448    0.000    1.656    0.234
@@ -2122,7 +2122,7 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="82">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg3, sem_fit_mg4) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg2, sem_fit_mg4) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2138,10 +2138,10 @@ Chi-Squared Difference Test
 
              Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)
 sem_fit_mg2 121 67185 67614 238.78                                    
-sem_fit_mg4 126 67178 67583 241.79     3.0166     0       5     0.6974</code></pre>
+sem_fit_mg4 126 67178 67583 241.79     3.0153     0       5     0.6976</code></pre>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="83">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrain all the effects &amp; errors</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg5 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
@@ -2305,7 +2305,7 @@ Variances:
    .math_12 (.33.)    2.376    0.120   19.758    0.000    2.376    0.327
    .sci_12  (.34.)    1.653    0.093   17.821    0.000    1.653    0.229
    .ss_12   (.35.)    1.368    0.089   15.354    0.000    1.368    0.167
-    famback (.36.)  245.843   20.005   12.289    0.000    1.000    1.000
+    famback (.36.)  245.842   20.005   12.289    0.000    1.000    1.000
    .prevach (.37.)   52.921    3.490   15.164    0.000    0.723    0.723
    .hw      (.38.)    0.931    0.182    5.109    0.000    0.729    0.729
    .grades  (.39.)    3.161    0.198   15.985    0.000    0.523    0.523
@@ -2386,14 +2386,14 @@ Variances:
    .math_12 (.33.)    2.376    0.120   19.758    0.000    2.376    0.327
    .sci_12  (.34.)    1.653    0.093   17.821    0.000    1.653    0.229
    .ss_12   (.35.)    1.368    0.089   15.354    0.000    1.368    0.167
-    famback (.36.)  245.843   20.005   12.289    0.000    1.000    1.000
+    famback (.36.)  245.842   20.005   12.289    0.000    1.000    1.000
    .prevach (.37.)   52.921    3.490   15.164    0.000    0.723    0.723
    .hw      (.38.)    0.931    0.182    5.109    0.000    0.729    0.729
    .grades  (.39.)    3.161    0.198   15.985    0.000    0.523    0.523
 </code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="84">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg4, sem_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
