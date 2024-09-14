@@ -57,6 +57,8 @@ website:
       - text: ---
       - section: Statistics
         contents:
+          - href: contents/chap12.ipynb
+          - href: contents/ml.ipynb
           - href: contents/chap13.ipynb
           - href: contents/chap16.ipynb
           - href: contents/chap18.ipynb

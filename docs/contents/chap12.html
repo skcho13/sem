@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sungkyun Cho">
+<meta name="dcterms.date" content="2024-09-10">
+
+<title>Chapter 12 –  CHA Statistics II in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/ml.html" rel="next">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Chapter 12 –  CHA Statistics II in R">
+<meta property="og:description" content="Multiple Regression and Beyond (3e) by Timothy Z. Keith">
+<meta property="og:site_name" content="CHA Statistics II in R">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title">Chapter 12</h1>
+        </a>     
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../"><i class="fa-solid fa-chart-bar" aria-label="chart-bar"></i> CHA Statistics II in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/notice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notice</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">R tutorial</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/baser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Base R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cleaning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Maximum Likelihood Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 13</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 18</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 19</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Communicate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://docs.google.com/document/d/1OQ1D7d4MxEfMZmo_FLj29rGWqvWADKmGc_QD9g5h_ho/edit?usp=sharing" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ask</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#공분산-행렬" id="toc-공분산-행렬" class="nav-link active" data-scroll-target="#공분산-행렬">공분산 행렬</a></li>
+  <li><a href="#데이터-준비" id="toc-데이터-준비" class="nav-link" data-scroll-target="#데이터-준비">데이터 준비</a></li>
+  <li><a href="#파라미터-추정-방식" id="toc-파라미터-추정-방식" class="nav-link" data-scroll-target="#파라미터-추정-방식">파라미터 추정 방식</a></li>
+  <li><a href="#공분산-행렬로부터-데이터-생성" id="toc-공분산-행렬로부터-데이터-생성" class="nav-link" data-scroll-target="#공분산-행렬로부터-데이터-생성">공분산 행렬로부터 데이터 생성</a></li>
+  <li><a href="#구조-모형" id="toc-구조-모형" class="nav-link" data-scroll-target="#구조-모형">구조 모형</a></li>
+  <li><a href="#r2-파악" id="toc-r2-파악" class="nav-link" data-scroll-target="#r2-파악"><span class="math inline">\(R^2\)</span> 파악</a></li>
+  <li><a href="#직접-간접-총효과" id="toc-직접-간접-총효과" class="nav-link" data-scroll-target="#직접-간접-총효과">직접, 간접, 총효과</a></li>
+  <li><a href="#연습문제" id="toc-연습문제" class="nav-link" data-scroll-target="#연습문제">연습문제</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Chapter 12</h1>
+<p class="subtitle lead">Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sungkyun Cho </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 10, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="119">
+<details class="code-fold">
+<summary>Load libraries</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="공분산-행렬" class="level3">
+<h3 class="anchored" data-anchor-id="공분산-행렬">공분산 행렬</h3>
+<p>covariance matrix</p>
+<p>공분산 covariance of <span class="math inline">\(x, ~ y\)</span>: <span class="math inline">\(Cov(x, y)\)</span> = <span class="math inline">\(\displaystyle\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})\)</span></p>
+<p>분산 variance of <span class="math inline">\(x\)</span>: covarance of <span class="math inline">\(x, ~ x\)</span>: <span class="math inline">\(V(x) = Cov(x, x)\)</span> = <span class="math inline">\(\displaystyle\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2\)</span></p>
+<p>상관 correlation of <span class="math inline">\(x, ~ y\)</span>: <span class="math inline">\(Cor(x, y)\)</span> = <span class="math inline">\(\displaystyle\frac{Cov(x, y)}{\sigma_x \sigma_y}\)</span></p>
+<p>where <span class="math inline">\(\sigma_x\)</span> and <span class="math inline">\(\sigma_y\)</span> are the standard deviations of x and y respectively.</p>
+<p>변수들 간의 상관계수/공분산 행렬을 알면 회귀계수를 구할 수 있음. 반대로, 회귀계수들을 알면 상관계수/공분산 행렬을 구할 수 있음.</p>
+<p><img src="images/fig12-1.png" class="img-fluid" width="380"> <img src="images/fig12-2.png" class="img-fluid" width="350"></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: Fig 12.1, 12.2</p>
+</div>
+<p><span class="math inline">\(a = r_{12}\)</span><br>
+<span class="math inline">\(\displaystyle b = \frac{r_{13} - r_{12} r_{23}}{1 - r_{12}^2}\)</span><br>
+<span class="math inline">\(\displaystyle c = \frac{r_{23} - r_{12} r_{13}}{1 - r_{12}^2}\)</span></p>
+</section>
+<section id="데이터-준비" class="level3">
+<h3 class="anchored" data-anchor-id="데이터-준비">데이터 준비</h3>
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="120">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variable names</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"fam_back"</span>, <span class="st">"ability"</span>, <span class="st">"motivate"</span>, <span class="st">"courses"</span>, <span class="st">"achieve"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation matrix</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">1.000</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">.417 1.000</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">.190 .205 1.000</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">.372 .498 .375 1.000</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">.417 .737 .255 .615 1.000"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># standard deviations</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.000</span>, <span class="fl">15.000</span>, <span class="fl">10.000</span>, <span class="fl">2.000</span>, <span class="fl">10.000</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>achi_cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> vars, <span class="at">sd =</span> sd)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>achi_cov <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         fam_back ability motivate courses achieve
+fam_back    1.000   6.255     1.90   0.744    4.17
+ability     6.255 225.000    30.75  14.940  110.55
+motivate    1.900  30.750   100.00   7.500   25.50
+courses     0.744  14.940     7.50   4.000   12.30
+achieve     4.170 110.550    25.50  12.300  100.00</code></pre>
+</div>
+</div>
+<p>공분산 행렬을 이용해서 회귀계수를 구하면,</p>
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="122">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ b*ability + c*motivate</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ a*ability</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(paths, <span class="at">sample.cov =</span> achi_cov, <span class="at">sample.nobs =</span> <span class="dv">1000</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(achi_model, <span class="at">standardized =</span> <span class="st">"std.all"</span>, <span class="at">ci =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       lhs op      rhs label     est    se      z pvalue std.all
+1  achieve  ~  ability     b   0.477 0.014 33.143      0   0.715
+2  achieve  ~ motivate     c   0.108 0.022  5.030      0   0.108
+3 motivate  ~  ability     a   0.137 0.021  6.623      0   0.205
+4  achieve ~~  achieve        44.511 1.991 22.361      0   0.446
+5 motivate ~~ motivate        95.702 4.280 22.361      0   0.958
+6  ability ~~  ability       224.775 0.000     NA     NA   1.000</code></pre>
+</div>
+</div>
+<p><img src="images/fig12-3.png" class="img-fluid" width="350"></p>
+<p>한편, 제한된 다음과 같은 모형에 대한 회귀계수를 구하면,<br>
+<img src="images/fig12-2f.png" class="img-fluid" width="350"></p>
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="123">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ 0*ability + c*motivate  # ability의 계수를 0으로 고정; 효과 크기 제로!</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ a*ability</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(paths, <span class="at">sample.cov =</span> achi_cov, <span class="at">sample.nobs =</span> <span class="dv">100</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(achi_model, <span class="at">standardized =</span> <span class="st">"std.all"</span>, <span class="at">ci =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       lhs op      rhs label     est     se     z pvalue std.all
+1  achieve  ~  ability         0.000  0.000    NA     NA   0.000
+2  achieve  ~ motivate     c   0.255  0.097 2.637  0.008   0.255
+3 motivate  ~  ability     a   0.137  0.065 2.094  0.036   0.205
+4  achieve ~~  achieve        92.563 13.090 7.071  0.000   0.935
+5 motivate ~~ motivate        94.840 13.412 7.071  0.000   0.958
+6  ability ~~  ability       222.750  0.000    NA     NA   1.000</code></pre>
+</div>
+</div>
+<p><img src="images/fig12-2f-est.png" class="img-fluid" width="350"></p>
+<p>이 때, 이 회귀계수들을 이용해 상관계수를 역으로 계산하면,</p>
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="108">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(achi_model, <span class="at">add.labels =</span> <span class="cn">TRUE</span>, <span class="st">"cor.ov"</span>) <span class="sc">|&gt;</span>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         achiev motivt abilty
+achieve   1.000              
+motivate  0.255  1.000       
+ability   0.052  0.205  1.000</code></pre>
+</div>
+</div>
+<p>실제 상관계수와 비교해보면,</p>
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="109">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>achi_cov[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>)] <span class="sc">|&gt;</span> <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         achieve motivate ability
+achieve    1.000    0.255   0.737
+motivate   0.255    1.000   0.205
+ability    0.737    0.205   1.000</code></pre>
+</div>
+</div>
+<p>이 때, 원래의 상관계수를 복구하지 못한다면 데이터와 모형이 맞지 않는다고 볼 수 있음!</p>
+</section>
+<section id="파라미터-추정-방식" class="level3">
+<h3 class="anchored" data-anchor-id="파라미터-추정-방식">파라미터 추정 방식</h3>
+<p><em>lavaan website: <a href="https://lavaan.ugent.be/tutorial/est.html">estimators and more</a></em></p>
+<p>기본적으로 ML (Maximum Likelihood) 방법을 사용</p>
+<p><img src="images/prediction.png" class="img-fluid" width="800"></p>
+<p><img src="images/gaussian.png" class="img-fluid" width="350"></p>
+</section>
+<section id="공분산-행렬로부터-데이터-생성" class="level3">
+<h3 class="anchored" data-anchor-id="공분산-행렬로부터-데이터-생성">공분산 행렬로부터 데이터 생성</h3>
+<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="110">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>achi <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(achi_cov, <span class="at">n =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>achi <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,000 x 5
+   fam_back ability motivate courses achieve
+      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1   -0.204   1.45     5.39    1.53   11.1  
+ 2    0.906  16.9     19.6     2.40    5.03 
+ 3   -1.25  -17.6      0.236  -2.14  -12.4  
+ 4   -0.474  20.6      5.36    1.51    2.60 
+ 5   -2.03  -14.9     -3.05   -1.36   -6.44 
+ 6    0.192   5.03    -0.928  -2.61  -18.4  
+ 7   -2.03  -18.1    -16.7    -1.73  -18.8  
+ 8   -0.385  12.1     10.5    -0.161  10.8  
+ 9   -0.309  -0.168   -6.64   -0.970  -0.481
+10   -1.88  -28.7     -2.38   -1.83  -13.3  
+# i 990 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="구조-모형" class="level3">
+<h3 class="anchored" data-anchor-id="구조-모형">구조 모형</h3>
+<p><img src="images/fig12-12.png" class="img-fluid" width="700"></p>
+<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="111">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + motivate + courses</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">  courses ~ fam_back + ability + motivate</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ fam_back + ability</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ability ~ fam_back</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(achi_paths, <span class="at">data =</span> achi)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  achieve ~                                                             
+    fam_back          0.695    0.217    3.202    0.001    0.695    0.069
+    ability           0.367    0.015   23.758    0.000    0.367    0.551
+    motivate          0.013    0.021    0.604    0.546    0.013    0.013
+    courses           1.550    0.119   12.996    0.000    1.550    0.310
+  courses ~                                                             
+    fam_back          0.330    0.057    5.838    0.000    0.330    0.165
+    ability           0.050    0.004   13.194    0.000    0.050    0.374
+    motivate          0.053    0.005   10.158    0.000    0.053    0.267
+  motivate ~                                                            
+    fam_back          1.265    0.338    3.741    0.000    1.265    0.127
+    ability           0.101    0.023    4.502    0.000    0.101    0.152
+  ability ~                                                             
+    fam_back          6.255    0.431   14.508    0.000    6.255    0.417
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .achieve          37.103    1.659   22.361    0.000   37.103    0.371
+   .courses           2.608    0.117   22.361    0.000    2.608    0.652
+   .motivate         94.475    4.225   22.361    0.000   94.475    0.945
+   .ability         185.875    8.313   22.361    0.000  185.875    0.826
+</code></pre>
+</div>
+</div>
+</section>
+<section id="r2-파악" class="level3">
+<h3 class="anchored" data-anchor-id="r2-파악"><span class="math inline">\(R^2\)</span> 파악</h3>
+<p>1 - 잔차의 분산(variance): .xxxx 표시<br>
+직접 출력하는 옵션: <code>rsquare = TRUE</code></p>
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="112">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  achieve ~                                                             
+    fam_back          0.695    0.217    3.202    0.001    0.695    0.069
+    ability           0.367    0.015   23.758    0.000    0.367    0.551
+    motivate          0.013    0.021    0.604    0.546    0.013    0.013
+    courses           1.550    0.119   12.996    0.000    1.550    0.310
+  courses ~                                                             
+    fam_back          0.330    0.057    5.838    0.000    0.330    0.165
+    ability           0.050    0.004   13.194    0.000    0.050    0.374
+    motivate          0.053    0.005   10.158    0.000    0.053    0.267
+  motivate ~                                                            
+    fam_back          1.265    0.338    3.741    0.000    1.265    0.127
+    ability           0.101    0.023    4.502    0.000    0.101    0.152
+  ability ~                                                             
+    fam_back          6.255    0.431   14.508    0.000    6.255    0.417
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .achieve          37.103    1.659   22.361    0.000   37.103    0.371
+   .courses           2.608    0.117   22.361    0.000    2.608    0.652
+   .motivate         94.475    4.225   22.361    0.000   94.475    0.945
+   .ability         185.875    8.313   22.361    0.000  185.875    0.826
+
+R-Square:
+                   Estimate
+    achieve           0.629
+    courses           0.348
+    motivate          0.055
+    ability           0.174
+</code></pre>
+</div>
+</div>
+</section>
+<section id="직접-간접-총효과" class="level3">
+<h3 class="anchored" data-anchor-id="직접-간접-총효과">직접, 간접, 총효과</h3>
+<p>Direct, Indirect, and Total Effects</p>
+<p><img src="images/tab12-1.png" class="img-fluid" width="600"></p>
+<p>movivation -&gt; achievement</p>
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="113">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + a*motivate + b1*courses</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">  courses ~ fam_back + ability + b2*motivate</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ fam_back + ability</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ability ~ fam_back</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">  indirect := b1*b2</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="st">  total := a + b1*b2</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(achi_paths, <span class="at">data =</span> achi)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  achieve ~                                                             
+    fam_back          0.695    0.217    3.202    0.001    0.695    0.069
+    ability           0.367    0.015   23.758    0.000    0.367    0.551
+    motivate   (a)    0.013    0.021    0.604    0.546    0.013    0.013
+    courses   (b1)    1.550    0.119   12.996    0.000    1.550    0.310
+  courses ~                                                             
+    fam_back          0.330    0.057    5.838    0.000    0.330    0.165
+    ability           0.050    0.004   13.194    0.000    0.050    0.374
+    motivate  (b2)    0.053    0.005   10.158    0.000    0.053    0.267
+  motivate ~                                                            
+    fam_back          1.265    0.338    3.741    0.000    1.265    0.127
+    ability           0.101    0.023    4.502    0.000    0.101    0.152
+  ability ~                                                             
+    fam_back          6.255    0.431   14.508    0.000    6.255    0.417
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .achieve          37.103    1.659   22.361    0.000   37.103    0.371
+   .courses           2.608    0.117   22.361    0.000    2.608    0.652
+   .motivate         94.475    4.225   22.361    0.000   94.475    0.945
+   .ability         185.875    8.313   22.361    0.000  185.875    0.826
+
+Defined Parameters:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    indirect          0.083    0.010    8.003    0.000    0.083    0.083
+    total             0.095    0.021    4.448    0.000    0.095    0.095
+</code></pre>
+</div>
+</div>
+<p><strong>Bootstrapping</strong>으로 추정</p>
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="114">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  achi_paths, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> achi, </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">"bootstrap"</span>,  <span class="co"># standard errors</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bootstrap =</span> <span class="dv">1000</span>,  <span class="co"># number of bootstrap samples</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Parameter Estimates:
+
+  Standard errors                            Bootstrap
+  Number of requested bootstrap draws             1000
+  Number of successful bootstrap draws             966
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+  achieve ~                                                             
+    fam_back          0.695    0.218    3.194    0.001    0.285    1.137
+    ability           0.367    0.016   23.445    0.000    0.336    0.399
+    motivate   (a)    0.013    0.021    0.589    0.556   -0.031    0.054
+    courses   (b1)    1.550    0.120   12.944    0.000    1.320    1.776
+  courses ~                                                             
+    fam_back          0.330    0.055    6.025    0.000    0.221    0.441
+    ability           0.050    0.004   13.232    0.000    0.042    0.057
+    motivate  (b2)    0.053    0.005   10.019    0.000    0.043    0.064
+  motivate ~                                                            
+    fam_back          1.265    0.344    3.679    0.000    0.578    1.946
+    ability           0.101    0.023    4.411    0.000    0.057    0.146
+  ability ~                                                             
+    fam_back          6.255    0.430   14.536    0.000    5.420    7.058
+   Std.lv  Std.all
+                  
+    0.695    0.069
+    0.367    0.551
+    0.013    0.013
+    1.550    0.310
+                  
+    0.330    0.165
+    0.050    0.374
+    0.053    0.267
+                  
+    1.265    0.127
+    0.101    0.152
+                  
+    6.255    0.417
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+   .achieve          37.103    1.712   21.670    0.000   33.667   40.332
+   .courses           2.608    0.118   22.084    0.000    2.377    2.845
+   .motivate         94.475    4.367   21.634    0.000   85.669  102.963
+   .ability         185.875    8.691   21.386    0.000  168.789  203.807
+   Std.lv  Std.all
+   37.103    0.371
+    2.608    0.652
+   94.475    0.945
+  185.875    0.826
+
+Defined Parameters:
+                   Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
+    indirect          0.083    0.010    8.230    0.000    0.064    0.103
+    total             0.095    0.022    4.340    0.000    0.051    0.139
+   Std.lv  Std.all
+    0.083    0.083
+    0.095    0.095
+</code></pre>
+</div>
+</div>
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="117">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  achi_model, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot.ci.type =</span> <span class="st">"bca.simple"</span>, <span class="co"># bias-corrected and accelerated</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="st">"std.all"</span> <span class="co"># standardized estimates</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(label <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       lhs op      rhs    label   est    se      z pvalue ci.lower ci.upper
+1  achieve  ~ motivate        a 0.013 0.021  0.589  0.556   -0.029    0.055
+2  achieve  ~  courses       b1 1.550 0.120 12.944  0.000    1.329    1.791
+3  courses  ~ motivate       b2 0.053 0.005 10.019  0.000    0.043    0.064
+4 indirect :=    b1*b2 indirect 0.083 0.010  8.230  0.000    0.065    0.103
+5    total :=  a+b1*b2    total 0.095 0.022  4.340  0.000    0.052    0.140
+  std.all
+1   0.013
+2   0.310
+3   0.267
+4   0.083
+5   0.095</code></pre>
+</div>
+</div>
+<p>패키지를 이용해 경로를 찾아 추정: <a href="https://sfcheung.github.io/manymome/index.html">manymome 참조</a></p>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All specific indirect paths from ability to achieve</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">all_indirect_paths</span>(achi_model,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"ability"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"achieve"</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>paths <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: 
+all_indirect_paths(fit = achi_model, x = "ability", y = "achieve")
+Path(s): 
+  path                                     
+1 ability -&gt; courses -&gt; achieve            
+2 ability -&gt; motivate -&gt; achieve           
+3 ability -&gt; motivate -&gt; courses -&gt; achieve</code></pre>
+</div>
+</div>
+<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ind_est_std <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> achi_model, <span class="at">R =</span> <span class="dv">1000</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_x =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_y =</span> <span class="cn">TRUE</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>ind_est_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+==  Indirect Effect(s) (Both x-variable(s) and y-variable(s) Standardized)  ==
+                                            std  CI.lo CI.hi Sig
+ability -&gt; courses -&gt; achieve             0.116  0.097 0.146 Sig
+ability -&gt; motivate -&gt; achieve            0.002 -0.005 0.009    
+ability -&gt; motivate -&gt; courses -&gt; achieve 0.013  0.007 0.019 Sig
+
+ - [CI.lo to CI.hi] are 95.0% bias-corrected confidence intervals by
+   nonparametric bootstrapping with 1000 samples.
+ - std: The standardized indirect effects.
+ </code></pre>
+</div>
+</div>
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total indirect effect</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+== Indirect Effect (Both 'ability' and 'achieve' Standardized) ==
+                                                               
+ Path:                ability -&gt; courses -&gt; achieve            
+ Path:                ability -&gt; motivate -&gt; achieve           
+ Path:                ability -&gt; motivate -&gt; courses -&gt; achieve
+ Function of Effects: 0.131                                    
+ 95.0% Bootstrap CI:  [0.105 to 0.159]                         
+
+Computation of the Function of Effects:
+ ((ability-&gt;courses-&gt;achieve)
++(ability-&gt;motivate-&gt;achieve))
++(ability-&gt;motivate-&gt;courses-&gt;achieve) 
+
+
+Bias-corrected confidence interval formed by nonparametric
+bootstrapping with 1000 bootstrap samples.</code></pre>
+</div>
+</div>
+<p><strong>Total effect</strong> = direct effect + total indirect effect</p>
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># direct effect</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>direct_std <span class="ot">&lt;-</span> <span class="fu">indirect_effect</span>(<span class="at">x =</span> <span class="st">"ability"</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> <span class="st">"achieve"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">fit =</span> achi_model,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">standardized_x =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">standardized_y =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>direct_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+==  Effect (Both 'ability' and 'achieve' Standardized) ==
+                                       
+ Path:               ability -&gt; achieve
+ Effect:             0.551             
+ 95.0% Bootstrap CI: [0.510 to 0.594]  
+
+Computation Formula:
+  (b.achieve~ability)*sd_ability/sd_achieve
+Computation:
+  (0.36737)*(15.00000)/(10.00000)
+
+Bias-corrected confidence interval formed by nonparametric
+bootstrapping with 1000 bootstrap samples.</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>direct_std <span class="sc">+</span> ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+== Indirect Effect (Both 'ability' and 'achieve' Standardized) ==
+                                                               
+ Path:                ability -&gt; achieve                       
+ Path:                ability -&gt; courses -&gt; achieve            
+ Path:                ability -&gt; motivate -&gt; achieve           
+ Path:                ability -&gt; motivate -&gt; courses -&gt; achieve
+ Function of Effects: 0.682                                    
+ 95.0% Bootstrap CI:  [0.644 to 0.718]                         
+
+Computation of the Function of Effects:
+ (((ability-&gt;achieve)
++(ability-&gt;courses-&gt;achieve))
++(ability-&gt;motivate-&gt;achieve))
++(ability-&gt;motivate-&gt;courses-&gt;achieve) 
+
+
+Bias-corrected confidence interval formed by nonparametric
+bootstrapping with 1000 bootstrap samples.</code></pre>
+</div>
+</div>
+<p>위의 모든 간접효과의 합은 중간의 걸친 변수들이 다 제거되었을 때의 효과와 동일</p>
+<p><img src="images/fig12-15.png" class="img-fluid" width="600"></p>
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability <span class="sc">+</span> fam_back, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = achieve ~ ability + fam_back, data = achi)
+
+Standardized Coefficients::
+(Intercept)     ability    fam_back 
+         NA   0.6816408   0.1327558 
+</code></pre>
+</div>
+</div>
+<p><strong>Spurious effect</strong></p>
+<p>단순 효과(상관계수) - 총 효과의 크기</p>
+<ul>
+<li>능력(ability)이 성취(achievement)에 미치는 영향에 confounding으로 작용하는 것은 무엇인가?</li>
+<li>집안배경(family background)의 요소로 인해 능력(ability)과 성취(achievement) 사이의 실질적인 관계의 크기는 얼마나 변하는가?</li>
+</ul>
+<p><img src="images/fig12-8.png" class="img-fluid" width="600"></p>
+<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = achieve ~ ability, data = achi)
+
+Standardized Coefficients::
+(Intercept)     ability 
+         NA       0.737 
+</code></pre>
+</div>
+</div>
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>achi <span class="sc">|&gt;</span> <span class="fu">select</span>(achieve, ability) <span class="sc">|&gt;</span> <span class="fu">lowerCor</span>(<span class="at">digits=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        achiv ablty
+achieve 1.000      
+ability 0.737 1.000</code></pre>
+</div>
+</div>
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simple effect - total effect</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.737</span> <span class="sc">-</span> <span class="fl">0.681</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+0.0559999999999999
+</div>
+</div>
+</section>
+<section id="연습문제" class="level2">
+<h2 class="anchored" data-anchor-id="연습문제">연습문제</h2>
+<ol type="1">
+<li><p>Table 12.1에서 familiy background에 대해서도 동일한 분석을 수행해보세요.</p></li>
+<li><p>예전 salary 데이터에 대해서도 동일한 분석을 수행해보세요; <a href="https://r.modellings.art/contents/case4.html">링크</a></p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/sem\.modellings\.art");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/ml.html" class="pagination-link" aria-label="Maximum Likelihood Estimation">
+        <span class="nav-page-text">Maximum Likelihood Estimation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>This work © 2024 by Sungkyun Cho is licensed under CC BY-NC-SA 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
