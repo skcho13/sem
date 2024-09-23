@@ -42,14 +42,19 @@ Website: [sem.modellings.art](https://sem.modellings.art)
 ::::
 
 
-### 참고도서
+### 참고 도서
+:::: {.columns}
+::: {.column width="75%"}
+*Principles and Practice of Structural Equation Modeling (5e), 2023* by Rex B. Kline  
+[R code 및 부가 자료 링크](https://www.guilford.com/companion-site/Principles-and-Practice-of-Structural-Equation-Modeling-Fifth-Edition/9781462551910)
 
-*Principles and Practice of Structural Equation Modeling (5e), 2023* by Rex B. Kline,
-
-
-### R 참고도서
-
+**R 참고 도서**  
 [*R for Data Science (2e)*](https://r4ds.hadley.nz/) by Hadley Wickham and Garrett Grolemund
+:::
+::: {.column width="25%"}
+![](contents/images/kline.jpg){width="150"}
+:::
+::::
 
 
 

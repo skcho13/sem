@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-09-10">
+<meta name="dcterms.date" content="2024-09-22">
 
-<title>Chapter 12 –  CHA Statistics II in R</title>
+<title>Chapter 12. Path Modeling –  CHA Statistics II in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../contents/ml.html" rel="next">
+<link href="../contents/interaction.html" rel="next">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -139,7 +139,7 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Chapter 12 –  CHA Statistics II in R">
+<meta property="og:title" content="Chapter 12. Path Modeling –  CHA Statistics II in R">
 <meta property="og:description" content="Multiple Regression and Beyond (3e) by Timothy Z. Keith">
 <meta property="og:site_name" content="CHA Statistics II in R">
 </head>
@@ -154,11 +154,8 @@ window.Quarto = {
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">Chapter 12</h1>
+          <h1 class="quarto-secondary-nav-title">Chapter 12. Path Modeling</h1>
         </a>     
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
     </div>
   </nav>
 </header>
@@ -171,11 +168,6 @@ window.Quarto = {
       <a href="../"><i class="fa-solid fa-chart-bar" aria-label="chart-bar"></i> CHA Statistics II in R</a> 
     </div>
       </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -238,50 +230,73 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/setup2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Packages for SEM</span></a>
+  </div>
+</li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Statistics</span></a>
+ <span class="menu-text">Keith’s</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Path Modeling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter 12</span></a>
+  <a href="../contents/interaction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactions</span></a>
   </div>
 </li>
+      </ul>
+  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maximum Likelihood Estimation</span></a>
+ <span class="menu-text">ML Estimation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap13.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 13</span></a>
+ <span class="menu-text">Path Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 16</span></a>
+ <span class="menu-text">Factor Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 18</span></a>
+ <span class="menu-text">Multigroup Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap19.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 19</span></a>
+ <span class="menu-text">Latent Means</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Growth Models</span></a>
   </div>
 </li>
       </ul>
@@ -290,12 +305,65 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Communicate</span></a>
+ <span class="menu-text">Kline’s</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../contents/Kline/composite.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reflective</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: Formative</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: PLS-PM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: HO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Growth Curve</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Communicate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="https://docs.google.com/document/d/1OQ1D7d4MxEfMZmo_FLj29rGWqvWADKmGc_QD9g5h_ho/edit?usp=sharing" class="sidebar-item-text sidebar-link">
@@ -330,7 +398,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Chapter 12</h1>
+<h1 class="title d-none d-lg-block">Chapter 12. Path Modeling</h1>
 <p class="subtitle lead">Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
 </div>
 
@@ -348,7 +416,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 10, 2024</p>
+      <p class="date">September 22, 2024</p>
     </div>
   </div>
   
@@ -604,13 +672,53 @@ R-Square:
 </code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled" title="summary() options">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+summary() options
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>header</code>: TRUE</li>
+<li><code>fit.measures</code>: FALSE</li>
+<li><code>estimates</code>: TRUE</li>
+<li><code>ci</code>: FALSE</li>
+<li><code>fmi</code>: FALSE</li>
+<li><code>standardized</code>: FALSE</li>
+<li><code>rsquare</code>: FALSE</li>
+<li><code>modindices</code>: FALSE</li>
+<li><code>std.nox</code>: FALSE</li>
+<li><code>remove.step1</code>: TRUE</li>
+<li><code>remove.unused</code>: TRUE</li>
+<li><code>cov.std</code>: TRUE</li>
+<li><code>nd</code>: 3L</li>
+</ul>
+<p><a href="https://cran.r-project.org/web/packages/lavaan/lavaan.pdf">lavaan doc</a> 참고;</p>
+<p>If header = TRUE, the header section (including fit measures) is printed.<br>
+If fit.measures = TRUE, additional fit measures are added to the header section. The related fm.args list allows to set options related to the fit measures. See fitMeasures for more details.<br>
+If estimates = TRUE, print the parameter estimates section.<br>
+If ci = TRUE, add confidence intervals to the parameter estimates section.<br>
+If fmi = TRUE, add the fmi (fraction of missing information) column, if it is available.<br>
+If standardized=TRUE or a character vector, the standardized solution is also printed (see parameterEstimates). Note that SEs and tests are still based on unstandardized estimates. Use standardizedSolution to obtain SEs and test statistics for standardized estimates.<br>
+The std.nox argument is deprecated; the standardized argument allows “std.nox” solution to be specifically requested.<br>
+If remove.step1, the parameters of the measurement part are not shown (only used when using sam().) If remove.unused, automatically added parameters that are fixed to their default (0 or 1) values are removed.<br>
+If rsquare=TRUE, the R-Square values for the dependent variables in the model are printed.<br>
+If efa = TRUE, EFA related information is printed. The related efa.args list allows to set options related to the EFA output. See summary.efaList for more details.<br>
+If modindices=TRUE, modification indices are printed for all fixed parameters.<br>
+The argument nd determines the number of digits after the decimal point to be printed (currently only in the parameter estimates section.)</p>
+</div>
+</div>
 </section>
 <section id="직접-간접-총효과" class="level3">
 <h3 class="anchored" data-anchor-id="직접-간접-총효과">직접, 간접, 총효과</h3>
 <p>Direct, Indirect, and Total Effects</p>
 <p><img src="images/tab12-1.png" class="img-fluid" width="600"></p>
 <p>movivation -&gt; achievement</p>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="113">
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="113">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + a*motivate + b1*courses</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">  courses ~ fam_back + ability + b2*motivate</span></span>
@@ -663,7 +771,7 @@ Defined Parameters:
 </div>
 </div>
 <p><strong>Bootstrapping</strong>으로 추정</p>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="114">
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="114">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  achi_paths, </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> achi, </span>
@@ -733,7 +841,7 @@ Defined Parameters:
 </code></pre>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="117">
+<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="117">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  achi_model, </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot.ci.type =</span> <span class="st">"bca.simple"</span>, <span class="co"># bias-corrected and accelerated</span></span>
@@ -755,7 +863,7 @@ Defined Parameters:
 </div>
 </div>
 <p>패키지를 이용해 경로를 찾아 추정: <a href="https://sfcheung.github.io/manymome/index.html">manymome 참조</a></p>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
+<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All specific indirect paths from ability to achieve</span></span>
@@ -774,7 +882,7 @@ Path(s):
 3 ability -&gt; motivate -&gt; courses -&gt; achieve</code></pre>
 </div>
 </div>
-<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ind_est_std <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> achi_model, <span class="at">R =</span> <span class="dv">1000</span>,</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
@@ -797,7 +905,7 @@ ability -&gt; motivate -&gt; courses -&gt; achieve 0.013  0.007 0.019 Sig
  </code></pre>
 </div>
 </div>
-<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total indirect effect</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -821,7 +929,7 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 </div>
 <p><strong>Total effect</strong> = direct effect + total indirect effect</p>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># direct effect</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>direct_std <span class="ot">&lt;-</span> <span class="fu">indirect_effect</span>(<span class="at">x =</span> <span class="st">"ability"</span>,</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> <span class="st">"achieve"</span>,</span>
@@ -847,7 +955,7 @@ Bias-corrected confidence interval formed by nonparametric
 bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 </div>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>direct_std <span class="sc">+</span> ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>
@@ -873,7 +981,7 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 <p>위의 모든 간접효과의 합은 중간의 걸친 변수들이 다 제거되었을 때의 효과와 동일</p>
 <p><img src="images/fig12-15.png" class="img-fluid" width="600"></p>
-<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
+<div id="cell-37" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability <span class="sc">+</span> fam_back, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -893,7 +1001,7 @@ Standardized Coefficients::
 <li>집안배경(family background)의 요소로 인해 능력(ability)과 성취(achievement) 사이의 실질적인 관계의 크기는 얼마나 변하는가?</li>
 </ul>
 <p><img src="images/fig12-8.png" class="img-fluid" width="600"></p>
-<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -906,7 +1014,7 @@ Standardized Coefficients::
 </code></pre>
 </div>
 </div>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="71">
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="71">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>achi <span class="sc">|&gt;</span> <span class="fu">select</span>(achieve, ability) <span class="sc">|&gt;</span> <span class="fu">lowerCor</span>(<span class="at">digits=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        achiv ablty
@@ -914,7 +1022,7 @@ achieve 1.000
 ability 0.737 1.000</code></pre>
 </div>
 </div>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simple effect - total effect</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.737</span> <span class="sc">-</span> <span class="fl">0.681</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1362,8 +1470,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../contents/ml.html" class="pagination-link" aria-label="Maximum Likelihood Estimation">
-        <span class="nav-page-text">Maximum Likelihood Estimation</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../contents/interaction.html" class="pagination-link" aria-label="Interactions">
+        <span class="nav-page-text">Interactions</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

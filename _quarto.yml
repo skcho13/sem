@@ -35,8 +35,8 @@ website:
     pinned: false
     alignment: left
     style: "floating"
-    search: true
-    collapse-level: 3
+    search: false
+    collapse-level: 2
     
     contents:
       - href: index.qmd
@@ -53,17 +53,44 @@ website:
           - href: contents/import.ipynb
           - href: contents/cleaning.ipynb
           - href: contents/visualize.ipynb
+      - href: contents/setup2.ipynb
 
       - text: ---
-      - section: Statistics
+      - section: Keith's
         contents:
           - href: contents/chap12.ipynb
+            text: Path Modeling
+            contents:
+              - href: contents/interaction.ipynb
           - href: contents/ml.ipynb
+            text: ML Estimation
           - href: contents/chap13.ipynb
+            text: Path Analysis
           - href: contents/chap16.ipynb
+            text: Factor Analysis
           - href: contents/chap18.ipynb
+            text: Multigroup Models
           - href: contents/chap19.ipynb
+            text: Latent Means
+          - href: contents/chap21.ipynb
+            text: Latent Growth Models
           #- href: contents/fit-index.qmd
+      - text: ---
+      - section: Kline's
+        contents:
+          - href: contents/Kline/composite.ipynb
+            text: Composite
+            contents:
+              - href: contents/Kline/kchap16-1.ipynb
+                text: Reflective
+              - href: contents/Kline/kchap16-2.ipynb
+                text: "Composite: Formative"
+              - href: contents/Kline/kchap16-3.ipynb
+                text: "Composite: PLS-PM"
+              - href: contents/Kline/kchap16-4.ipynb
+                text: "Composite: HO"
+          - href: contents/Kline/kchap21.ipynb
+            text: Latent Growth Curve
           
       - text: ---
       - section: Communicate

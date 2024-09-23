@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-09-15">
+<meta name="dcterms.date" content="2024-09-22">
 
-<title>Chapter 18 –  CHA Statistics II in R</title>
+<title>Chapter 18. Multigroup Models, Panel Models, Dangers and Assumptions –  CHA Statistics II in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta property="og:title" content="Chapter 18 –  CHA Statistics II in R">
+<meta property="og:title" content="Chapter 18. Multigroup Models, Panel Models, Dangers and Assumptions –  CHA Statistics II in R">
 <meta property="og:description" content="Multiple Regression and Beyond (3e) by Timothy Z. Keith">
 <meta property="og:site_name" content="CHA Statistics II in R">
 </head>
@@ -126,11 +126,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">Chapter 18</h1>
+          <h1 class="quarto-secondary-nav-title">Chapter 18. Multigroup Models, Panel Models, Dangers and Assumptions</h1>
         </a>     
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
     </div>
   </nav>
 </header>
@@ -143,11 +140,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <a href="../"><i class="fa-solid fa-chart-bar" aria-label="chart-bar"></i> CHA Statistics II in R</a> 
     </div>
       </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -210,11 +202,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/setup2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Packages for SEM</span></a>
+  </div>
+</li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Statistics</span></a>
+ <span class="menu-text">Keith’s</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -223,31 +221,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 12</span></a>
+ <span class="menu-text">Path Modeling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maximum Likelihood Estimation</span></a>
+ <span class="menu-text">ML Estimation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap13.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 13</span></a>
+ <span class="menu-text">Path Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 16</span></a>
+ <span class="menu-text">CFA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap18.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter 18</span></a>
+ <span class="menu-text">Multigroup</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -256,18 +254,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Chapter 19</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Growth Models</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Communicate</span></a>
+ <span class="menu-text">Kline’s</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../contents/Kline/composite.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reflective</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: Formative</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: PLS-PM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: HO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Growth Curve</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Communicate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="https://docs.google.com/document/d/1OQ1D7d4MxEfMZmo_FLj29rGWqvWADKmGc_QD9g5h_ho/edit?usp=sharing" class="sidebar-item-text sidebar-link">
@@ -288,6 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#all-indirect-paths-from-family-background-to-grandes-total-effect" id="toc-all-indirect-paths-from-family-background-to-grandes-total-effect" class="nav-link active" data-scroll-target="#all-indirect-paths-from-family-background-to-grandes-total-effect">All indirect paths from family background to grandes: total effect</a></li>
   <li><a href="#all-indirect-paths-from-minority-to-grades-total-effect" id="toc-all-indirect-paths-from-minority-to-grades-total-effect" class="nav-link" data-scroll-target="#all-indirect-paths-from-minority-to-grades-total-effect">All indirect paths from minority to grades: total effect</a></li>
+  <li><a href="#using-csem" id="toc-using-csem" class="nav-link" data-scroll-target="#using-csem">Using cSEM</a></li>
   <li><a href="#multi-group" id="toc-multi-group" class="nav-link" data-scroll-target="#multi-group">Multi-group</a></li>
   </ul>
 </nav>
@@ -297,7 +355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Chapter 18</h1>
+<h1 class="title d-none d-lg-block">Chapter 18. Multigroup Models, Panel Models, Dangers and Assumptions</h1>
 <p class="subtitle lead">Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
 </div>
 
@@ -315,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 15, 2024</p>
+      <p class="date">September 22, 2024</p>
     </div>
   </div>
   
@@ -427,7 +485,7 @@ ss_12    0.59  1.55   6.54    5.88   6.12  8.25</code></pre>
 -3.39684010659574
 </div>
 </div>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="85">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">  eminor =~ Minority</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ bypared + byfaminc + parocc</span></span>
@@ -456,7 +514,7 @@ ss_12    0.59  1.55   6.54    5.88   6.12  8.25</code></pre>
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 133 iterations
+<pre><code>lavaan 0.6-17 ended normally after 133 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -584,12 +642,12 @@ Defined Parameters:
 </code></pre>
 </div>
 </div>
-<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For simulate data</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sem_fit_raw <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_sim)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_raw, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 133 iterations
+<pre><code>lavaan 0.6-17 ended normally after 133 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -891,43 +949,182 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 </div>
 </section>
+<section id="using-csem" class="level3">
+<h3 class="anchored" data-anchor-id="using-csem">Using cSEM</h3>
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="102">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hw_model_c <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="st">  eminor &lt;~ Minority</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ bypared + byfaminc + parocc</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw_8 + hw10</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng_12 + math_12 + sci_12 + ss_12</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback + eminor</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback + eminor</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>csem_fit <span class="ot">&lt;-</span> cSEM<span class="sc">::</span><span class="fu">csem</span>(<span class="at">.data =</span> hw_sim, <span class="at">.model =</span> hw_model_c, <span class="at">.resample_method =</span> <span class="st">"bootstrap"</span>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>cSEM<span class="sc">::</span><span class="fu">summarize</span>(csem_fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>________________________________________________________________________________
+----------------------------------- Overview -----------------------------------
+
+    General information:
+    ------------------------
+    Estimation status                = Ok
+    Number of observations           = 1000
+    Weight estimator                 = PLS-PM
+    Inner weighting scheme           = "path"
+    Type of indicator correlation    = Pearson
+    Path model estimator             = OLS
+    Second-order approach            = NA
+    Type of path model               = Linear
+    Disattenuated                    = Yes (PLSc)
+
+    Resample information:
+    ---------------------
+    Resample method                  = "bootstrap"
+    Number of resamples              = 499
+    Number of admissible results     = 499
+    Approach to handle inadmissibles = "drop"
+    Sign change option               = "none"
+    Random seed                      = 528364834
+
+    Construct details:
+    ------------------
+    Name     Modeled as     Order         Mode      
+
+    famback  Common factor  First order   "modeA"   
+    eminor   Composite      First order   "modeB"   
+    prevach  Common factor  First order   "modeA"   
+    hw       Common factor  First order   "modeA"   
+    grades   Common factor  First order   "modeA"   
+
+----------------------------------- Estimates ----------------------------------
+
+Estimated path coefficients:
+============================
+                                                                   CI_percentile   
+  Path                 Estimate  Std. error   t-stat.   p-value         95%        
+  prevach ~ famback      0.5272      0.0305   17.3107    0.0000 [ 0.4600; 0.5844 ] 
+  prevach ~ eminor      -0.0807      0.0306   -2.6349    0.0084 [-0.1395;-0.0224 ] 
+  hw ~ famback           0.1715      0.0647    2.6500    0.0080 [ 0.0386; 0.2963 ] 
+  hw ~ eminor            0.0903      0.0464    1.9450    0.0518 [-0.0060; 0.1866 ] 
+  hw ~ prevach           0.4310      0.0644    6.6888    0.0000 [ 0.2992; 0.5590 ] 
+  grades ~ prevach       0.5447      0.0418   13.0338    0.0000 [ 0.4549; 0.6169 ] 
+  grades ~ hw            0.2457      0.0537    4.5755    0.0000 [ 0.1470; 0.3578 ] 
+
+Estimated loadings:
+===================
+                                                                     CI_percentile   
+  Loading                Estimate  Std. error   t-stat.   p-value         95%        
+  famback =~ bypared       0.8722      0.0301   29.0067    0.0000 [ 0.8117; 0.9289 ] 
+  famback =~ byfaminc      0.6449      0.0359   17.9511    0.0000 [ 0.5748; 0.7154 ] 
+  famback =~ parocc        0.7290      0.0325   22.4404    0.0000 [ 0.6604; 0.7857 ] 
+  eminor =~ Minority       1.0000          NA        NA        NA [     NA;     NA ] 
+  prevach =~ bytxrstd      0.8226      0.0174   47.3445    0.0000 [ 0.7894; 0.8569 ] 
+  prevach =~ bytxmstd      0.9497      0.0154   61.6656    0.0000 [ 0.9182; 0.9780 ] 
+  prevach =~ bytxsstd      0.7942      0.0192   41.4369    0.0000 [ 0.7565; 0.8299 ] 
+  prevach =~ bytxhstd      0.8034      0.0185   43.5010    0.0000 [ 0.7678; 0.8398 ] 
+  hw =~ hw_8               0.4575      0.0416   10.9919    0.0000 [ 0.3767; 0.5420 ] 
+  hw =~ hw10               0.5931      0.0489   12.1374    0.0000 [ 0.5070; 0.6921 ] 
+  grades =~ eng_12         0.9081      0.0144   62.9597    0.0000 [ 0.8775; 0.9331 ] 
+  grades =~ math_12        0.8226      0.0206   40.0087    0.0000 [ 0.7829; 0.8619 ] 
+  grades =~ sci_12         0.8972      0.0147   60.8582    0.0000 [ 0.8708; 0.9271 ] 
+  grades =~ ss_12          0.9175      0.0143   64.3119    0.0000 [ 0.8886; 0.9454 ] 
+
+Estimated weights:
+==================
+                                                                     CI_percentile   
+  Weight                 Estimate  Std. error   t-stat.   p-value         95%        
+  famback &lt;~ bypared       0.4602      0.0168   27.3354    0.0000 [ 0.4266; 0.4940 ] 
+  famback &lt;~ byfaminc      0.3403      0.0175   19.4538    0.0000 [ 0.3061; 0.3730 ] 
+  famback &lt;~ parocc        0.3847      0.0158   24.3104    0.0000 [ 0.3512; 0.4144 ] 
+  eminor &lt;~ Minority       1.0000          NA        NA        NA [     NA;     NA ] 
+  prevach &lt;~ bytxrstd      0.2754      0.0054   50.7908    0.0000 [ 0.2642; 0.2861 ] 
+  prevach &lt;~ bytxmstd      0.3180      0.0062   51.6632    0.0000 [ 0.3050; 0.3298 ] 
+  prevach &lt;~ bytxsstd      0.2660      0.0054   49.1259    0.0000 [ 0.2553; 0.2765 ] 
+  prevach &lt;~ bytxhstd      0.2690      0.0057   46.9445    0.0000 [ 0.2586; 0.2810 ] 
+  hw &lt;~ hw_8               0.5436      0.0418   13.0001    0.0000 [ 0.4505; 0.6204 ] 
+  hw &lt;~ hw10               0.7047      0.0377   18.6965    0.0000 [ 0.6325; 0.7801 ] 
+  grades &lt;~ eng_12         0.2794      0.0046   60.8535    0.0000 [ 0.2702; 0.2877 ] 
+  grades &lt;~ math_12        0.2531      0.0056   45.0312    0.0000 [ 0.2417; 0.2639 ] 
+  grades &lt;~ sci_12         0.2760      0.0048   57.4761    0.0000 [ 0.2681; 0.2865 ] 
+  grades &lt;~ ss_12          0.2823      0.0044   64.1764    0.0000 [ 0.2739; 0.2920 ] 
+
+Estimated construct correlations:
+=================================
+                                                                   CI_percentile   
+  Correlation          Estimate  Std. error   t-stat.   p-value         95%        
+  famback ~~ eminor     -0.2939      0.0332   -8.8480    0.0000 [-0.3581;-0.2264 ] 
+
+------------------------------------ Effects -----------------------------------
+
+Estimated total effects:
+========================
+                                                                   CI_percentile   
+  Total effect         Estimate  Std. error   t-stat.   p-value         95%        
+  prevach ~ famback      0.5272      0.0305   17.3107    0.0000 [ 0.4600; 0.5844 ] 
+  prevach ~ eminor      -0.0807      0.0306   -2.6349    0.0084 [-0.1395;-0.0224 ] 
+  hw ~ famback           0.3987      0.0533    7.4775    0.0000 [ 0.2881; 0.4969 ] 
+  hw ~ eminor            0.0555      0.0465    1.1928    0.2330 [-0.0407; 0.1469 ] 
+  hw ~ prevach           0.4310      0.0644    6.6888    0.0000 [ 0.2992; 0.5590 ] 
+  grades ~ famback       0.3851      0.0253   15.2013    0.0000 [ 0.3320; 0.4315 ] 
+  grades ~ eminor       -0.0303      0.0227   -1.3323    0.1828 [-0.0774; 0.0142 ] 
+  grades ~ prevach       0.6506      0.0239   27.1887    0.0000 [ 0.6017; 0.6942 ] 
+  grades ~ hw            0.2457      0.0537    4.5755    0.0000 [ 0.1470; 0.3578 ] 
+
+Estimated indirect effects:
+===========================
+                                                                  CI_percentile   
+  Indirect effect     Estimate  Std. error   t-stat.   p-value         95%        
+  hw ~ famback          0.2272      0.0380    5.9756    0.0000 [ 0.1577; 0.3072 ] 
+  hw ~ eminor          -0.0348      0.0141   -2.4657    0.0137 [-0.0636;-0.0093 ] 
+  grades ~ famback      0.3851      0.0253   15.2013    0.0000 [ 0.3320; 0.4315 ] 
+  grades ~ eminor      -0.0303      0.0227   -1.3323    0.1828 [-0.0774; 0.0142 ] 
+  grades ~ prevach      0.1059      0.0322    3.2877    0.0010 [ 0.0553; 0.1781 ] 
+________________________________________________________________________________</code></pre>
+</div>
+</div>
+</section>
 <section id="multi-group" class="level3">
 <h3 class="anchored" data-anchor-id="multi-group">Multi-group</h3>
-<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="74">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>hw_mg_minor <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="st">"data/chap 18 latent var SEM 2/minority matrix.xls"</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>hw_mg_white <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="st">"data/chap 18 latent var SEM 2/white matrix.xls"</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>hw_mg_minor_cov <span class="ot">&lt;-</span> hw_mg_minor[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>)] <span class="sc">|&gt;</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lav_matrix_vechr</span>(<span class="at">diagonal =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getCov</span>(<span class="at">names =</span> hw_mg_minor<span class="sc">$</span>varname_[<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>]) <span class="sc">|&gt;</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor2cov</span>(<span class="at">sds =</span> hw_mg_minor[<span class="dv">16</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>())</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>mean_minor <span class="ot">&lt;-</span> hw_mg_minor[<span class="dv">15</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>()</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>hw_mg_white_cov <span class="ot">&lt;-</span> hw_mg_white[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>)] <span class="sc">|&gt;</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lav_matrix_vechr</span>(<span class="at">diagonal =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getCov</span>(<span class="at">names =</span> hw_mg_white<span class="sc">$</span>varname_[<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>]) <span class="sc">|&gt;</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor2cov</span>(<span class="at">sds =</span> hw_mg_white[<span class="dv">16</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>())</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>mean_white <span class="ot">&lt;-</span> hw_mg_white[<span class="dv">15</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>()</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>hw_sim_minor <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(hw_mg_minor_cov, <span class="at">n =</span> <span class="dv">274</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sweep</span>(<span class="dv">2</span>, mean_minor, <span class="at">FUN =</span> <span class="st">"+"</span>)</span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>hw_sim_white <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(hw_mg_white_cov, <span class="at">n =</span> <span class="dv">751</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sweep</span>(<span class="dv">2</span>, mean_white, <span class="at">FUN =</span> <span class="st">"+"</span>)</span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>hw_multigroup <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>  hw_sim_minor <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">group =</span> <span class="st">"minority"</span>),</span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>  hw_sim_white <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">group =</span> <span class="st">"white"</span>)</span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(hw_multigroup) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(hw_multigroup))</span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>hw_multigroup <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="74">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>hw_mg_minor <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="st">"data/chap 18 latent var SEM 2/minority matrix.xls"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>hw_mg_white <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="st">"data/chap 18 latent var SEM 2/white matrix.xls"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>hw_mg_minor_cov <span class="ot">&lt;-</span> hw_mg_minor[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>)] <span class="sc">|&gt;</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lav_matrix_vechr</span>(<span class="at">diagonal =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getCov</span>(<span class="at">names =</span> hw_mg_minor<span class="sc">$</span>varname_[<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>]) <span class="sc">|&gt;</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor2cov</span>(<span class="at">sds =</span> hw_mg_minor[<span class="dv">16</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>())</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>mean_minor <span class="ot">&lt;-</span> hw_mg_minor[<span class="dv">15</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>()</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>hw_mg_white_cov <span class="ot">&lt;-</span> hw_mg_white[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>)] <span class="sc">|&gt;</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lav_matrix_vechr</span>(<span class="at">diagonal =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getCov</span>(<span class="at">names =</span> hw_mg_white<span class="sc">$</span>varname_[<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>]) <span class="sc">|&gt;</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor2cov</span>(<span class="at">sds =</span> hw_mg_white[<span class="dv">16</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>())</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>mean_white <span class="ot">&lt;-</span> hw_mg_white[<span class="dv">15</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>] <span class="sc">|&gt;</span> <span class="fu">as.double</span>()</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>hw_sim_minor <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(hw_mg_minor_cov, <span class="at">n =</span> <span class="dv">274</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sweep</span>(<span class="dv">2</span>, mean_minor, <span class="at">FUN =</span> <span class="st">"+"</span>)</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>hw_sim_white <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(hw_mg_white_cov, <span class="at">n =</span> <span class="dv">751</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sweep</span>(<span class="dv">2</span>, mean_white, <span class="at">FUN =</span> <span class="st">"+"</span>)</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>hw_multigroup <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>  hw_sim_minor <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">group =</span> <span class="st">"minority"</span>),</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>  hw_sim_white <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">group =</span> <span class="st">"white"</span>)</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(hw_multigroup) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(hw_multigroup))</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>hw_multigroup <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    bypared  byfaminc    parocc bytxrstd bytxmstd bytxsstd bytxhstd       hw_8
 1 0.3828372  7.139510  3.443991 50.81496 42.23264 40.78801 47.26533  1.0615476
@@ -945,31 +1142,31 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 6 3.287299 7.9835941  8.577843 6.882267  6.95743065 minority</code></pre>
 </div>
 </div>
-<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="75">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw10 + hw_8</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng_12 + math_12 + sci_12 + ss_12</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng_12</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math_12</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci_12</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ ss_12</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>sem_fit_mg <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span></span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="75">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw10 + hw_8</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng_12 + math_12 + sci_12 + ss_12</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng_12</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math_12</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci_12</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ ss_12</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>sem_fit_mg <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-18 ended normally after 412 iterations
 
@@ -1192,9 +1389,9 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="76">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(sem_fit_mg, <span class="st">"cov.lv"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(sem_fit_mg, <span class="at">what =</span> <span class="st">"est"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(sem_fit_mg, <span class="st">"cov.lv"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(sem_fit_mg, <span class="at">what =</span> <span class="st">"est"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$minority
          fambck  prevch      hw  grades
@@ -1382,16 +1579,16 @@ grades       0
 </code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="77">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contrain factor loadings</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sem_fit_mg2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>)</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg2, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="77">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contrain factor loadings</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>sem_fit_mg2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg2, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-18 ended normally after 381 iterations
 
@@ -1615,9 +1812,9 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="78">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg, sem_fit_mg2) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg, sem_fit_mg2) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Chi-Squared Difference Test
@@ -1629,32 +1826,32 @@ sem_fit_mg2 121 67185 67614 238.78     15.603 0.037835       9    0.07565 .
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="79">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrains the effect of homework</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg3 <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw10 + hw_8</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng_12 + math_12 + sci_12 + ss_12</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng_12</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math_12</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci_12</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ ss_12</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + c(h, h)*hw</span></span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>sem_fit_mg3 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg3,</span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
-<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>)</span>
-<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg3, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrains the effect of homework</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg3 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw10 + hw_8</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng_12 + math_12 + sci_12 + ss_12</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng_12</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math_12</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci_12</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ ss_12</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + c(h, h)*hw</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>sem_fit_mg3 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg3,</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>)</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg3, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-18 ended normally after 311 iterations
 
@@ -1878,9 +2075,9 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="80">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg2, sem_fit_mg3) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="80">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg2, sem_fit_mg3) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Chi-Squared Difference Test
@@ -1890,15 +2087,15 @@ sem_fit_mg2 121 67185 67614 238.78
 sem_fit_mg3 122 67182 67606 236.98    -1.7954     0       1          1</code></pre>
 </div>
 </div>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="81">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrain all the effects</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sem_fit_mg4 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"regressions"</span>)</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg4, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrain all the effects</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>sem_fit_mg4 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"regressions"</span>)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg4, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-18 ended normally after 283 iterations
 
@@ -2122,10 +2319,10 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="82">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg3, sem_fit_mg4) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg2, sem_fit_mg4) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="82">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg3, sem_fit_mg4) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg2, sem_fit_mg4) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Chi-Squared Difference Test
@@ -2141,35 +2338,35 @@ sem_fit_mg2 121 67185 67614 238.78
 sem_fit_mg4 126 67178 67583 241.79     3.0153     0       5     0.6976</code></pre>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="83">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrain all the effects &amp; errors</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg5 <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw10 + hw_8</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng_12 + math_12 + sci_12 + ss_12</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ c(en, en)*eng_12</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ c(ma, ma)*math_12</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ c(sc, sc)*sci_12</span></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ c(ss, ss)*ss_12</span></span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>sem_fit_mg5 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg5,</span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(</span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loadings"</span>, <span class="st">"regressions"</span>,</span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"residuals"</span>, <span class="st">"lv.variances"</span></span>
-<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg5, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="83">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constrain all the effects &amp; errors</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>hw_model_mg5 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + bypared + byfaminc</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw10 + hw_8</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng_12 + math_12 + sci_12 + ss_12</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ c(en, en)*eng_12</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ c(ma, ma)*math_12</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ c(sc, sc)*sci_12</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ c(ss, ss)*ss_12</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>sem_fit_mg5 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model_mg5,</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_multigroup,</span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"ML"</span>,</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"group"</span>,</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(</span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loadings"</span>, <span class="st">"regressions"</span>,</span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"residuals"</span>, <span class="st">"lv.variances"</span></span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_mg5, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-18 ended normally after 184 iterations
 
@@ -2393,9 +2590,9 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="84">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg4, sem_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="84">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the two models</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(sem_fit_mg4, sem_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Chi-Squared Difference Test
@@ -2839,8 +3036,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../contents/chap16.html" class="pagination-link" aria-label="Chapter 16">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 16</span>
+      <a href="../contents/chap16.html" class="pagination-link" aria-label="CFA">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">CFA</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

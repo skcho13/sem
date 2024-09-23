@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-08-29">
+<meta name="dcterms.date" content="2024-09-23">
 
-<title>환경설정 –  CHA Statistics II in R</title>
+<title>Interactions –  CHA Statistics II in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../contents/baser.html" rel="next">
+<link href="../contents/ml.html" rel="next">
+<link href="../contents/chap12.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -107,8 +108,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta property="og:title" content="환경설정 –  CHA Statistics II in R">
-<meta property="og:description" content="Lecture notes for structural equation modelling in R">
+<meta property="og:title" content="Interactions –  CHA Statistics II in R">
+<meta property="og:description" content="Mixed">
 <meta property="og:site_name" content="CHA Statistics II in R">
 </head>
 
@@ -122,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">환경설정</h1>
+          <h1 class="quarto-secondary-nav-title">Interactions</h1>
         </a>     
     </div>
   </nav>
@@ -162,7 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../contents/setup.html" class="sidebar-item-text sidebar-link active">
+  <a href="../contents/setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Setup</span></a>
   </div>
 </li>
@@ -198,28 +199,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="px-0"><hr class="sidebar-divider hi "></li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Statistics</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/setup2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Packages for SEM</span></a>
   </div>
 </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Keith’s</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Path Modeling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Path Modeling</span></a>
+  <a href="../contents/interaction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Interactions</span></a>
   </div>
 </li>
+      </ul>
+  </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
@@ -235,19 +247,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 16</span></a>
+ <span class="menu-text">Factor Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 18</span></a>
+ <span class="menu-text">Multigroup Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../contents/chap19.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 19</span></a>
+ <span class="menu-text">Latent Means</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -339,14 +351,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#r-및-rstudio-설치" id="toc-r-및-rstudio-설치" class="nav-link active" data-scroll-target="#r-및-rstudio-설치">R 및 RStudio 설치</a></li>
-  <li><a href="#rstudio-소개" id="toc-rstudio-소개" class="nav-link" data-scroll-target="#rstudio-소개">RStudio 소개</a>
-  <ul>
-  <li><a href="#환경설정-tools-global-options" id="toc-환경설정-tools-global-options" class="nav-link" data-scroll-target="#환경설정-tools-global-options">환경설정: Tools &gt; Global Options</a></li>
-  </ul></li>
-  <li><a href="#패키지의-설치" id="toc-패키지의-설치" class="nav-link" data-scroll-target="#패키지의-설치">패키지의 설치</a></li>
-  <li><a href="#단축키" id="toc-단축키" class="nav-link" data-scroll-target="#단축키">단축키</a></li>
-  <li><a href="#도움말" id="toc-도움말" class="nav-link" data-scroll-target="#도움말">도움말</a></li>
+  <li><a href="#continuous-vs.-continuous" id="toc-continuous-vs.-continuous" class="nav-link active" data-scroll-target="#continuous-vs.-continuous">Continuous vs.&nbsp;Continuous</a></li>
+  <li><a href="#moderated-mediation" id="toc-moderated-mediation" class="nav-link" data-scroll-target="#moderated-mediation">Moderated Mediation</a></li>
   </ul>
 </nav>
     </div>
@@ -355,7 +361,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">환경설정</h1>
+<h1 class="title d-none d-lg-block">Interactions</h1>
+<p class="subtitle lead">Mixed</p>
 </div>
 
 
@@ -372,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 29, 2024</p>
+      <p class="date">September 23, 2024</p>
     </div>
   </div>
   
@@ -384,107 +391,322 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="r-및-rstudio-설치" class="level2">
-<h2 class="anchored" data-anchor-id="r-및-rstudio-설치">R 및 RStudio 설치</h2>
-<p><a href="https://cran.r-project.org/">R 다운로드 및 설치</a></p>
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
+<details class="code-fold">
+<summary>Load libraries</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>이전 수업 <a href="https://r.modellings.art/contents/interaction.html">링크</a></p>
+<section id="continuous-vs.-continuous" class="level2">
+<h2 class="anchored" data-anchor-id="continuous-vs.-continuous">Continuous vs.&nbsp;Continuous</h2>
+<p>나이가 듦(age)에 따른 지구력(endurance)의 감소가 운동을 한 기간(exercise)에 따라 변화하는가? (p.275)</p>
+<p><code>endurance</code>: the number of minutes of sustained jogging on a treadmill<br>
+<code>exercise</code>: the number of years of vigorous physical exercise</p>
+<p><img src="images/moderator.png" class="img-fluid" width="330"></p>
 <ul>
-<li>Windows인 경우 &gt; Download R for Windows &gt; base</li>
-<li>Mac인 경우 &gt; Download R for macOS &gt; Apple silicon 또는 Intel Macs 선택</li>
+<li>연구자의 관심변수에 따라 다르게 표현될 수 있음.</li>
+<li>나이가 지구력에 미치는 부정적 영향을 운동이 완화시키는지 관심; <em>보효요인 (protective factor)</em> &lt;-&gt; <em>위험요인 (risk factor)</em></li>
+<li>이 때, 운동 기간을 moderator (조절변수)라고 말하고, 그 moderating effect (조절효과)를 가지는지 검증.</li>
+<li>통계적으로는 나이과 운동기간이 서로 상호작용(interact)하여 지구력에 영향을 미치는 것으로 나타남.</li>
 </ul>
-<p><a href="https://posit.co/download/rstudio-desktop/">RStudio 다운로드 및 설치</a></p>
+<p>Data: <a href="https://www.dropbox.com/s/now7g6syjuhhghn/c07e01dt.csv?dl=1">c07e01dt</a></p>
+<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>acad2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/c07e01dt.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>acad2 <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 245 x 3
+    age exercise endurance
+  &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1    60       10        18
+2    40        9        36
+3    29        2        51
+4    47       10        18
+5    48        9        23
+6    42        6        30
+# i 239 more rows</code></pre>
+</div>
+</div>
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod_interact <span class="ot">&lt;-</span> <span class="fu">lm</span>(endurance <span class="sc">~</span> age <span class="sc">*</span> exercise, <span class="at">data =</span> acad2)  </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 동일: endurance ~ age + exercise + age:exercise</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">S</span>(mod_interact)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Call: lm(formula = endurance ~ age * exercise, data = acad2)
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  53.17896    7.52661   7.065 1.71e-11 ***
+age          -0.76596    0.15980  -4.793 2.87e-06 ***
+exercise     -1.35095    0.66626  -2.028 0.043694 *  
+age:exercise  0.04724    0.01359   3.476 0.000604 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard deviation: 9.7 on 241 degrees of freedom
+Multiple R-squared: 0.2061
+F-statistic: 20.86 on 3 and 241 DF,  p-value: 4.764e-12 
+    AIC     BIC 
+1814.57 1832.07 </code></pre>
+</div>
+</div>
+<p><code>lavvan</code>에서는 상호작용 항(interaction term)이나 범주형 변수에 대해 처리해주지 않음</p>
 <ul>
-<li>2: Install RStudio</li>
-</ul>
-</section>
-<section id="rstudio-소개" class="level2">
-<h2 class="anchored" data-anchor-id="rstudio-소개">RStudio 소개</h2>
-<p>4개의 패널로 구성</p>
-<p><strong>Project</strong> 단위로 분석</p>
+<li>직접 상호작용 항을 만들어 주어야 함.</li>
+<li>범주형 변수의 경우는 dummy variable까지 만든 후 상호작용 항까지 만들어 주어야 함.
 <ul>
-<li>시작시 project을 새로 만들거나 불러와서 실행: filename.Rproj 형태로 저장</li>
-<li>File &gt; New Project 또는 +박스그림 버튼 &gt; New Directory &gt; New Project
-<ul>
-<li>Directory name, Sub directory</li>
+<li><code>fastDummies::dummy_cols()</code> 함수를 사용하면 쉽게 만들 수 있음.</li>
 </ul></li>
 </ul>
-<p>Working directory</p>
-<ul>
-<li>project에서 참조하는 최상위 폴더</li>
-<li>하위폴더 지시: 예) data/file.sav</li>
-</ul>
-<p>R script 생성, 저장</p>
-<p>RStudio 닫기, 열기</p>
-<ul>
-<li>Workspace 저장 vs.&nbsp;R script 저장</li>
-<li>Workspace save/load: .Rdata 형태로 저장</li>
-</ul>
-<p>Session</p>
-<ul>
-<li>Restart R</li>
-</ul>
-<section id="환경설정-tools-global-options" class="level3">
-<h3 class="anchored" data-anchor-id="환경설정-tools-global-options">환경설정: Tools &gt; Global Options</h3>
-<p>“Save workspace to .RData on exit” 옵션: 종료시 working space 자동 저장</p>
-<p>Code</p>
-<ul>
-<li>soft-wrap R source files</li>
-<li>Use native pipe operator</li>
-</ul>
-<p>Appearance</p>
-<ul>
-<li>Zoom: 전체 보기 줌</li>
-<li>Ediotr font: Cascadia Mono (Win), Menlo (Mac)</li>
-<li>Editor font size: 글자 크기</li>
-<li>Theme: Tomorrow Night??</li>
-</ul>
-</section>
-</section>
-<section id="패키지의-설치" class="level2">
-<h2 class="anchored" data-anchor-id="패키지의-설치">패키지의 설치</h2>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 메뉴를 통한 설치</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 명령어를 통한 설치</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"name"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 수업에서 필요한 기본 패키지</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>) <span class="co"># 패키지들의 패키지</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## ✔ tibble  3.1.7     ✔ dplyr   1.0.9</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## ✔ tidyr   1.2.0     ✔ stringr 1.4.0</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## ✔ readr   2.1.2     ✔ forcats 0.5.1</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 패키지들 간의 함수의 충돌에 대해서... mask</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 추가 패키지</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"mosaicData"</span>, <span class="st">"palmerpenguins"</span>)) <span class="co"># c(): combine items</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 패키지 로드: 필요한 패키지는 세션마다 시행해야 함</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"name"</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    e.g. <span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>acad2 <span class="ot">&lt;-</span> acad2 <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_c =</span> jtools<span class="sc">::</span><span class="fu">center</span>(age),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">exercise_c =</span> jtools<span class="sc">::</span><span class="fu">center</span>(exercise),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">age_x_exercise_c =</span> age_c <span class="sc">*</span> exercise_c)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>acad2 <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 245 x 6
+    age exercise endurance  age_c exercise_c age_x_exercise_c
+  &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;            &lt;dbl&gt;
+1    60       10        18  10.8      -0.673            -7.28
+2    40        9        36  -9.18     -1.67             15.4 
+3    29        2        51 -20.2      -8.67            175.  
+4    47       10        18  -2.18     -0.673             1.47
+5    48        9        23  -1.18     -1.67              1.98
+6    42        6        30  -7.18     -4.67             33.6 
+# i 239 more rows</code></pre>
+</div>
+</div>
+<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lavaan model</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  endurance ~ age_c + exercise_c + age_x_exercise_c</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(model, <span class="at">data =</span> acad2)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6.17 ended normally after 1 iteration
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                         4
+
+  Number of observations                           245
+
+Model Test User Model:
+                                                      
+  Test statistic                                 0.000
+  Degrees of freedom                                 0
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  endurance ~                                                           
+    age_c            -0.262    0.064   -4.119    0.000   -0.262   -0.244
+    exercise_c        0.973    0.135    7.183    0.000    0.973    0.429
+    age_x_exercs_c    0.047    0.013    3.504    0.000    0.047    0.201
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .endurance        92.546    8.362   11.068    0.000   92.546    0.794
+</code></pre>
+</div>
 </div>
 </section>
-<section id="단축키" class="level2">
-<h2 class="anchored" data-anchor-id="단축키">단축키</h2>
-<ul>
-<li>자동완성: tab<br>
-</li>
-<li>현재 라인 실행: Ctrl+Enter (Win)   |   Command+Return (Mac)</li>
-<li>assignment operator (&lt;-) 입력: Alt+- (Win)   |   Option+- (Mac)</li>
-<li>pipe operator (%&gt;%) 입력: Ctrl+Shift+M (Win)   |   Shift+Command+M (Mac)</li>
-<li>consol에서 화살표 키</li>
-<li>copy, paste</li>
-<li>undo, redo: Ctrl+Z / Ctrl+Shift+Z (Win)   |   Command+Z / Command+Shift+Z (Mac)</li>
-<li>Copy Lines Up/Down: Shift+Alt+Up/Down (Win)   |   Option+Command+Up or Down (Mac)</li>
-</ul>
-<p>단축키 변경: Tools &gt;&gt; modify keyboard shortcuts: e.g.&nbsp;pipe operator: Alt+.</p>
-</section>
-<section id="도움말" class="level2">
-<h2 class="anchored" data-anchor-id="도움말">도움말</h2>
-<p>help() 또는 ?<br>
-e.g.&nbsp;help(factor), ?factor</p>
-<hr>
+<section id="moderated-mediation" class="level2">
+<h2 class="anchored" data-anchor-id="moderated-mediation">Moderated Mediation</h2>
+<p>p.&nbsp;424, <em>Introduction to Mediation, Moderation, and Conditional Process Analysis (3e)</em> by Andrew F. Hayes</p>
+<div class="callout callout-style-default callout-note callout-titled" title="연구 설명">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+연구 설명
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>11.3 예시: 업무 팀에게 자신의 감정 숨기기 수년에 걸쳐 대중음악은 우리의 직관을 강화해왔고, 친한 친구들이 제공한 조언이나 친한 친구들이 제공하고 토크쇼 심리학자들은 감정을 억누르고 다른 사람의 눈에 띄지 않도록 숨겨서는 좋은 결과를 얻을 수 없다고 강조합니다. 당대의 아티스트들은 “자신을 표현하라”(마돈나)고, “침묵의 강령”(빌리 조엘)에 따라 살면 결코 과거를 잊지 못할 것이며 “절대 말하지 않을 것들”(에이브릴 라빈)의 목록이 길수록 인생에서 원하는 것을 얻을 가능성이 줄어든다는 것을 조심하라고 말합니다. 따라서 다른 사람이 “나랑 얘기 좀 하자”(아니타 베이커)는 요청을 할 때는 경계심을 풀고 마음속에 있는 이야기를 “소통”(B-52)하는 것이 중요합니다. 하지만 적어도 일부 업무 관련 상황에서는 반드시 그렇지는 않다고 M. S. Cole 외(2008)의 팀워크에 관한 연구에 따르면 말합니다. 이 연구자들에 따르면, 때로는 함께 일하는 다른 사람들이 자신을 괴롭히는 행동이나 말에 대해 자신의 감정을 숨기는 것이 더 나을 수 있으며, 그러한 감정이 팀의 관심의 초점이 되어 팀이 적시에 효율적인 방식으로 작업을 수행하는 데 방해가 되지 않도록 하는 것이 더 나을 수 있습니다. 이 연구는 조건부 프로세스 모델의 추정과 해석의 메커니즘을 설명하는 첫 번째 사례의 데이터를 TEAMS라는 데이터 파일로 제공하며, www.afhayes.com 에서 확인할 수 있습니다. 이 연구는 자동차 부품 제조 회사에 고용된 60개의 작업 팀을 대상으로 진행되었으며, 회사 직원 200여 명을 대상으로 작업 팀에 대한 일련의 질문과 팀 감독자에 대한 다양한 인식에 대한 설문조사에 대한 응답을 기반으로 합니다. 이 연구의 일부 변수는 그룹 수준에서 측정된 것으로 같은 팀원들이 말한 내용을 종합하여 도출한 것입니다. 다행히 팀원들이 팀에 대한 질문에 응답하는 방식이 매우 유사하여 이러한 종류의 집계를 정당화할 수 있었습니다. 다른 변수는 순전히 팀 상사의 보고를 기반으로 합니다.</p>
+<p>이 분석과 관련된 네 가지 변수를 측정했습니다. 팀원들이 다른 팀원들의 업무를 약화시키거나 변화와 혁신을 방해하는 행동을 얼마나 자주 했는지 등 팀원들의 역기능적 행동에 대한 일련의 질문(데이터 파일에서 DYSFUNC, 점수가 높을수록 팀 내 역기능적 행동이 많음을 나타냄)을 던져 팀원들의 역기능적 행동을 측정했습니다. 또한 팀원들에게 직장에서 ‘화가 났다’, ‘역겨웠다’ 등을 얼마나 자주 느끼는지 물어봄으로써 그룹의 부정적인 정서적 분위기를 측정했습니다(NEGTONE, 점수가 높을수록 업무 환경의 부정적인 정서적 분위기를 더 많이 반영함). 팀 상사에게는 팀이 얼마나 효율적이고 적시에 일을 처리하는지, 팀이 생산 목표를 달성하는지 등 전반적인 팀 성과에 대한 평가를 제공하도록 요청했습니다(데이터의 성과, 점수가 높을수록 성과가 좋음을 반영하는 척도). 또한 슈퍼바이저는 팀원들이 자신의 감정에 대해 보내는 비언어적 신호를 얼마나 쉽게 읽을 수 있는지를 측정하는 일련의 질문, 즉 비언어적 부정적 표현력(데이터 파일의 NEGEXP, 점수가 높을수록 팀원들이 부정적인 감정 상태를 비언어적으로 더 잘 표현한다는 의미)에 응답했습니다. 이 연구의 목표는 업무 팀원의 역기능적 행동이 업무 팀의 성과에 부정적인 영향을 미칠 수 있는 메커니즘을 조사하는 것이었습니다. 연구진은 역기능적 행동(X)으로 인해 상사와 다른 직원들이 직면하고 관리하려고 하는 부정적인 감정(M)으로 가득 찬 업무 환경이 조성되면 업무에 집중하지 못하고 업무 수행에 방해가 된다는 중재 모델을 제안했습니다(Y). 그러나 이 모델에 따르면 팀원들이 부정적인 감정(W)을 조절할 수 있게 되면, 즉 자신의 감정을 다른 사람에게 숨길 수 있게 되면 업무 환경의 부정적인 분위기와 다른 사람의 감정을 관리하는 데 집중할 필요 없이 당면한 업무에 집중할 수 있게 됩니다. 즉, 이 모델에서는 업무 환경의 부정적인 정서적 어조가 팀 성과에 미치는 영향은 팀원이 자신의 감정을 숨기는 능력에 따라 달라지며, 부정적 감정을 숨기지 않고 표현하는 팀에서 부정적인 정서적 어조가 성과에 미치는 부정적 영향이 더 강하다고 가정합니다.</p>
+</div>
+</div>
+</div>
+<p><img src="images/moderated-mediation.png" class="img-fluid" width="500"></p>
+<p>Data: <a href="https://afhayes.com/introduction-to-mediation-moderation-and-conditional-process-analysis.html">Introduction to Mediation, Moderation, and Conditional Process Analysis</a>; “data files and code”</p>
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/teams.csv"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>teams <span class="ot">&lt;-</span> teams <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">negtone_c =</span> <span class="fu">center</span>(negtone),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">negexp_c =</span> <span class="fu">center</span>(negexp),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">negtone_negexp_c =</span> negtone_c<span class="sc">*</span>negexp_c,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>teams <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 60 x 7
+  dysfunc negtone negexp perform negtone_c negexp_c negtone_negexp_c
+    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;            &lt;dbl&gt;
+1   -0.23   -0.51  -0.49    0.12    -0.557   -0.482           0.268 
+2   -0.13    0.22  -0.49    0.52     0.173   -0.482          -0.0832
+3    0      -0.08   0.84   -0.08    -0.127    0.848          -0.108 
+4   -0.33   -0.11   0.84   -0.08    -0.157    0.848          -0.133 
+5    0.39   -0.48   0.17    0.12    -0.527    0.178          -0.0940
+6    1.02    0.72  -0.82    1.12     0.673   -0.812          -0.546 
+# i 54 more rows</code></pre>
+</div>
+</div>
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># standard deviation of negative expression </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(teams<span class="sc">$</span>negexp_c) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.543701</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # models</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">    perform ~ c*dysfunc + b1*negtone_c + b2*negexp_c + b3*negtone_negexp_c</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">    negtone_c ~ a*dysfunc</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # conditional effects: m-sd, m, m+sd</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="st">    b_low := b1 + b3*(-0.5437)  # mean - sd; sd = 0.5437</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="st">    b_mean := b1 + b3*0  # mean</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="st">    b_high := b1 + b3*0.5437  # mean + sd</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # conditional indirect effects</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="st">    ab_low := a * b_low</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ab_mean := a * b_mean</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="st">    ab_high := a * b_high</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="st">  # index of moderated mediation</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="st">    index_Mod_Med := a*b3</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(<span class="at">model =</span> mod, <span class="at">data =</span> teams, <span class="at">se =</span> <span class="st">"bootstrap"</span>, <span class="at">meanstructure =</span> T)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">fit.measures =</span> F, <span class="at">standardized =</span> T) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6.17 ended normally after 2 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                         9
+
+  Number of observations                            60
+
+Model Test User Model:
+                                                      
+  Test statistic                                 6.999
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.030
+
+Parameter Estimates:
+
+  Standard errors                            Bootstrap
+  Number of requested bootstrap draws             1000
+  Number of successful bootstrap draws            1000
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  perform ~                                                             
+    dysfunc    (c)    0.366    0.187    1.957    0.050    0.366    0.270
+    negtone_c (b1)   -0.431    0.130   -3.315    0.001   -0.431   -0.451
+    negexp_c  (b2)   -0.044    0.099   -0.442    0.659   -0.044   -0.047
+    ngtn_ngx_ (b3)   -0.517    0.253   -2.042    0.041   -0.517   -0.278
+  negtone_c ~                                                           
+    dysfunc    (a)    0.620    0.221    2.798    0.005    0.620    0.438
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .perform          -0.032    0.059   -0.540    0.589   -0.032   -0.064
+   .negtone_c        -0.021    0.060   -0.358    0.720   -0.021   -0.041
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .perform           0.185    0.033    5.582    0.000    0.185    0.742
+   .negtone_c         0.219    0.051    4.275    0.000    0.219    0.808
+
+Defined Parameters:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    b_low            -0.150    0.225   -0.668    0.504   -0.150   -0.300
+    b_mean           -0.431    0.130   -3.314    0.001   -0.431   -0.451
+    b_high           -0.713    0.146   -4.896    0.000   -0.713   -0.601
+    ab_low           -0.093    0.146   -0.636    0.525   -0.093   -0.131
+    ab_mean          -0.267    0.110   -2.423    0.015   -0.267   -0.198
+    ab_high          -0.442    0.153   -2.887    0.004   -0.442   -0.264
+    index_Mod_Med    -0.320    0.186   -1.721    0.085   -0.320   -0.122
+</code></pre>
+</div>
+</div>
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="68">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 parameter에 대한 결과</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">boot.ci.type =</span> <span class="st">"bca.simple"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                lhs op              rhs         label    est    se      z
+1           perform  ~          dysfunc             c  0.366 0.187  1.957
+2           perform  ~        negtone_c            b1 -0.431 0.130 -3.315
+3           perform  ~         negexp_c            b2 -0.044 0.099 -0.442
+4           perform  ~ negtone_negexp_c            b3 -0.517 0.253 -2.042
+5         negtone_c  ~          dysfunc             a  0.620 0.221  2.798
+6           perform ~~          perform                0.185 0.033  5.582
+7         negtone_c ~~        negtone_c                0.219 0.051  4.275
+8           dysfunc ~~          dysfunc                0.136 0.000     NA
+9           dysfunc ~~         negexp_c               -0.001 0.000     NA
+10          dysfunc ~~ negtone_negexp_c               -0.003 0.000     NA
+11         negexp_c ~~         negexp_c                0.291 0.000     NA
+12         negexp_c ~~ negtone_negexp_c                0.046 0.000     NA
+13 negtone_negexp_c ~~ negtone_negexp_c                0.072 0.000     NA
+14          perform ~1                                -0.032 0.059 -0.540
+15        negtone_c ~1                                -0.021 0.060 -0.358
+16          dysfunc ~1                                 0.035 0.000     NA
+17         negexp_c ~1                                 0.000 0.000     NA
+18 negtone_negexp_c ~1                                 0.024 0.000     NA
+19            b_low :=  b1+b3*(-0.5437)         b_low -0.150 0.225 -0.668
+20           b_mean :=          b1+b3*0        b_mean -0.431 0.130 -3.314
+21           b_high :=     b1+b3*0.5437        b_high -0.713 0.146 -4.896
+22           ab_low :=          a*b_low        ab_low -0.093 0.146 -0.636
+23          ab_mean :=         a*b_mean       ab_mean -0.267 0.110 -2.423
+24          ab_high :=         a*b_high       ab_high -0.442 0.153 -2.887
+25    index_Mod_Med :=             a*b3 index_Mod_Med -0.320 0.186 -1.721
+   pvalue ci.lower ci.upper
+1   0.050   -0.026    0.705
+2   0.001   -0.655   -0.156
+3   0.659   -0.232    0.162
+4   0.041   -1.099   -0.093
+5   0.005    0.245    1.130
+6   0.000    0.133    0.268
+7   0.000    0.141    0.373
+8      NA    0.136    0.136
+9      NA   -0.001   -0.001
+10     NA   -0.003   -0.003
+11     NA    0.291    0.291
+12     NA    0.046    0.046
+13     NA    0.072    0.072
+14  0.589   -0.156    0.081
+15  0.720   -0.137    0.097
+16     NA    0.035    0.035
+17     NA    0.000    0.000
+18     NA    0.024    0.024
+19  0.504   -0.494    0.372
+20  0.001   -0.655   -0.156
+21  0.000   -1.019   -0.455
+22  0.525   -0.407    0.213
+23  0.015   -0.551   -0.102
+24  0.004   -0.771   -0.159
+25  0.085   -0.769   -0.043</code></pre>
+</div>
+</div>
 
 
 </section>
@@ -917,10 +1139,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../contents/chap12.html" class="pagination-link" aria-label="Path Modeling">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Path Modeling</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../contents/baser.html" class="pagination-link" aria-label="Base R">
-        <span class="nav-page-text">Base R</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../contents/ml.html" class="pagination-link" aria-label="ML Estimation">
+        <span class="nav-page-text">ML Estimation</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
