@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-09-22">
+<meta name="dcterms.date" content="2024-09-24">
 
 <title>Chapter 12. Path Modeling –  CHA Statistics II in R</title>
 <style>
@@ -416,7 +416,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 22, 2024</p>
+      <p class="date">September 24, 2024</p>
     </div>
   </div>
   
@@ -428,7 +428,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="119">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
@@ -442,10 +442,10 @@ window.Quarto = {
 <section id="공분산-행렬" class="level3">
 <h3 class="anchored" data-anchor-id="공분산-행렬">공분산 행렬</h3>
 <p>covariance matrix</p>
-<p>공분산 covariance of <span class="math inline">\(x, ~ y\)</span>: <span class="math inline">\(Cov(x, y)\)</span> = <span class="math inline">\(\displaystyle\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})\)</span></p>
-<p>분산 variance of <span class="math inline">\(x\)</span>: covarance of <span class="math inline">\(x, ~ x\)</span>: <span class="math inline">\(V(x) = Cov(x, x)\)</span> = <span class="math inline">\(\displaystyle\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2\)</span></p>
-<p>상관 correlation of <span class="math inline">\(x, ~ y\)</span>: <span class="math inline">\(Cor(x, y)\)</span> = <span class="math inline">\(\displaystyle\frac{Cov(x, y)}{\sigma_x \sigma_y}\)</span></p>
-<p>where <span class="math inline">\(\sigma_x\)</span> and <span class="math inline">\(\sigma_y\)</span> are the standard deviations of x and y respectively.</p>
+<p>공분산 covariance of <span class="math inline">\(x, ~ y\)</span>: <span class="math inline">\(Cov(x, y)\)</span> = <span class="math inline">\(\displaystyle\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})\)</span><br>
+분산 variance of <span class="math inline">\(x\)</span>: covarance of <span class="math inline">\(x, ~ x\)</span>: <span class="math inline">\(V(x) = Cov(x, x)\)</span> = <span class="math inline">\(\displaystyle\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2\)</span><br>
+상관 correlation of <span class="math inline">\(x, ~ y\)</span>: <span class="math inline">\(Cor(x, y)\)</span> = <span class="math inline">\(\displaystyle\frac{Cov(x, y)}{\sigma_x \sigma_y}\)</span><br>
+where <span class="math inline">\(\sigma_x\)</span> and <span class="math inline">\(\sigma_y\)</span> are the standard deviations of x and y respectively.</p>
 <p>변수들 간의 상관계수/공분산 행렬을 알면 회귀계수를 구할 수 있음. 반대로, 회귀계수들을 알면 상관계수/공분산 행렬을 구할 수 있음.</p>
 <p><img src="images/fig12-1.png" class="img-fluid" width="380"> <img src="images/fig12-2.png" class="img-fluid" width="350"></p>
 <div style="line-height: 1.5em; font-size: .9em">
@@ -457,7 +457,7 @@ window.Quarto = {
 </section>
 <section id="데이터-준비" class="level3">
 <h3 class="anchored" data-anchor-id="데이터-준비">데이터 준비</h3>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="120">
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variable names</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"fam_back"</span>, <span class="st">"ability"</span>, <span class="st">"motivate"</span>, <span class="st">"courses"</span>, <span class="st">"achieve"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -484,7 +484,7 @@ achieve     4.170 110.550    25.50  12.300  100.00</code></pre>
 </div>
 </div>
 <p>공분산 행렬을 이용해서 회귀계수를 구하면,</p>
-<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="122">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ b*ability + c*motivate</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ a*ability</span></span>
@@ -505,7 +505,7 @@ achieve     4.170 110.550    25.50  12.300  100.00</code></pre>
 <p><img src="images/fig12-3.png" class="img-fluid" width="350"></p>
 <p>한편, 제한된 다음과 같은 모형에 대한 회귀계수를 구하면,<br>
 <img src="images/fig12-2f.png" class="img-fluid" width="350"></p>
-<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="123">
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ 0*ability + c*motivate  # ability의 계수를 0으로 고정; 효과 크기 제로!</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ a*ability</span></span>
@@ -525,8 +525,8 @@ achieve     4.170 110.550    25.50  12.300  100.00</code></pre>
 </div>
 <p><img src="images/fig12-2f-est.png" class="img-fluid" width="350"></p>
 <p>이 때, 이 회귀계수들을 이용해 상관계수를 역으로 계산하면,</p>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="108">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(achi_model, <span class="at">add.labels =</span> <span class="cn">TRUE</span>, <span class="st">"cor.ov"</span>) <span class="sc">|&gt;</span>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(achi_model, <span class="st">"cor.ov"</span>) <span class="sc">|&gt;</span>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         achiev motivt abilty
 achieve   1.000              
@@ -535,7 +535,7 @@ ability   0.052  0.205  1.000</code></pre>
 </div>
 </div>
 <p>실제 상관계수와 비교해보면,</p>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="109">
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>achi_cov[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>)] <span class="sc">|&gt;</span> <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         achieve motivate ability
@@ -555,41 +555,54 @@ ability    0.737    0.205   1.000</code></pre>
 </section>
 <section id="공분산-행렬로부터-데이터-생성" class="level3">
 <h3 class="anchored" data-anchor-id="공분산-행렬로부터-데이터-생성">공분산 행렬로부터 데이터 생성</h3>
-<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="110">
+<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a dataset with the same covariance matrix</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>achi <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(achi_cov, <span class="at">n =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>achi <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>achi <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(achi_cov, <span class="at">n =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>achi <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,000 x 5
    fam_back ability motivate courses achieve
       &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1   -0.204   1.45     5.39    1.53   11.1  
- 2    0.906  16.9     19.6     2.40    5.03 
- 3   -1.25  -17.6      0.236  -2.14  -12.4  
- 4   -0.474  20.6      5.36    1.51    2.60 
- 5   -2.03  -14.9     -3.05   -1.36   -6.44 
- 6    0.192   5.03    -0.928  -2.61  -18.4  
- 7   -2.03  -18.1    -16.7    -1.73  -18.8  
- 8   -0.385  12.1     10.5    -0.161  10.8  
- 9   -0.309  -0.168   -6.64   -0.970  -0.481
-10   -1.88  -28.7     -2.38   -1.83  -13.3  
+ 1    0.220  -6.13     -2.48 -2.95    -8.33 
+ 2   -1.28   -0.980    -6.90  1.99     0.105
+ 3   -1.19  -15.8      -6.33 -1.19    -9.33 
+ 4   -1.32   -5.75      2.82  3.14     6.53 
+ 5    1.18   12.1       3.58  2.58     3.64 
+ 6    1.72   21.7      -9.78  0.0788  11.5  
+ 7   -0.629  -4.56      2.07 -2.26    -0.556
+ 8   -0.559  -6.81     -7.23 -0.0846  -3.99 
+ 9    0.706  10.4      18.6   2.09    21.5  
+10    1.02    4.77     11.2   1.17     5.92 
 # i 990 more rows</code></pre>
+</div>
+</div>
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check the covariance matrix</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(achi) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          fam_back    ability   motivate    courses    achieve
+fam_back 1.0010010   6.261261   1.901902  0.7447447   4.174174
+ability  6.2612613 225.225225  30.780781 14.9549550 110.660661
+motivate 1.9019019  30.780781 100.100100  7.5075075  25.525526
+courses  0.7447447  14.954955   7.507508  4.0040040  12.312312
+achieve  4.1741742 110.660661  25.525526 12.3123123 100.100100</code></pre>
 </div>
 </div>
 </section>
 <section id="구조-모형" class="level3">
 <h3 class="anchored" data-anchor-id="구조-모형">구조 모형</h3>
 <p><img src="images/fig12-12.png" class="img-fluid" width="700"></p>
-<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="111">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + motivate + courses</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">  courses ~ fam_back + ability + motivate</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ fam_back + ability</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ability ~ fam_back</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(achi_paths, <span class="at">data =</span> achi)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + motivate + courses</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">  courses ~ fam_back + ability + motivate</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ fam_back + ability</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ability ~ fam_back</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(achi_paths, <span class="at">data =</span> achi)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Parameter Estimates:
@@ -629,39 +642,39 @@ Variances:
 <h3 class="anchored" data-anchor-id="r2-파악"><span class="math inline">\(R^2\)</span> 파악</h3>
 <p>1 - 잔차의 분산(variance): .xxxx 표시<br>
 직접 출력하는 옵션: <code>rsquare = TRUE</code></p>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="112">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Parameter Estimates:
 
-  Standard errors                             Standard
-  Information                                 Expected
-  Information saturated (h1) model          Structured
+  Standard errors                            Bootstrap
+  Number of requested bootstrap draws             1000
+  Number of successful bootstrap draws             965
 
 Regressions:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   achieve ~                                                             
-    fam_back          0.695    0.217    3.202    0.001    0.695    0.069
-    ability           0.367    0.015   23.758    0.000    0.367    0.551
-    motivate          0.013    0.021    0.604    0.546    0.013    0.013
-    courses           1.550    0.119   12.996    0.000    1.550    0.310
+    fam_back          0.695    0.221    3.141    0.002    0.695    0.069
+    ability           0.367    0.016   23.074    0.000    0.367    0.551
+    motivate   (a)    0.013    0.021    0.610    0.542    0.013    0.013
+    courses   (b1)    1.550    0.119   12.974    0.000    1.550    0.310
   courses ~                                                             
-    fam_back          0.330    0.057    5.838    0.000    0.330    0.165
-    ability           0.050    0.004   13.194    0.000    0.050    0.374
-    motivate          0.053    0.005   10.158    0.000    0.053    0.267
+    fam_back          0.330    0.059    5.604    0.000    0.330    0.165
+    ability           0.050    0.004   13.685    0.000    0.050    0.374
+    motivate  (b2)    0.053    0.005    9.984    0.000    0.053    0.267
   motivate ~                                                            
-    fam_back          1.265    0.338    3.741    0.000    1.265    0.127
-    ability           0.101    0.023    4.502    0.000    0.101    0.152
+    fam_back          1.265    0.331    3.826    0.000    1.265    0.127
+    ability           0.101    0.024    4.270    0.000    0.101    0.152
   ability ~                                                             
-    fam_back          6.255    0.431   14.508    0.000    6.255    0.417
+    fam_back          6.255    0.433   14.455    0.000    6.255    0.417
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .achieve          37.103    1.659   22.361    0.000   37.103    0.371
-   .courses           2.608    0.117   22.361    0.000    2.608    0.652
-   .motivate         94.475    4.225   22.361    0.000   94.475    0.945
-   .ability         185.875    8.313   22.361    0.000  185.875    0.826
+   .achieve          37.103    1.730   21.450    0.000   37.103    0.371
+   .courses           2.608    0.121   21.579    0.000    2.608    0.652
+   .motivate         94.475    4.205   22.470    0.000   94.475    0.945
+   .ability         185.875    8.120   22.891    0.000  185.875    0.826
 
 R-Square:
                    Estimate
@@ -669,6 +682,11 @@ R-Square:
     courses           0.348
     motivate          0.055
     ability           0.174
+
+Defined Parameters:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    indirect          0.083    0.011    7.739    0.000    0.083    0.083
+    total             0.095    0.021    4.549    0.000    0.095    0.095
 </code></pre>
 </div>
 </div>
@@ -688,7 +706,7 @@ summary() options
 <li><code>estimates</code>: TRUE</li>
 <li><code>ci</code>: FALSE</li>
 <li><code>fmi</code>: FALSE</li>
-<li><code>standardized</code>: FALSE</li>
+<li><code>standardized</code>: FALSE / “std.all”, “std.lv”</li>
 <li><code>rsquare</code>: FALSE</li>
 <li><code>modindices</code>: FALSE</li>
 <li><code>std.nox</code>: FALSE</li>
@@ -718,19 +736,19 @@ The argument nd determines the number of digits after the decimal point to be pr
 <p>Direct, Indirect, and Total Effects</p>
 <p><img src="images/tab12-1.png" class="img-fluid" width="600"></p>
 <p>movivation -&gt; achievement</p>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="113">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + a*motivate + b1*courses</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">  courses ~ fam_back + ability + b2*motivate</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ fam_back + ability</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ability ~ fam_back</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">  indirect := b1*b2</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="st">  total := a + b1*b2</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(achi_paths, <span class="at">data =</span> achi)</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + a*motivate + b1*courses</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="st">  courses ~ fam_back + ability + b2*motivate</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="st">  motivate ~ fam_back + ability</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ability ~ fam_back</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="st">  indirect := b1*b2</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="st">  total := a + b1*b2</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(achi_paths, <span class="at">data =</span> achi)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Parameter Estimates:
@@ -771,38 +789,38 @@ Defined Parameters:
 </div>
 </div>
 <p><strong>Bootstrapping</strong>으로 추정</p>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="114">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  achi_paths, </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> achi, </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">"bootstrap"</span>,  <span class="co"># standard errors</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bootstrap =</span> <span class="dv">1000</span>,  <span class="co"># number of bootstrap samples</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>achi_model <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  achi_paths, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> achi, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">"bootstrap"</span>,  <span class="co"># standard errors</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bootstrap =</span> <span class="dv">1000</span>,  <span class="co"># number of bootstrap samples</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Parameter Estimates:
 
   Standard errors                            Bootstrap
   Number of requested bootstrap draws             1000
-  Number of successful bootstrap draws             966
+  Number of successful bootstrap draws             962
 
 Regressions:
                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
   achieve ~                                                             
-    fam_back          0.695    0.218    3.194    0.001    0.285    1.137
-    ability           0.367    0.016   23.445    0.000    0.336    0.399
-    motivate   (a)    0.013    0.021    0.589    0.556   -0.031    0.054
-    courses   (b1)    1.550    0.120   12.944    0.000    1.320    1.776
+    fam_back          0.695    0.214    3.253    0.001    0.272    1.150
+    ability           0.367    0.016   23.685    0.000    0.334    0.396
+    motivate   (a)    0.013    0.020    0.625    0.532   -0.027    0.052
+    courses   (b1)    1.550    0.121   12.767    0.000    1.313    1.771
   courses ~                                                             
-    fam_back          0.330    0.055    6.025    0.000    0.221    0.441
-    ability           0.050    0.004   13.232    0.000    0.042    0.057
-    motivate  (b2)    0.053    0.005   10.019    0.000    0.043    0.064
+    fam_back          0.330    0.057    5.814    0.000    0.211    0.437
+    ability           0.050    0.004   13.570    0.000    0.043    0.057
+    motivate  (b2)    0.053    0.005   10.221    0.000    0.043    0.063
   motivate ~                                                            
-    fam_back          1.265    0.344    3.679    0.000    0.578    1.946
-    ability           0.101    0.023    4.411    0.000    0.057    0.146
+    fam_back          1.265    0.351    3.607    0.000    0.568    1.973
+    ability           0.101    0.025    4.112    0.000    0.054    0.147
   ability ~                                                             
-    fam_back          6.255    0.430   14.536    0.000    5.420    7.058
+    fam_back          6.255    0.436   14.350    0.000    5.396    7.099
    Std.lv  Std.all
                   
     0.695    0.069
@@ -821,10 +839,10 @@ Regressions:
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
-   .achieve          37.103    1.712   21.670    0.000   33.667   40.332
-   .courses           2.608    0.118   22.084    0.000    2.377    2.845
-   .motivate         94.475    4.367   21.634    0.000   85.669  102.963
-   .ability         185.875    8.691   21.386    0.000  168.789  203.807
+   .achieve          37.103    1.718   21.601    0.000   33.508   40.317
+   .courses           2.608    0.116   22.453    0.000    2.363    2.842
+   .motivate         94.475    4.170   22.656    0.000   85.326  102.484
+   .ability         185.875    8.044   23.108    0.000  171.185  202.593
    Std.lv  Std.all
    37.103    0.371
     2.608    0.652
@@ -833,27 +851,27 @@ Variances:
 
 Defined Parameters:
                    Estimate  Std.Err  z-value  P(&gt;|z|) ci.lower ci.upper
-    indirect          0.083    0.010    8.230    0.000    0.064    0.103
-    total             0.095    0.022    4.340    0.000    0.051    0.139
+    indirect          0.083    0.011    7.870    0.000    0.063    0.104
+    total             0.095    0.021    4.617    0.000    0.055    0.138
    Std.lv  Std.all
     0.083    0.083
     0.095    0.095
 </code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="117">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  achi_model, </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot.ci.type =</span> <span class="st">"bca.simple"</span>, <span class="co"># bias-corrected and accelerated</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="st">"std.all"</span> <span class="co"># standardized estimates</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(label <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  achi_model, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot.ci.type =</span> <span class="st">"bca.simple"</span>, <span class="co"># bias-corrected and accelerated</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="st">"std.all"</span> <span class="co"># standardized estimates</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(label <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op      rhs    label   est    se      z pvalue ci.lower ci.upper
-1  achieve  ~ motivate        a 0.013 0.021  0.589  0.556   -0.029    0.055
-2  achieve  ~  courses       b1 1.550 0.120 12.944  0.000    1.329    1.791
-3  courses  ~ motivate       b2 0.053 0.005 10.019  0.000    0.043    0.064
-4 indirect :=    b1*b2 indirect 0.083 0.010  8.230  0.000    0.065    0.103
-5    total :=  a+b1*b2    total 0.095 0.022  4.340  0.000    0.052    0.140
+1  achieve  ~ motivate        a 0.013 0.020  0.625  0.532   -0.027    0.053
+2  achieve  ~  courses       b1 1.550 0.121 12.767  0.000    1.313    1.771
+3  courses  ~ motivate       b2 0.053 0.005 10.221  0.000    0.044    0.065
+4 indirect :=    b1*b2 indirect 0.083 0.011  7.870  0.000    0.064    0.106
+5    total :=  a+b1*b2    total 0.095 0.021  4.617  0.000    0.057    0.140
   std.all
 1   0.013
 2   0.310
@@ -863,15 +881,15 @@ Defined Parameters:
 </div>
 </div>
 <p>패키지를 이용해 경로를 찾아 추정: <a href="https://sfcheung.github.io/manymome/index.html">manymome 참조</a></p>
-<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All specific indirect paths from ability to achieve</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">all_indirect_paths</span>(achi_model,</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"ability"</span>,</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"achieve"</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>paths <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All specific indirect paths from ability to achieve</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">all_indirect_paths</span>(achi_model,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"ability"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"achieve"</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>paths <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call: 
 all_indirect_paths(fit = achi_model, x = "ability", y = "achieve")
@@ -882,22 +900,22 @@ Path(s):
 3 ability -&gt; motivate -&gt; courses -&gt; achieve</code></pre>
 </div>
 </div>
-<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ind_est_std <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> achi_model, <span class="at">R =</span> <span class="dv">1000</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_x =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_y =</span> <span class="cn">TRUE</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>ind_est_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ind_est_std <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> achi_model, <span class="at">R =</span> <span class="dv">1000</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_x =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_y =</span> <span class="cn">TRUE</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>ind_est_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>
 ==  Indirect Effect(s) (Both x-variable(s) and y-variable(s) Standardized)  ==
                                             std  CI.lo CI.hi Sig
-ability -&gt; courses -&gt; achieve             0.116  0.097 0.146 Sig
-ability -&gt; motivate -&gt; achieve            0.002 -0.005 0.009    
-ability -&gt; motivate -&gt; courses -&gt; achieve 0.013  0.007 0.019 Sig
+ability -&gt; courses -&gt; achieve             0.116  0.094 0.140 Sig
+ability -&gt; motivate -&gt; achieve            0.002 -0.004 0.010    
+ability -&gt; motivate -&gt; courses -&gt; achieve 0.013  0.007 0.020 Sig
 
  - [CI.lo to CI.hi] are 95.0% bias-corrected confidence intervals by
    nonparametric bootstrapping with 1000 samples.
@@ -905,9 +923,9 @@ ability -&gt; motivate -&gt; courses -&gt; achieve 0.013  0.007 0.019 Sig
  </code></pre>
 </div>
 </div>
-<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total indirect effect</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total indirect effect</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>
 == Indirect Effect (Both 'ability' and 'achieve' Standardized) ==
@@ -916,7 +934,7 @@ ability -&gt; motivate -&gt; courses -&gt; achieve 0.013  0.007 0.019 Sig
  Path:                ability -&gt; motivate -&gt; achieve           
  Path:                ability -&gt; motivate -&gt; courses -&gt; achieve
  Function of Effects: 0.131                                    
- 95.0% Bootstrap CI:  [0.105 to 0.159]                         
+ 95.0% Bootstrap CI:  [0.107 to 0.154]                         
 
 Computation of the Function of Effects:
  ((ability-&gt;courses-&gt;achieve)
@@ -929,22 +947,22 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 </div>
 <p><strong>Total effect</strong> = direct effect + total indirect effect</p>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># direct effect</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>direct_std <span class="ot">&lt;-</span> <span class="fu">indirect_effect</span>(<span class="at">x =</span> <span class="st">"ability"</span>,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> <span class="st">"achieve"</span>,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">fit =</span> achi_model,</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">standardized_x =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">standardized_y =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>direct_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># direct effect</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>direct_std <span class="ot">&lt;-</span> <span class="fu">indirect_effect</span>(<span class="at">x =</span> <span class="st">"ability"</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> <span class="st">"achieve"</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">fit =</span> achi_model,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">standardized_x =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">standardized_y =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>direct_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>
 ==  Effect (Both 'ability' and 'achieve' Standardized) ==
                                        
  Path:               ability -&gt; achieve
  Effect:             0.551             
- 95.0% Bootstrap CI: [0.510 to 0.594]  
+ 95.0% Bootstrap CI: [0.506 to 0.597]  
 
 Computation Formula:
   (b.achieve~ability)*sd_ability/sd_achieve
@@ -955,8 +973,8 @@ Bias-corrected confidence interval formed by nonparametric
 bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 </div>
-<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>direct_std <span class="sc">+</span> ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>direct_std <span class="sc">+</span> ind_est_std[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">2</span>]] <span class="sc">+</span> ind_est_std[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>
 == Indirect Effect (Both 'ability' and 'achieve' Standardized) ==
@@ -966,7 +984,7 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
  Path:                ability -&gt; motivate -&gt; achieve           
  Path:                ability -&gt; motivate -&gt; courses -&gt; achieve
  Function of Effects: 0.682                                    
- 95.0% Bootstrap CI:  [0.644 to 0.718]                         
+ 95.0% Bootstrap CI:  [0.643 to 0.717]                         
 
 Computation of the Function of Effects:
  (((ability-&gt;achieve)
@@ -981,8 +999,8 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 <p>위의 모든 간접효과의 합은 중간의 걸친 변수들이 다 제거되었을 때의 효과와 동일</p>
 <p><img src="images/fig12-15.png" class="img-fluid" width="600"></p>
-<div id="cell-37" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability <span class="sc">+</span> fam_back, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability <span class="sc">+</span> fam_back, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1001,8 +1019,8 @@ Standardized Coefficients::
 <li>집안배경(family background)의 요소로 인해 능력(ability)과 성취(achievement) 사이의 실질적인 관계의 크기는 얼마나 변하는가?</li>
 </ul>
 <p><img src="images/fig12-8.png" class="img-fluid" width="600"></p>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1014,17 +1032,17 @@ Standardized Coefficients::
 </code></pre>
 </div>
 </div>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="71">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>achi <span class="sc">|&gt;</span> <span class="fu">select</span>(achieve, ability) <span class="sc">|&gt;</span> <span class="fu">lowerCor</span>(<span class="at">digits=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>achi <span class="sc">|&gt;</span> <span class="fu">select</span>(achieve, ability) <span class="sc">|&gt;</span> <span class="fu">lowerCor</span>(<span class="at">digits=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        achiv ablty
 achieve 1.000      
 ability 0.737 1.000</code></pre>
 </div>
 </div>
-<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simple effect - total effect</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.737</span> <span class="sc">-</span> <span class="fl">0.681</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simple effect - total effect</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.737</span> <span class="sc">-</span> <span class="fl">0.681</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 0.0559999999999999
 </div>
