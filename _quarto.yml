@@ -62,8 +62,6 @@ website:
             text: Path Modeling
             contents:
               - href: contents/interaction.ipynb
-          - href: contents/ml.ipynb
-            text: ML Estimation
           - href: contents/chap13.ipynb
             text: Path Analysis
           - href: contents/chap16.ipynb
@@ -74,6 +72,10 @@ website:
             text: Latent Means
           - href: contents/chap21.ipynb
             text: Latent Growth Models
+      - href: contents/ml.ipynb
+        text: ML Estimation
+      - href: contents/equations.ipynb
+        text: SEM Equations
           #- href: contents/fit-index.qmd
       - text: ---
       - section: Kline's

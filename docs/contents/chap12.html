@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-09-24">
+<meta name="dcterms.date" content="2024-09-29">
 
 <title>Chapter 12. Path Modeling –  CHA Statistics II in R</title>
 <style>
@@ -265,12 +265,6 @@ window.Quarto = {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ML Estimation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../contents/chap13.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Path Analysis</span></a>
   </div>
@@ -301,6 +295,18 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ML Estimation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEM Equations</span></a>
+  </div>
+</li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
@@ -416,7 +422,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 24, 2024</p>
+      <p class="date">September 29, 2024</p>
     </div>
   </div>
   
@@ -449,7 +455,7 @@ where <span class="math inline">\(\sigma_x\)</span> and <span class="math inline
 <p>변수들 간의 상관계수/공분산 행렬을 알면 회귀계수를 구할 수 있음. 반대로, 회귀계수들을 알면 상관계수/공분산 행렬을 구할 수 있음.</p>
 <p><img src="images/fig12-1.png" class="img-fluid" width="380"> <img src="images/fig12-2.png" class="img-fluid" width="350"></p>
 <div style="line-height: 1.5em; font-size: .9em">
-<p>Source: Fig 12.1, 12.2</p>
+<p>Source: pp.&nbsp;258-259, Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
 </div>
 <p><span class="math inline">\(a = r_{12}\)</span><br>
 <span class="math inline">\(\displaystyle b = \frac{r_{13} - r_{12} r_{23}}{1 - r_{12}^2}\)</span><br>
@@ -524,9 +530,10 @@ achieve     4.170 110.550    25.50  12.300  100.00</code></pre>
 </div>
 </div>
 <p><img src="images/fig12-2f-est.png" class="img-fluid" width="350"></p>
-<p>이 때, 이 회귀계수들을 이용해 상관계수를 역으로 계산하면,</p>
+<p>이 때, 이 회귀계수들을 이용해 상관계수를 역으로 계산하면; implied/predicted correlation matrix</p>
 <div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(achi_model, <span class="st">"cor.ov"</span>) <span class="sc">|&gt;</span>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied/predicted correlation matrix</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(achi_model, <span class="st">"cor.ov"</span>) <span class="sc">|&gt;</span>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         achiev motivt abilty
 achieve   1.000              
@@ -536,7 +543,8 @@ ability   0.052  0.205  1.000</code></pre>
 </div>
 <p>실제 상관계수와 비교해보면,</p>
 <div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>achi_cov[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>)] <span class="sc">|&gt;</span> <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># observed correlation matrix</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>achi_cov[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>)] <span class="sc">|&gt;</span> <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         achieve motivate ability
 achieve    1.000    0.255   0.737
@@ -593,6 +601,9 @@ achieve  4.1741742 110.660661  25.525526 12.3123123 100.100100</code></pre>
 <section id="구조-모형" class="level3">
 <h3 class="anchored" data-anchor-id="구조-모형">구조 모형</h3>
 <p><img src="images/fig12-12.png" class="img-fluid" width="700"></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;270, Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
+</div>
 <div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">  achieve ~ fam_back + ability + motivate + courses</span></span>
@@ -640,7 +651,7 @@ Variances:
 </section>
 <section id="r2-파악" class="level3">
 <h3 class="anchored" data-anchor-id="r2-파악"><span class="math inline">\(R^2\)</span> 파악</h3>
-<p>1 - 잔차의 분산(variance): .xxxx 표시<br>
+<p>1 - 잔차의 표준화된 분산(variance): .xxxx 표시<br>
 직접 출력하는 옵션: <code>rsquare = TRUE</code></p>
 <div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(achi_model, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -734,7 +745,11 @@ The argument nd determines the number of digits after the decimal point to be pr
 <section id="직접-간접-총효과" class="level3">
 <h3 class="anchored" data-anchor-id="직접-간접-총효과">직접, 간접, 총효과</h3>
 <p>Direct, Indirect, and Total Effects</p>
+<p><img src="images/fig12-12.png" class="img-fluid" width="700"></p>
 <p><img src="images/tab12-1.png" class="img-fluid" width="600"></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;272, Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
+</div>
 <p>movivation -&gt; achievement</p>
 <div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>achi_paths <span class="ot">&lt;-</span> <span class="st">"</span></span>
@@ -999,6 +1014,9 @@ bootstrapping with 1000 bootstrap samples.</code></pre>
 </div>
 <p>위의 모든 간접효과의 합은 중간의 걸친 변수들이 다 제거되었을 때의 효과와 동일</p>
 <p><img src="images/fig12-15.png" class="img-fluid" width="600"></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;274, Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
+</div>
 <div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(achieve <span class="sc">~</span> ability <span class="sc">+</span> fam_back, <span class="at">data =</span> achi) <span class="sc">|&gt;</span> lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
