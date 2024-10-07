@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-09-30">
+<meta name="dcterms.date" content="2024-10-07">
 
 <title>Structural Equations –  CHA Statistics II in R</title>
 <style>
@@ -396,8 +396,12 @@ window.Quarto = {
   <ul>
   <li><a href="#overall-fit-measures" id="toc-overall-fit-measures" class="nav-link" data-scroll-target="#overall-fit-measures">Overall Fit Measures</a>
   <ul class="collapse">
-  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals"><strong>Residuals</strong></a></li>
-  <li><a href="#chi-square-chi2-test" id="toc-chi-square-chi2-test" class="nav-link" data-scroll-target="#chi-square-chi2-test"><strong>Chi-Square( <span class="math inline">\(\chi^2\)</span>) Test</strong></a></li>
+  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals">Residuals</a></li>
+  <li><a href="#chi-square-chi2-test" id="toc-chi-square-chi2-test" class="nav-link" data-scroll-target="#chi-square-chi2-test">Chi-Square( <span class="math inline">\(\chi^2\)</span>) Test</a></li>
+  <li><a href="#incremental-fit-index" id="toc-incremental-fit-index" class="nav-link" data-scroll-target="#incremental-fit-index">Incremental Fit Index</a></li>
+  <li><a href="#rmsea" id="toc-rmsea" class="nav-link" data-scroll-target="#rmsea">RMSEA</a></li>
+  <li><a href="#cfi" id="toc-cfi" class="nav-link" data-scroll-target="#cfi">CFI</a></li>
+  <li><a href="#srmr" id="toc-srmr" class="nav-link" data-scroll-target="#srmr">SRMR</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -426,7 +430,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 30, 2024</p>
+      <p class="date">October 7, 2024</p>
     </div>
   </div>
   
@@ -438,7 +442,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="3">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -563,7 +567,7 @@ x_1 \\ x_2
 </div>
 </div>
 </div>
-<div id="cell-3" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="41">
+<div id="cell-3" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="3">
 <details class="code-fold">
 <summary>data and model</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A dataset from Bollen (1989) containing measures of political democracy and industrialization for 75 developing countries in 1960 and 1965. </span></span>
@@ -578,7 +582,7 @@ x_1 \\ x_2
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(model, <span class="at">data =</span> bollen1989a, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
+<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coefficients: betas &amp; gamma</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit, <span class="at">what =</span> <span class="st">"est"</span>)<span class="sc">$</span>beta <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -590,7 +594,7 @@ x1  0 0.00 0.00 0.00 0.00
 x2  0 0.00 0.00 0.00 0.00</code></pre>
 </div>
 </div>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># covariances: psi &amp; phi</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit, <span class="at">what =</span> <span class="st">"est"</span>)<span class="sc">$</span>psi <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -719,7 +723,7 @@ Coveriance에 대한 성질
 </ul>
 <p>이제 이 둘의 차 <span class="math inline">\(\mathbf{S} - \hat{\Sigma}(\theta)\)</span>를 최소화하는 파라미터들(통칭 <span class="math inline">\(\theta\)</span>)를 찾고자 함.</p>
 <p>예를 들어,</p>
-<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="73">
+<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># covariance matrix</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  225.2</span></span>
@@ -727,7 +731,7 @@ Coveriance에 대한 성질
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">  111.4 26.5 105.2'</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"x1"</span>, <span class="st">"y1"</span>, <span class="st">"y2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="74">
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regressopm</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  y2 ~ 0*x1 + y1</span></span>
@@ -738,7 +742,7 @@ Coveriance에 대한 성질
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(model, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">200</span>, <span class="at">fixed.x =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="75">
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  lhs op rhs     est     se      z pvalue ci.lower ci.upper
@@ -750,7 +754,7 @@ Coveriance에 대한 성질
 6  x1 ~~  x1 224.074 22.407 10.000  0.000  180.156  267.992</code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="76">
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a> sigma_hat <span class="ot">&lt;-</span> <span class="fu">lavInspect</span>(fit, <span class="st">"cov.all"</span>)[<span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> sigma_hat <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -760,7 +764,7 @@ y1  31.9 99.8  26.4
 y2   8.4 26.4 104.7</code></pre>
 </div>
 </div>
-<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="77">
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 공분산 행렬 차이: residual covariance matrix</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>(cov <span class="sc">-</span> sigma_hat) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -800,17 +804,18 @@ y2 103.0 0.1   0.5</code></pre>
 </div>
 </div>
 <ul>
-<li>Likelihood의 관점에서 추정: maximum likelihood estimation(MLE)
+<li>Likelihood의 관점에서 <span class="math inline">\(\mathbf{S}\)</span>와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 거리를 측정: maximum likelihood estimation(MLE); scale invariant, scale free
 <ul>
 <li><span class="math inline">\(F_{ML} = log|\Sigma(\theta)| + tr(S\Sigma^{-1}(\theta)) - log|S| - (p + q)\)</span></li>
 </ul></li>
-<li>각 성분들의 제곱의 합이 최소가 되도록 추정: unweighted least squares(ULS)
+<li>각 성분들의 제곱의 합이 최소가 되도록 추정: unweighted least squares(ULS); scale에 따라 변함.
 <ul>
-<li><span class="math inline">\(F_{ULS} = \frac{1}{2} tr[(\mathbf{S} - \hat{\Sigma}(\theta))^2]\)</span></li>
+<li><span class="math inline">\(F_{ULS} = \frac{1}{2} tr[(\mathbf{S} - \Sigma(\theta))^2]\)</span></li>
 </ul></li>
-<li>Generalized least squares(GLS)
+<li>Fully weighted least squares(WLS): 적절한 <span class="math inline">\(\mathbf{W}\)</span>를 선택해 공분산의 크기를 조정, 분포에 대한 가정 없으나 큰 표본을 요구함.
 <ul>
-<li><span class="math inline">\(F_{GLS} = \frac{1}{2} tr\left[\left(I - \hat{\Sigma}(\theta)\mathbf{S}^{-1}\right)^2\right]\)</span></li>
+<li><span class="math inline">\(F_{WLS} = \frac{1}{2} tr\left[\left[\left(\mathbf{S} - \Sigma(\theta)\right)\mathbf{W}^{-1}\right]^2\right]\)</span></li>
+<li>Generalized least squares(GLS): <span class="math inline">\(\mathbf{W}\)</span>를 <span class="math inline">\(\mathbf{S}\)</span>로 선택하는 경우; scale invariant, scale free</li>
 </ul></li>
 </ul>
 <p><strong>Maximum Likelihood Estimation</strong></p>
@@ -825,6 +830,34 @@ y2 103.0 0.1   0.5</code></pre>
 <li>Multivariate normal을 가정하고, N이 충분히 클 때,</li>
 <li>주어진 모형이 참이라면, random sampling 변화에 따라 <span class="math inline">\((N-1)*F_{ML}\)</span>은 <span class="math inline">\(\chi^2\)</span> 분포 따름</li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Non-normality에 대한 대응">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Non-normality에 대한 대응
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Robust ML</li>
+<li>Bootstrapping: Bollen-Stine bootstrap</li>
+<li>분포에 대한 가정이 없는 방법: WLS(fully weighted least squares)</li>
+</ul>
+<p>ML 파라미터 추정치는 일반적으로 robust하나, 표준오차는 문제가 될 수 있음.<br>
+다음과 같은 ML에 대한 robust estimation들은 표준오차에 대한 보정을 제공함.</p>
+<ol type="1">
+<li>Option “MLM” is for complete data sets only and generates the mean-adjusted Satorra-Bentler scaled chi-square.</li>
+<li>Option “MLR” can be applied in complete or incomplete data sets, and it generates a mean adjusted chi-square based on the Yuan-Bentler T2 statistic. Because this method accommodates missing data, it is the most flexible option listed here.</li>
+<li>Option “MLMV” is for complete data sets only and computes a mean- and variance-adjusted scaled chi-square.</li>
+<li>Option “MLMVS” generates a mean- and variance adjusted chi-square with a correction for heteroscedasticity by Satterthwaite (1941). Model degrees of freedom are estimated, and the method is for complete data sets.</li>
+</ol>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;137, 163, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+</div>
+</div>
 </section>
 <section id="model-indentification" class="level3">
 <h3 class="anchored" data-anchor-id="model-indentification">Model Indentification</h3>
@@ -843,10 +876,10 @@ y2 103.0 0.1   0.5</code></pre>
 <li>just-identified (적정 식별): df = 0, 포화 모형 (saturated model)</li>
 <li>under-identified model (과소 식별): df &lt; 0, 파라미터 추정 불가능</li>
 </ul>
-<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="79">
+<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">estimate =</span> F) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 10 iterations
+<pre><code>lavaan 0.6-19 ended normally after 10 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -861,7 +894,7 @@ Model Test User Model:
   P-value (Chi-square)                           0.000</code></pre>
 </div>
 </div>
-<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="82">
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># info for parameters</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">parTable</span>(fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -896,7 +929,7 @@ Model Test User Model:
 <li>따라서, 여러 측면에서 동시에 평가하는 것이 중요함!</li>
 </ul>
 <section id="residuals" class="level3">
-<h3 class="anchored" data-anchor-id="residuals"><strong>Residuals</strong></h3>
+<h3 class="anchored" data-anchor-id="residuals">Residuals</h3>
 <p>Ideally, all residuals should be near zero for a “good” model. But the sample residuals are affected by several factors: (1) the departure of <span class="math inline">\(\Sigma\)</span> from <span class="math inline">\(\Sigma(\theta)\)</span>, (2) the scales of the observed variables, and (3) sampling fluctuations</p>
 <ul>
 <li>Coveriance residuals: 두 공분산의 차이 <span class="math inline">\(\mathbf{S} - \hat{\Sigma}(\theta)\)</span>를 직접 확인</li>
@@ -916,7 +949,7 @@ Model Test User Model:
 <p><strong><em>표본의 크기가 커질수록, 공분산/상관 잔차의 값이 줄어드는 경향이 있음.</em></strong></p>
 <p>예제: Reisenzein(1986)의 실험</p>
 <div class="callout callout-style-simple callout-note callout-titled" title="연구 내용">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -925,7 +958,7 @@ Model Test User Model:
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>지하철에서 한 사람이 쓰러지는 가상의 시나리오에서 동정심과 분노가 도움 행동을 매개하는지를 조사</li>
@@ -948,7 +981,7 @@ x6: 그 사람 때문에 기분이 나빠질 것입니다.</p>
 <p>Figure 7.4 Confirmatory Factor Analysis Model for Sympathy (<span class="math inline">\(\xi_1\)</span>) and Anger (<span class="math inline">\(\xi_2\)</span>). Each Measured with Three Indicators (<span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_6\)</span>)</p>
 <p>Source: p.&nbsp;260, Bollen, K. A. (1989). Structural equations with latent variables</p>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig 7.4</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  6.982</span></span>
@@ -966,7 +999,7 @@ x6: 그 사람 때문에 기분이 나빠질 것입니다.</p>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>fit_sa <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sa, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">138</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="162">
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coveriance residuals</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -984,7 +1017,7 @@ x6  0.334  0.136 -0.126  0.013  0.020  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation residuals</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa, <span class="at">type =</span> <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1002,7 +1035,7 @@ x6  0.057  0.025 -0.025  0.002  0.004  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># standardized residuals</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa, <span class="at">type =</span> <span class="st">"standardized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1020,7 +1053,7 @@ x6  1.585  0.483 -0.493  0.568  0.566  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># normalized residuals</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa, <span class="at">type =</span> <span class="st">"normalized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1040,7 +1073,7 @@ x6  0.644  0.284 -0.285  0.023  0.038  0.000
 </div>
 </section>
 <section id="chi-square-chi2-test" class="level3">
-<h3 class="anchored" data-anchor-id="chi-square-chi2-test"><strong>Chi-Square( <span class="math inline">\(\chi^2\)</span>) Test</strong></h3>
+<h3 class="anchored" data-anchor-id="chi-square-chi2-test">Chi-Square( <span class="math inline">\(\chi^2\)</span>) Test</h3>
 <p>공분산의 잔차들이 모집단에서 0과 다른지에 대한 통계적 검증하고자 함.</p>
 <ul>
 <li>위에서 standardize한 residuals를 이용하는 것은 대략적인 테스트임.</li>
@@ -1074,7 +1107,23 @@ It would be extremely helpful to have a simultaneous significance test of the hy
   &amp; = -2*[-1654.635 - (-1649.817)] = 9.635 \\
 \end{align}\)</span></p>
 <p>Degree of freedom = <span class="math inline">\(\displaystyle\frac{6*7}{2} - 13 = 21 - 13 = 8\)</span></p>
-<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="146">
+<div class="callout callout-style-simple callout-note callout-titled" title="Chi-Square 분포 특성">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Chi-Square 분포 특성
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>자유도(df)가 커질수록 분포의 모양이 정규분포에 가까워짐</li>
+<li>평균 = df, 분산 = 2df</li>
+</ul>
+</div>
+</div>
+<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1083,7 +1132,7 @@ It would be extremely helpful to have a simultaneous significance test of the hy
 </div>
 </div>
 </div>
-<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="160">
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1099,7 +1148,7 @@ It would be extremely helpful to have a simultaneous significance test of the hy
 <li>기존의 관행처럼 <span class="math inline">\(p\)</span> &lt; 0.05 일 때, 모형이 완전한 적합도을 보이지 못한다고 판단할 수 있음.</li>
 <li>즉, 공분산의 잔차 중 일부가 모집단에서 0이 아닐 수 있음을 의미함.</li>
 </ul>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="163">
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fitting function의 최소값</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitmeasures</span>(fit_sa, <span class="st">"fmin"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1107,18 +1156,18 @@ It would be extremely helpful to have a simultaneous significance test of the hy
 0.0349 </code></pre>
 </div>
 </div>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="164">
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 설정한 모형의 log-likelihood &amp; unrestricted 모형의 log-likelihood, chi-square 값</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_sa, <span class="fu">c</span>(<span class="st">"chisq"</span>, <span class="st">"pvalue"</span>, <span class="st">"logl"</span>, <span class="st">"unrestricted.logl"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            chisq            pvalue              logl unrestricted.logl 
-            9.635             0.292         -1654.635         -1649.817 </code></pre>
+            9.635             0.292         -1657.646         -1652.828 </code></pre>
 </div>
 </div>
-<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="165">
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sa, <span class="at">fit.measures =</span> T, <span class="at">estimates =</span> F) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-19 ended normally after 36 iterations
+<pre><code>lavaan 0.6-19 ended normally after 37 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -1145,12 +1194,12 @@ User Model versus Baseline Model:
 
 Loglikelihood and Information Criteria:
 
-  Loglikelihood user model (H0)              -1654.635
-  Loglikelihood unrestricted model (H1)      -1649.817
+  Loglikelihood user model (H0)              -1657.646
+  Loglikelihood unrestricted model (H1)      -1652.828
                                                       
-  Akaike (AIC)                                3335.269
-  Bayesian (BIC)                              3373.324
-  Sample-size adjusted Bayesian (SABIC)       3332.196
+  Akaike (AIC)                                3341.291
+  Bayesian (BIC)                              3379.345
+  Sample-size adjusted Bayesian (SABIC)       3338.218
 
 Root Mean Square Error of Approximation:
 
@@ -1165,6 +1214,207 @@ Standardized Root Mean Square Residual:
   SRMR                                           0.030</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-important callout-titled" title="$\chi^2$ Test에서 주의할 점">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="math inline">\(\chi^2\)</span> Test에서 주의할 점
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>변수들이 multivariate normal에서 벗어날수록 (특히 kurtosis) bias가 발생할 수 있음</li>
+<li>표본의 크기가 충분히 커야 함; 최소 100개 이상
+<ul>
+<li>파라미터의 수에 비례해서 더 많은 표본이 필요함; 가령 <em>N &lt; 200, p &gt; 30</em> 이면, <span class="math inline">\(\chi^2\)</span> 값이 부풀려짐.</li>
+</ul></li>
+<li>변수 간의 상관관계가 높을수록 틀린 모형에 대한 <span class="math inline">\(\chi^2\)</span> 값이 커짐</li>
+<li>측정에 대한 신뢰도(reliability)가 낮을수록 통계적 검증력(power)를 낮춰 가설을 기각하기 어려움.</li>
+<li>영가설이 “완벽한 모형”(<span class="math inline">\(\Sigma = \Sigma(\theta)\)</span>)이라는 점에서 현실적인 가설이 아님</li>
+<li>기존의 가설 검증의 문제점을 그대로 지니고 있음; statistical significance vs.&nbsp;substantive significance
+<ul>
+<li>N이 큰 경우, <span class="math inline">\(\chi^2\)</span>값이 커져 가설을 쉽게 기각할 수 있음; 실제로는 <span class="math inline">\(\Sigma\)</span>와 <span class="math inline">\(\Sigma(\theta)\)</span>의 차이가 사소함에도 불구하고, 완벽한 모형은 아니라고 판단할 수 있음.</li>
+<li>반대로, N이 작은 경우, <span class="math inline">\(\chi^2\)</span>값이 작아져 가설을 기각하기 어려움; 실제로는 <span class="math inline">\(\Sigma\)</span>와 <span class="math inline">\(\Sigma(\theta)\)</span>의 차이가 크더라도 완벽한 모형으로 판단할 수 있음.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<p>모든 적합도 지수는 $와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 함수임.<br>
+특히, fitting function <span class="math inline">\(F_{ML}\)</span>은 $와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 차이를 측정해주는 스칼러 함수임.</p>
+<ul>
+<li><span class="math inline">\(F_{ML} \to 0\)</span> as <span class="math inline">\(N \to \infty\)</span></li>
+<li>추정할 파라미터를 늘리면 <span class="math inline">\(F_{ML}\)</span>는 감소함; 즉, 항상 더 나쁜 모형이 됨.</li>
+</ul>
+<p><span class="math inline">\(F_{ML}\)</span> 값 자체는 해석하기 어렵기 때문에, <span class="math inline">\(F_{ML}\)</span>을 이용한 $와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 차이를 측정해주는 다른 지표들이 유용함.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Model fit indices">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Model fit indices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\chi^2\)</span> 테스트가 가설 검증의 논리로 yes/no를 판단하는 것인 반면,<br>
+적합도 지표들은 모형이 데이터에 얼마나 잘 부합하는지를 연속적인 값으로 표현함.</p>
+<p>과거 많은 지표들이 제안되어 왔으나, 시뮬레이션 연구등을 통해 현재까지 살아남아 널리 사용되고 보고되는 지표들은<br>
+<strong>RMSEA, CFI/TLI, SRMR</strong></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="일화">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+일화
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><em>Sörbom(2001)이 Karl Jöreskog와 함께 한 1985년 워크숍에 대한 일화는 방금 설명한 근사적 적합도 지수에 대한 맥락을 제공합니다.</em><br>
+<em>우리는 방금 GFI와 AGFI를 프로그램에 추가했습니다. Karl은 강의에서 카이 제곱만 있으면 충분하다고 말했습니다. 그러자 한 참가자가 “그럼 왜 GFI를 추가했나요?”라고 물었습니다. 그러자 Karl은 “음, 사용자들이 LISREL이 항상 그렇게 큰 카이 제곱을 생성하면 사용을 중단하겠다고 위협합니다. 그래서 사람들을 행복하게 할 무언가를 발명해야 했습니다. GFI가 그 목적에 부합합니다. (p.&nbsp;10)</em><br>
+by Google Translate</p>
+</blockquote>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;164, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+</div>
+</div>
+</section>
+<section id="incremental-fit-index" class="level3">
+<h3 class="anchored" data-anchor-id="incremental-fit-index">Incremental Fit Index</h3>
+<p>Base 모형과 비교하여 (추가된 파라미터로 인해) 연구자의 모형이 얼마나 개선되었는지를 측정함.<br>
+Base 모형은 기본적으로 가장 적합도가 낮은 모형, 즉 모든 변수들이 서로 독립이라고 가정한 모형으로 선택: <em>baseline model, indepdendent(null) model</em><br>
+이는 <span class="math inline">\(R^2\)</span>와 유사한 접근임.</p>
+<p><span class="math inline">\(\displaystyle\Delta_1 = \frac{\chi^2_b - \chi^2_m}{\chi^2_b - df_m}\)</span></p>
+<ul>
+<li>N의 크기에 덜 영향을 받도록 조정했음.</li>
+<li>연구자의 모형이 맞다면, 분자의 값들의 평균을 분모의 값으로 이해할 수 있음. (<span class="math inline">\(E(\chi^2_m) = df_m\)</span>)</li>
+</ul>
+<p><strong>Tucker–Lewis Index (TLI)</strong>: Tucker &amp; Lewis (1973), Bentler &amp; Bonnett (1980)</p>
+<p>TLI = <span class="math inline">\(\displaystyle\frac{\chi^2_b/df_b - \chi^2_m/df_m}{\chi^2_b/df_b - 1}\)</span></p>
+<ul>
+<li>동일한 <span class="math inline">\(F_{ML}\)</span>을 가질 때, 더 복잡한 모형(파라미터의 개수가 더 많은)이 더 낮은 <span class="math inline">\(df_m\)</span>를 가지게 되어 더 높은 값을 갖도록 함.</li>
+<li>소위 parsimony-adjusted, 혹은 complexity에 대한 penalty를 부여함.</li>
+<li>동시에 N에 따른 표본분포의 평균이 변하지 않도록 조정함.</li>
+</ul>
+</section>
+<section id="rmsea" class="level3">
+<h3 class="anchored" data-anchor-id="rmsea">RMSEA</h3>
+<p>Steiger–Lind Root Mean Square Error of Approximation (Steiger, 1990)</p>
+<p><span class="math inline">\(\displaystyle RMSEA = \sqrt{\frac{\hat{\delta}}{df_m(N-1)}} = \sqrt{\frac{\chi^2_{ML} - df_m}{df_m(N-1)}} = \sqrt{\frac{F_{ML}}{df_m} - \frac{1}{N-1}}\)</span></p>
+<ul>
+<li>연구자의 모형이 맞다면, <span class="math inline">\(\chi^2_{ML}\)</span> 값의 표본 분포가 <span class="math inline">\(\chi^2(df_m)\)</span>를 따르는데 반해,</li>
+<li>연구자의 모형이 맞지 않다면, non-central <span class="math inline">\(\chi^2(df_m, ~\delta)\)</span> 분포를 따름
+<ul>
+<li><span class="math inline">\(\delta\)</span>: non-centrality parameter</li>
+<li>평균은 <span class="math inline">\(df_m + \delta\)</span>임.</li>
+</ul></li>
+<li><span class="math inline">\(\delta\)</span>: 완전한 모형에서 벗어난 정도라도 볼 수 있고, <span class="math inline">\(\chi^2_{ML} - df_m\)</span>로 추정할 수 있음.
+<ul>
+<li><span class="math inline">\(\delta = 0\)</span>이면, 연구자의 모형이 완벽하고 central <span class="math inline">\(\chi^2(df_m)\)</span> 분포를 따름.</li>
+<li>음수가 되지 않도록 <span class="math inline">\(max(\chi^2_{ML} - df_m, 0)\)</span>으로 계산함.</li>
+</ul></li>
+</ul>
+<p>RMSEA에 대한 confidence interval:<br>
+<span class="math inline">\(\displaystyle RMSEA_{lower} = \sqrt{max\left(0, \frac{\hat{\delta}_{.05}}{(N-1)df_m}\right)}\)</span>, &nbsp;&nbsp; <span class="math inline">\(\displaystyle RMSEA_{upper} = \sqrt{\frac{\hat{\delta}_{.95}}{(N-1)df_m}}\)</span></p>
+<p>RMSEA &lt;= 0.05에 대한 가설검증: 0.05보다 작을 때, 모형이 데이터에 잘 부합한다고 보고 가설검증의 기준으로 사용함.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="RMSEA의 해석">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+RMSEA의 해석
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Browne과 Cudeck(1993)은 <span class="math inline">\(\hat\epsilon\)</span> ≤ .05가 유리한 결과라고 제안했지만, Chen et al.(2008)의 이후 컴퓨터 시뮬레이션 연구 결과는 <span class="math inline">\(\hat\epsilon\)</span>이 단독으로 사용되든 90% 신뢰 구간과 함께 사용되든 .05 또는 다른 값의 보편적 임계값을 거의 뒷받침하지 않는다는 것을 나타냈습니다.</em><br>
+<em>Browne과 Cudeck(1993)은 또한 <span class="math inline">\(\hat\epsilon\)</span> ≥ .10이 모델 적합도가 낮음을 나타낼 수 있지만 보장은 없다고 제안했습니다.</em></p>
+<p><em>Browne and Cudeck (1993) suggested that <span class="math inline">\(\hat\epsilon\)</span> ≤ .05 is a favorable result, but results of later computer simulation studies by Chen et al.&nbsp;(2008) indicated little support for a universal threshold of .05—or any other value—regardless of whether <span class="math inline">\(\hat\epsilon\)</span> is used alone or jointly with its 90% confidence interval.</em><br>
+<em>Browne and Cudeck (1993) also suggested that <span class="math inline">\(\hat\epsilon\)</span> ≥ .10 may indicate poor model fit, but there is no guarantee.</em></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;167, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+</div>
+</div>
+<p>예를 들어, 위의 CFA 예에서, 표본의 크기 N=200으로 생성된 데이터로부터 얻은 결과로 보면,<br>
+<span class="math inline">\(\chi^2_{ML}(8) = 13.963\)</span>을 얻고, <span class="math inline">\(\hat\delta = 13.963 - 8 = 5.963\)</span>임.<br>
+따라서, <span class="math inline">\(\chi^2_{ML}\)</span>값의 표본 분포는 <span class="math inline">\(\chi^2(8, ~5.963)\)</span>를 따름.</p>
+<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="205">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(cov, <span class="at">n =</span> <span class="dv">200</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>mod_sa <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">  sympathy =~ x1 + x2 + x3</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="st">  anger =~ x4 + x5 + x6</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>fit_sa <span class="ot">&lt;-</span> <span class="fu">sem</span>(mod_sa, <span class="at">data =</span> df)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_sa, <span class="fu">c</span>(<span class="st">"chisq"</span>, <span class="st">"df"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> chisq     df 
+13.963  8.000 </code></pre>
+</div>
+</div>
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="98">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="equations_files/figure-html/cell-27-output-1.png" width="595" height="467" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="206">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_sa, <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>, <span class="st">"rmsea.pvalue"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         rmsea rmsea.ci.lower rmsea.ci.upper   rmsea.pvalue 
+         0.061          0.000          0.113          0.317 </code></pre>
+</div>
+</div>
+</section>
+<section id="cfi" class="level3">
+<h3 class="anchored" data-anchor-id="cfi">CFI</h3>
+<p>Comparative Fit Index</p>
+<p><span class="math inline">\(\displaystyle CFI = \frac{\hat\delta_b - \hat\delta_m}{\hat\delta_b}\)</span></p>
+<ul>
+<li><span class="math inline">\(\hat\delta_b = max(0, \chi^2_{b} - df_m)\)</span>, &nbsp; <span class="math inline">\(\hat\delta_m = max(0, \chi^2_{ML} - df_m)\)</span><br>
+</li>
+<li>Base 모형에 비해 연구자 모형의 non-centrality parameter가 얼마나 줄었는지 그 비율을 측정함.</li>
+<li>TLI와 상관이 매우 높아, 주로 두 지표 중 하나만 보고함.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="CFI의 해석">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+CFI의 해석
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Hu와 Bentler(1995)는 CFI ≥ .95가 유리한 결과라고 제안했는데, 이 기준은 Hu와 Bentler(1999)와 같은 일부 후기 몬테카를로 연구의 결과와 일반적으로 일치합니다. 하지만 훨씬 더 최근의 시뮬레이션 연구의 결과는 모델의 변화와 데이터의 비정규성 정도에 대한 CFI에 대한 특정 임계값의 일반성을 뒷받침하지 못했습니다(Fan &amp; Sivo, 2005; Yuan, 2005). Brosseau-Liard와 Savalei(2014)가 설명한 비정규성에 대한 CFI의 robust 형태는 lavaan이 robust ML 방법에 따라 인쇄합니다.</em></p>
+<p><em>Hu and Bentler (1995) suggested that CFI ≥ .95 is a favorable result, a benchmark generally consistent with results from some later Monte Carlo studies, such as Hu and Bentler (1999). But results from even more recent simulation studies failed to support the generality of any specific cutoff for the CFI over variations in models and degrees of nonnormality in the data (Fan &amp; Sivo, 2005; Yuan, 2005). Robust forms of the CFI for nonnormal described by Brosseau-Liard and Savalei (2014) are printed by lavaan for robust ML methods.</em></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;169, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+</div>
+</div>
+</section>
+<section id="srmr" class="level3">
+<h3 class="anchored" data-anchor-id="srmr">SRMR</h3>
+<p>Standardized Root Mean Square Residual</p>
+<p><span class="math inline">\(\displaystyle SRMR = \sqrt{E\left[\left(\frac{\sigma_{ij} - \hat\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}\right)^2\right]}\)</span></p>
+<ul>
+<li>상관계수의 잔차의 제곱의 평균에 대한 제곱근에 근사로 볼 수 있음.</li>
+<li>대략적으로 상관계수의 차이의 평균으로 해석할 수 있음.</li>
+<li>프로그램마다 조금 다르게 계산될 수 있음.</li>
+<li>SRMR &lt; .08 일반적으로 유리한 것으로 간주됨(Hu &amp; Bentler, 1999)</li>
+<li>하지만, 잔차 상관행렬의 각 성분을 직접 살펴보는 것이 더 좋음; 절대값이 0.1 이상이면 주의</li>
+</ul>
 <!-- > 이러한 맥락에서 일반적으로 자유도가 많은 모델을 다루는 것을 선호한다는 점에 유의하는 것도 중요합니다. 자유도 개념의 직관적인 의미는 모델을 부정(disconfirm)할 수 있는 차원이기 때문입니다. 따라서 모델의 자유도가 많을수록 모델을 거부할 수 있는 차원이 많아지고, 따라서 데이터에 대해 테스트할 때 모델을 부정할 수 있는 가능성이 높아집니다. 포퍼의 논리에 따르면 경험적 과학은 모델을 확증할 수 없고 부인할 수만 있기 때문에 이는 테스트 프로세스의 바람직한 특징입니다. 따라서 연구된 현상을 그럴듯하게 설명하는 두 가지 모델이 있는 경우, 자유도가 더 높은 모델이 데이터 설명 및 설명 수단으로 더 강력한 후보로 고려될 수 있습니다. 그 이유는 더 많은 자유도를 가진 모델이 거부될 가능성이 더 높기 때문이며, 거부되지 않았다면 그 모델을 통해 얻은 결과를 더 신뢰할 수 있는 것으로 볼 수 있기 때문입니다. 이러한 추론은 본질적으로 SEM 문헌에서 널리 논의되는 파시모니(parsimony) 원칙의 개념적 기초입니다(예: Raykov & Marcoulides, 1999 및 이에 대한 참고 문헌). 따라서 경험적 과학의 목표는 반증가능한(falsifiable) 이론을 수립하는 것이라고 주장하는 포퍼의 논리는 파시모니(parsimony) 원칙의 적용을 통해 촉진됩니다. 더 간결한(parsimonious) 모델이 수용 가능한 것으로 밝혀지면, 덜 간결한 모델보다 거부될 가능성이 더 높기 때문에 더 많은 신뢰를 가질 수 있습니다. 그러나 연구자들은 파시모니(parsimony) 원칙을 기계적이고 융통성 없이 적용하면 잘못된 모델에 유리한 결론을 내리고, 올바른 모델과 양립할 수 없는 함의를 도출할 수 있다는 점에 주의를 기울여야 합니다. (번역 by DeepL)
 
 ::: {style="line-height: 1.5em; font-size: .9em"}
