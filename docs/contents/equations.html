@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-07">
+<meta name="dcterms.date" content="2024-10-14">
 
 <title>Structural Equations –  CHA Statistics II in R</title>
 <style>
@@ -137,7 +137,7 @@ window.Quarto = {
 </script>
 
 <meta property="og:title" content="Structural Equations –  CHA Statistics II in R">
-<meta property="og:description" content="Multiple Regression and Beyond (3e) by Timothy Z. Keith">
+<meta property="og:description" content="Structural equations with latent variables by Bollen, Kenneth A. (1989)">
 <meta property="og:site_name" content="CHA Statistics II in R">
 </head>
 
@@ -403,7 +403,22 @@ window.Quarto = {
   <li><a href="#cfi" id="toc-cfi" class="nav-link" data-scroll-target="#cfi">CFI</a></li>
   <li><a href="#srmr" id="toc-srmr" class="nav-link" data-scroll-target="#srmr">SRMR</a></li>
   </ul></li>
+  <li><a href="#적합도에-평가에-대한-가이드라인-by-klein2023" id="toc-적합도에-평가에-대한-가이드라인-by-klein2023" class="nav-link" data-scroll-target="#적합도에-평가에-대한-가이드라인-by-klein2023">적합도에 평가에 대한 가이드라인 by Klein(2023)</a></li>
+  <li><a href="#local-fit-measures" id="toc-local-fit-measures" class="nav-link" data-scroll-target="#local-fit-measures">Local Fit Measures</a></li>
   </ul></li>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison">Model Comparison</a>
+  <ul>
+  <li><a href="#respecification" id="toc-respecification" class="nav-link" data-scroll-target="#respecification">Respecification</a>
+  <ul class="collapse">
+  <li><a href="#modification-indices" id="toc-modification-indices" class="nav-link" data-scroll-target="#modification-indices">Modification indices</a></li>
+  </ul></li>
+  <li><a href="#non-nested-models" id="toc-non-nested-models" class="nav-link" data-scroll-target="#non-nested-models">Non-nested Models</a>
+  <ul class="collapse">
+  <li><a href="#aic" id="toc-aic" class="nav-link" data-scroll-target="#aic">AIC</a></li>
+  <li><a href="#bic" id="toc-bic" class="nav-link" data-scroll-target="#bic">BIC</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#power-and-precision" id="toc-power-and-precision" class="nav-link" data-scroll-target="#power-and-precision">Power and Precision</a></li>
   </ul>
 </nav>
     </div>
@@ -413,7 +428,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title d-none d-lg-block">Structural Equations</h1>
-<p class="subtitle lead">Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
+<p class="subtitle lead">Structural equations with latent variables by Bollen, Kenneth A. (1989)</p>
 </div>
 
 
@@ -430,7 +445,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 7, 2024</p>
+      <p class="date">October 14, 2024</p>
     </div>
   </div>
   
@@ -442,7 +457,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -981,7 +996,7 @@ x6: 그 사람 때문에 기분이 나빠질 것입니다.</p>
 <p>Figure 7.4 Confirmatory Factor Analysis Model for Sympathy (<span class="math inline">\(\xi_1\)</span>) and Anger (<span class="math inline">\(\xi_2\)</span>). Each Measured with Three Indicators (<span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_6\)</span>)</p>
 <p>Source: p.&nbsp;260, Bollen, K. A. (1989). Structural equations with latent variables</p>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig 7.4</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  6.982</span></span>
@@ -1407,7 +1422,7 @@ CFI의 해석
 <section id="srmr" class="level3">
 <h3 class="anchored" data-anchor-id="srmr">SRMR</h3>
 <p>Standardized Root Mean Square Residual</p>
-<p><span class="math inline">\(\displaystyle SRMR = \sqrt{E\left[\left(\frac{\sigma_{ij} - \hat\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}\right)^2\right]}\)</span></p>
+<p><span class="math inline">\(\displaystyle SRMR = \sqrt{Ave\left[\left(\frac{\sigma_{ij} - \hat\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}\right)^2\right]}\)</span></p>
 <ul>
 <li>상관계수의 잔차의 제곱의 평균에 대한 제곱근에 근사로 볼 수 있음.</li>
 <li>대략적으로 상관계수의 차이의 평균으로 해석할 수 있음.</li>
@@ -1415,6 +1430,607 @@ CFI의 해석
 <li>SRMR &lt; .08 일반적으로 유리한 것으로 간주됨(Hu &amp; Bentler, 1999)</li>
 <li>하지만, 잔차 상관행렬의 각 성분을 직접 살펴보는 것이 더 좋음; 절대값이 0.1 이상이면 주의</li>
 </ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Thresholds for Fit Indices">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Thresholds for Fit Indices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Keith’s 교재 14장 ADVICE: MEASURES OF FIT 참고.</p>
+<p>다음은 Kline’s(2023)에서 발췌</p>
+<p><em>연속 근사 적합 지수에 대한 자연스러운 질문은 “허용 가능한” 또는 “좋은” 모델 적합도를 나타내는 값 범위와 관련이 있습니다. 안타깝게도 이 질문에 대한 간단한 답은 없습니다. 근사 적합 지수 값과 사양 오류의 심각성 또는 유형 사이에 카이 제곱 검정과 마찬가지로 직접적인 대응 관계가 없기 때문입니다. 또한 SEM에 대한 문헌이나 웹 페이지에서 볼 수 있는 RMSEA, CFI, SRMR 등의 지수에 대한 많은 해석 지침 또는 경험 규칙은 신뢰할 수 없습니다. 즉, 다양한 분야에서 분석된 광범위한 모델과 데이터에서 모델이 데이터에 “좋은” 적합도와 “나쁜” 적합도를 실제로 구별한다는 증거가 거의 없습니다.</em></p>
+<p><em>A natural question about continuous approximate fit indexes involves the range of values indicating “acceptable” or even “good” model fit. Well, unfortunately, there is no simple answer to this question because there is no direct correspondence between values of approximate fit indexes and the seriousness or types of specification error, just as for the chi-square test. Also, many interpretive guidelines or rules of thumb for the RMSEA, CFI, and SRMR, among other indexes, seen in the literature or web pages about SEM are untrustworthy; that is, there is little evidence that they actually differentiate between model “good” versus “poor” fit to the data across the wide range of models and data analyzed in different disciplines.</em></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;170, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Dynamic (flexible) thresholds">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dynamic (flexible) thresholds
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://flexiblecutoffs.org/">Flexible Cutoffs: Package FCO</a><br>
+Tailored cutoff values are generated for the RMSEA, CFI, TLI, and SRMR depending on the CFA model, the degree of nonnormality, and the amount of accepted uncertainty.</p>
+<p><a href="https://github.com/melissagwolf/dynamic">Dynamic Fit Index Cutoffs For Latent Variable Models</a><br>
+Simulates fit index cutoffs for latent variable models that are tailored to the user’s model statement, model type, and sample size.</p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;171, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="적합도에-평가에-대한-가이드라인-by-klein2023" class="level2">
+<h2 class="anchored" data-anchor-id="적합도에-평가에-대한-가이드라인-by-klein2023">적합도에 평가에 대한 가이드라인 by Klein(2023)</h2>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;172, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+<p>번역 by Google Translate</p>
+<p>다음에 설명된 방법은 SEM(Appelbaum et al., 2018)에 대한 보고 표준과 일치하며 연구자에게 과거 경험에서 사실이었던 것보다 더 많은 정보를 보고할 것을 요구합니다.</p>
+<ol type="1">
+<li><p>동시 추정 방법을 사용하는 경우 자유도와 p 값이 있는 모델 카이 제곱을 보고합니다. 결과 변수가 이분형이고 경로 계수가 이진 로지스틱 또는 프로빗 회귀 방법을 사용하여 추정되는 경우와 같이 모델 카이 제곱을 사용할 수 없는 일부 분석이 있습니다. 예를 들어 Muthén 및 Muthén(1998–2017, 3장)을 참조하세요. 그러나 이는 예외적인 경우입니다.</p></li>
+<li><p>모델이 정확한 적합성 검정(exact-fit test)에 <strong><em>실패하면</em></strong> (a) 직접 그렇게 말하고 <strong><em>표본 크기에 관계없이</em></strong> (b) 모델을 잠정적으로 거부합니다. 다음으로 (c) 부적합의 크기와 가능한 원인을 모두 진단합니다(로컬 적합성 검사). 그 이유는 통계적으로 유의하지만 미미한 모델-데이터 불일치를 감지하여 실패를 설명하는 것입니다. 이는 대규모 샘플에서 발생할 가능성이 가장 높습니다. 모델을 거부하기로 한 초기 결정은 철회될 수 있지만, 관찰된 모델-데이터 불일치가 실제로 중요하지 않은 이유에 대한 설명과 함께 로컬 적합성 증거에 근거해야 합니다.</p></li>
+<li><p>모델이 정확한 적합성 검정(exact-fit test)을 <strong><em>통과하더라도</em></strong> 여전히 지역적 적합성을 검사해야 합니다. 그 이유는 통계적으로 유의하지 않지만 모델에 의심을 품기에 충분히 큰 모델-데이터 불일치를 감지하는 것입니다. 이는 소규모 샘플에서 발생할 가능성이 가장 높습니다. <strong><em>지역적 적합성에 대한 증거가 상당한 불일치를 나타내는 경우 카이제곱 검정을 통과했더라도 모델을 거부해야 합니다.</em></strong></p></li>
+<li><p>상관 관계, 표준화 또는 정규화된 잔차와 같은 잔차 행렬을 원고 본문에 보고합니다. 모델이 너무 커서 다루기 힘들다면 (a) 보충 자료에 이러한 표를 제공하고 (b) 논문에 더 큰 잔차의 위치와 부호와 같은 잔차 패턴을 설명합니다. 모델이 어떻게 잘못 지정되었는지 이해하는 데 진단적 가치가 있을 수 있는 패턴을 찾습니다. <strong><em>잔차에 대한 정보가 없는 결과 보고서는 불충분합니다.</em></strong> 불행히도 이 분야에서 불완전한 보고는 예외가 아니라 표준입니다. 예를 들어, 조직 관리 분야에서 발표된 144개의 SEM 연구를 검토한 결과, 이러한 작업의 약 17%에서만 잔차가 언급되었습니다(Zhang et al., 2021).</p></li>
+<li><p>근사적 적합 지수 값을 보고하는 경우 이 장에서 앞서 설명한 최소 집합(RMSEA, CFI, SRMR)에 대한 값을 포함합니다. <strong><em>그러나 이러한 전역적 적합 통계에 대해 고정 또는 동적 임계값에만 의존하여 모델을 유지하는 것을 정당화하려고 하지 마십시오.</em></strong> 이는 특히 모델이 정확한 적합 테스트(exact-fit test)에 실패하고 잔차 패턴이 사소하지 않은 모형의 설정 오류(specification error)를 시사하는 경우에 해당합니다.</p></li>
+<li><p>초기 모델을 다시 지정하는 경우 그렇게 하는 근거를 설명하세요. 또한 잔차와 같은 진단 통계가 재지정에서 어떤 역할을 했는지 설명해야 합니다. <strong><em>즉, 모델에 대한 양적 결과, 관련 이론, 원래 모델의 수정 사항 간의 연결을 지적하세요</em></strong>(3장). 정확한 적합도 검정(exact-fit test)에 여전히 실패한 다시 지정된 모델을 유지하는 경우 모델-데이터 불일치가 진정으로 미미하다는 것을 보여주세요. 그렇지 않으면 모델에 대한 상당한 공분산 증거가 없다는 것을 보여주지 못한 것입니다.</p></li>
+<li><p>모델 적합도에 대한 통계적 증거는 중요하지만 모델을 유지할지 여부를 결정하는 유일한 요소는 아닙니다. <strong><em>예를 들어, 연구 문제를 감안할 때 파라미터 추정치는 타당해야 합니다.</em></strong> 동일한 인과 과정으로 생성된 향후 재현연구들에서 데이터 세트에 적합할 가능성이 합리적으로 높은 모델은 특정 데이터 세트에 잘 맞는 모델보다 선호되어야 합니다. 이는 잠재적으로 임의의 모든 데이터에 적합할 수 있는 복잡하고 과도하게 많은 파라미터가 포함된 모델의 경우에 특히 그렇습니다. 이러한 모델은 (a) 보다 간결한 모델보다 반증 가능성이 낮고 (b) 샘플과 설정의 변화에 ​​대해 일반화할 가능성이 낮습니다(Preacheret al., 2013).</p></li>
+<li><p>모델이 유지되는 경우 연구자는 각각 동일한 데이터를 정확히 또는 거의 잘 설명하는 동등하거나 거의 동등한 버전보다 해당 모델이 선호되어야 하는 이유를 설명해야 합니다. 이 단계는 통계적 단계보다 훨씬 논리적이며, 심각한 경쟁 모델을 구별하기 위해 향후 연구에서 수행할 수 있는 작업을 설명하는 것도 포함됩니다. 동등하거나 거의 동등한 모델에 대한 완전한 보고는 드뭅니다. 따라서 신중한 독자는 이런 방식으로 자신의 SEM 분석을 두드러지게 만들 수 있습니다.</p></li>
+<li><p>어떤 모델도 유지되지 않는 경우 분석에서 테스트한 이론에 대한 의미를 설명하는 데 학자로서의 기술이 필요합니다.</p></li>
+</ol>
+<p>결국 모델을 유지했는지 여부에 관계없이 진정한 영예는 최선을 다해 철저한 평가 프로세스를 논리적인 끝까지 따르는 데서 나옵니다. 시인 랄프 왈도 에머슨은 이렇게 말했습니다. 잘한 일에 대한 보상은 그것을 해냈다는 것입니다(Mikis, 2012, p.&nbsp;294).</p>
+<div class="callout callout-style-default callout-note callout-titled" title="원문">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+원문
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The method outlined next is consistent with reporting standards for SEM (Appelbaum et al., 2018) and also calls on researchers to report more information about model fit than has been true in past experience:</p>
+<ol type="1">
+<li><p>If you use a simultaneous estimation method, report the model chi-square with its degrees of freedom and p value. There are some analyses, such as when outcome variables are dichotomous and path coefficients are estimated using methods for binary logistic or probit regression, where a model chi-square may be unavailable—see Muthén and Muthén (1998–2017, chap.&nbsp;3) for examples—but these are exceptional cases.</p></li>
+<li><p>If the model fails the exact-fit test, then (a) directly say so and, regardless of sample size, (b) tentatively reject the model. Next, (c) diagnose both the magnitude and possible sources of misfit (inspect local fit). The rationale is to detect statistically significant but slight model–data discrepancies that explain the failure. This is most likely to happen in a large sample. The initial decision to reject the model could be rescinded, but only based on local fit evidence along with explanation about why observed model–data discrepancies are actually inconsequential.</p></li>
+<li><p>If the model passes the exact-fit test, you still have to inspect local fit. The rationale is to detect model–data discrepancies that are not statistically significant but still great enough to cast doubt on the model. This most likely occurs in a small sample. If evidence about local fit indicates appreciable discrepancies, then the model should be rejected even though it passed the chisquare test.</p></li>
+<li><p>Report a matrix of residuals, such as correlation, standardized, or normalized residuals, in the body of the manuscript. If the model is so large that doing so would be unwieldy, then (a) provide such tables in the supplemental materials and (b) describe in the manuscript the pattern of residuals, such as the locations of larger residuals and their signs. Look for patterns that may be of diagnostic value in understanding how the model may be misspecified. Any report of the results without information about the residuals is deficient. Unfortunately, incomplete reporting in this area is the norm rather than the exception. For example, in our review of 144 published SEM studies in the area of organizational management, residuals were mentioned in only about 17% of these works (Zhang et al., 2021).</p></li>
+<li><p>If you report values of approximate fit indexes, then include those for the minimal set described earlier in this chapter. But do not try to justify retaining the model by depending solely on thresholds, either fixed or dynamic, for such global fit statistics. This is especially true if the model failed the exact-fit test and the pattern of residuals suggests a specification error that is not trivial.</p></li>
+<li><p>If you respecify the initial model, explain the rationale for doing so. You should also explain the role that diagnostic statistics, such as residuals, played in the respecification. That is, point out the connections between the numerical results for the model, relevant theory, and modifications to the original model (Chapter 3). If you retain a respecified model that still fails the exact-fit test, then demonstrate that model–data discrepancies are truly slight; otherwise, you have neglected to show that there is no appreciable covariance evidence against the model.</p></li>
+<li><p>Statistical evidence about model fit is important, but it is not the sole factor in deciding whether to retain a model. For example, the parameter estimates should make sense, given the research problem. Models with reasonable prospects for fitting data sets in future replications generated by the same causal processes should be preferred over models that fit a particular data set well. This is especially true for complex, overparameterized models that could potentially fit just about any arbitrary data. Such models are (a) less falsifiable than more parsimonious models and (b) less likely to generalize over variations in samples and settings (Preacheret al., 2013).</p></li>
+<li><p>If a model is retained, then the researcher should explain why that model should be preferred over equivalent or near-equivalent versions that, respectively explain the same data exactly as well or nearly as well. This step is much more logical than statistical, and it also involves describing what might be done in future research to differentiate between any serious competing models. Complete reporting about equivalent or near-equivalent models is rare; thus, conscientious readers can really distinguish their own SEM analyses by addressing this issue. The generation and assessment of equivalent versions of structural models are covered in the next chapter.</p></li>
+<li><p>If no model is retained, then your skills as a scholar are needed to explain the implications for the theory tested in your analysis.</p></li>
+</ol>
+<p>At the end of the day, regardless of whether or not you have a retained a model, the real honor comes from following, to the best of your ability, a thorough evaluation process to its logical end. The poet Ralph Waldo Emerson put it this way: The reward of a thing well done is to have done it (Mikis, 2012, p.&nbsp;294).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="local-fit-measures" class="level2">
+<h2 class="anchored" data-anchor-id="local-fit-measures">Local Fit Measures</h2>
+<p><strong>Parameter estimation</strong></p>
+<ul>
+<li>개별 파라미터의 추정값이 기대 혹은 이론과 얼마나 부합하는지 평가</li>
+<li>부적절한 추정값은 모형의 부적합을 나타낼 수 있음; 모집단에서 불가능한 추정값
+<ul>
+<li>추정된 분산이 음수일 때; Heywood case</li>
+<li>추정된 상관계수가 1보다 클 때</li>
+</ul></li>
+<li>실제로 경계값(boundary)일 가능성이 있다면 수용할 수 있음</li>
+<li>그렇지 않다면,
+<ul>
+<li>모형이 심하게 잘못 지정되었을 가능성이 있음</li>
+<li>이상치(outlier)가 존재할 수 있음</li>
+<li>매우 이상한 표본을 사용했을 수 있음</li>
+</ul></li>
+</ul>
+<p><strong><span class="math inline">\(R^2\)</span></strong>: 잔차의 분산(<span class="math inline">\(1-R^2\)</span>)을 통해 설명력을 평가할 필요가 있음</p>
+</section>
+</section>
+<section id="model-comparison" class="level1">
+<h1>Model Comparison</h1>
+<p><strong>Nested Models</strong>: 원래의 모형에 제약을 가하거나 추가해 위계적으로 파라미터들를 공유하는(포함하는/포함되는) 모형들</p>
+<ul>
+<li>주로, 파라미터를 0으로 제약하거나, 두 파라미터가 동일하다고 제약</li>
+<li>각 모형에 대한 <span class="math inline">\(\chi^2\)</span>값의 차이를 통해 비교함; chi-square difference test
+<ul>
+<li>그 차이가 <span class="math inline">\(df\)</span> = 두 모형의 자유도 차이, <span class="math inline">\(\chi^2\)</span> 분포를 따름</li>
+<li>두 모형의 likelihood가 동일하다는 가설을 검정함; (log) likelihood ratio test</li>
+</ul></li>
+</ul>
+<p>가령, (밑 박스 안의 그림) 모형 2: <span class="math inline">\(\chi^2(5) = 18.300, ~p = .003\)</span>&nbsp;을 얻고,<br>
+직접 효과 b를 추정하는 모형 1: <span class="math inline">\(\chi^2(4) = 9.100, ~p = .059\)</span>&nbsp;을 얻었다면,</p>
+<p><span class="math inline">\(\Delta df = 5 - 4 = 1\)</span>,<br>
+<span class="math inline">\(\Delta\chi^2 = 18.300 - 9.100 = 9.200, ~p = .002\)</span>,</p>
+<ul>
+<li>즉, 직접 효과가 없다고 제약을 가한 모형2가 통계적으로 유의하게 나쁜 모형임</li>
+<li>모형 1은 그 자체로 <span class="math inline">\(\chi^2\)</span> 테스트를 통과했으므로, 모형 1을 유지하는 것이 적절함.</li>
+<li>단, 모형 1에 대한 다른 지표들도 충분히 좋다는 전제하에</li>
+</ul>
+<p>lavaan 패키지에서</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 또는 </span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(mod1, mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled" title="Non-normal 데이터에 대한 robust ML로 추정하는 경우">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Non-normal 데이터에 대한 robust ML로 추정하는 경우
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Robust ML로 추정하는 경우 chi-square 값이 보정되기 때문에, chi-square difference test도 보정된 값으로 계산해야 함.<br>
+참고: p.&nbsp;186, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+<p><code>lavTestLRT()</code> 함수를 사용하면 자동으로 보정된 값을 표시/계산함.</p>
+</div>
+</div>
+<section id="respecification" class="level2">
+<h2 class="anchored" data-anchor-id="respecification">Respecification</h2>
+<p>모형이 데이터에 부합하지 않는다고 판단될 때, 모형의 specification을 조정하여 모형을 개선할 수 있음.</p>
+<ul>
+<li>탐색적 분석의 성격이 강하므로, 가이드/조언 정도로 접근할 필요가 있음.<br>
+</li>
+<li>이론적 정당화가 반드시 필요함.</li>
+<li>이상적으로, 새로운 표본을 이용하여 재검증하는 것이 바람직함.</li>
+</ul>
+<p>다음과 같이 기계적인 절차를 통한 적합도 개선은 피해야 함.</p>
+<ul>
+<li>파라미터를 추가로 추정(free parameter)하는 절차를 통해 점차 적합도를 계속 높일 수 있음</li>
+<li>적합도가 높아져 데이터에 더 잘 적합(fit)되지만, 그것이 더 진실된 모형이 되는 것은 아님.
+<ul>
+<li>모형의 복잡도가 증가하는 것에 대한 패널티가 적용되는 적합도 지수도 있음.</li>
+</ul></li>
+<li>반대로, 파라미터의 제약을 늘려 적합도가 심각히 낮아지지 않는 선까지 모형을 단순화할 수 있음.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip callout-titled" title="Emprical vs. Theoretical">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Emprical vs.&nbsp;Theoretical
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>가령, 아래 그림에서 b를 free parameter로 추정한 후 유의하지 않다고 통계적으로 파악되었기 때문에 경로 b에 제약을 가해 오른쪽 모형을 만드는 것은 올바르지 못함; empirical/statistical-based<br>
+</li>
+<li>모형에 대한 설정은 이론적인 근거를 바탕으로 해야 함; theory/substantive-based</li>
+</ul>
+<p><img src="images/fig12-2.png" class="img-fluid" width="350"> <img src="images/fig12-2f.png" class="img-fluid" width="350"></p>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>예제: <strong>CFA of perceived air quality:</strong> an environmental study of the relation between objective and subjective air quality</p>
+<ul>
+<li>x1: overall air quality</li>
+<li>x2: the clarity</li>
+<li>x3: color</li>
+<li>x4: odor</li>
+</ul>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;297, Bollen, K. A. (1989). Structural Equations with Latent Variables.</p>
+</div>
+</div><div class="column" style="width:40%;">
+<p><img src="images/cfa-airquality.png" class="img-fluid" width="300"></p>
+</div>
+</div>
+<div id="cell-52" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="st">  0.331</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="st">  0.431 1.160</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="st">  0.406 0.847 0.898</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.216 0.272 0.312 0.268</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"overall"</span>, <span class="st">"clarity"</span>, <span class="st">"color"</span>, <span class="st">"odor"</span>))</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>model_air <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="st">  air_quality =~ overall + clarity + color + odor</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>fit_air <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_air, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">74</span>)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_air, <span class="at">fit.measures =</span> T, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 23 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                         8
+
+  Number of observations                            74
+
+Model Test User Model:
+                                                      
+  Test statistic                                21.194
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.000
+
+Model Test Baseline Model:
+
+  Test statistic                               211.967
+  Degrees of freedom                                 6
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.907
+  Tucker-Lewis Index (TLI)                       0.720
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)               -234.488
+  Loglikelihood unrestricted model (H1)       -223.891
+                                                      
+  Akaike (AIC)                                 484.975
+  Bayesian (BIC)                               503.408
+  Sample-size adjusted Bayesian (SABIC)        478.197
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.360
+  90 Percent confidence interval - lower         0.232
+  90 Percent confidence interval - upper         0.506
+  P-value H_0: RMSEA &lt;= 0.050                    0.000
+  P-value H_0: RMSEA &gt;= 0.080                    1.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.063
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+  air_quality =~                                               
+    overall           1.000                               0.817
+    clarity           1.977    0.223    8.865    0.000    0.863
+    color             1.894    0.195    9.717    0.000    0.939
+    odor              0.754    0.117    6.445    0.000    0.685
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+   .overall           0.109    0.022    5.023    0.000    0.332
+   .clarity           0.293    0.066    4.427    0.000    0.256
+   .color             0.104    0.043    2.396    0.017    0.118
+   .odor              0.140    0.025    5.654    0.000    0.531
+    air_quality       0.218    0.052    4.186    0.000    1.000
+</code></pre>
+</div>
+</div>
+<p>Color의 측정오차와 clarity의 측정오차가 상관관계가 있을 수 있음.</p>
+<blockquote class="blockquote">
+<p><em>“설문지를 실시한 사람은 일부 응답자가 색상과 선명도 질문의 차이를 구별하는 데 어려움을 겪었다고 밝혔습니다. 이는 맑은 공기는 색상이 없을 것으로 예상하고, 반대로 공기의 색상이 나쁘면 선명도 평가도 나쁠 것이기 때문에 타당해 보였습니다. 한 지표에 대한 응답 오류가 부분적으로 구분할 수 없는 다른 지표의 오류와 상관관계가 있을 수 있기 때문에 선명도 측정 오류가 색상 측정 오류와 상관관계가 있었을 수 있습니다.”</em></p>
+</blockquote>
+<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>model_air_modi <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="st">  air_quality =~ overall + clarity + color + odor</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="st">  color ~~ clarity</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>fit_air_modi <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_air_modi, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">74</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_air_modi, <span class="at">fit.measures =</span> T, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 26 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                         9
+
+  Number of observations                            74
+
+Model Test User Model:
+                                                      
+  Test statistic                                 5.581
+  Degrees of freedom                                 1
+  P-value (Chi-square)                           0.018
+
+Model Test Baseline Model:
+
+  Test statistic                               211.967
+  Degrees of freedom                                 6
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.978
+  Tucker-Lewis Index (TLI)                       0.867
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)               -226.681
+  Loglikelihood unrestricted model (H1)       -223.891
+                                                      
+  Akaike (AIC)                                 471.363
+  Bayesian (BIC)                               492.099
+  Sample-size adjusted Bayesian (SABIC)        463.737
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.249
+  90 Percent confidence interval - lower         0.082
+  90 Percent confidence interval - upper         0.466
+  P-value H_0: RMSEA &lt;= 0.050                    0.029
+  P-value H_0: RMSEA &gt;= 0.080                    0.952
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.024
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+  air_quality =~                                               
+    overall           1.000                               0.940
+    clarity           1.438    0.208    6.914    0.000    0.722
+    color             1.396    0.175    7.959    0.000    0.797
+    odor              0.738    0.096    7.679    0.000    0.771
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+ .clarity ~~                                                   
+   .color             0.256    0.076    3.364    0.001    0.608
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+   .overall           0.038    0.025    1.493    0.135    0.115
+   .clarity           0.547    0.107    5.116    0.000    0.478
+   .color             0.323    0.072    4.501    0.000    0.365
+   .odor              0.107    0.022    4.852    0.000    0.405
+    air_quality       0.289    0.059    4.923    0.000    1.000
+</code></pre>
+</div>
+</div>
+<section id="modification-indices" class="level3">
+<h3 class="anchored" data-anchor-id="modification-indices">Modification indices</h3>
+<ul>
+<li>파라미터가 추가로 추정할 때 <span class="math inline">\(\chi^2\)</span> 값이 얼마나 감소하는지를 추정; Lagrangian multiplier test</li>
+<li>한번에 하나씩 변화시켜야 함; 하나를 수정하면, 다른 것들이 영향을 받을 수 있음</li>
+</ul>
+<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modificationIndices</span>(fit_air, <span class="at">sort =</span> T) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       lhs op     rhs     mi    epc sepc.lv sepc.all sepc.nox
+13 clarity ~~   color 16.282  0.342   0.342    1.959    1.959
+12 overall ~~    odor 16.282  0.069   0.069    0.558    0.558
+14 clarity ~~    odor  9.906 -0.097  -0.097   -0.479   -0.479
+11 overall ~~   color  9.906 -0.123  -0.123   -1.159   -1.159
+10 overall ~~ clarity  0.254 -0.019  -0.019   -0.108   -0.108
+15   color ~~    odor  0.254 -0.014  -0.014   -0.115   -0.115</code></pre>
+</div>
+</div>
+<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_air, <span class="fu">c</span>(<span class="st">"chisq"</span>, <span class="st">"df"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_air_modi, <span class="fu">c</span>(<span class="st">"chisq"</span>, <span class="st">"df"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> chisq     df 
+21.194  2.000 
+chisq    df 
+5.581 1.000 </code></pre>
+</div>
+</div>
+<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chi-Squared Difference Test</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_air, fit_air_modi) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 또는 </span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit_air, fit_air_modi) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Chi-Squared Difference Test
+
+             Df    AIC    BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    
+fit_air_modi  1 471.36 492.10  5.5814                                          
+fit_air       2 484.98 503.41 21.1940     15.613 0.44437       1  7.774e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Chi-Squared Difference Test
+
+             Df    AIC    BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    
+fit_air_modi  1 471.36 492.10  5.5814                                          
+fit_air       2 484.98 503.41 21.1940     15.613 0.44437       1  7.774e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>공분산 잔차을 통해 수정한다면?</p>
+<ul>
+<li>잔차가 높은 변수 쌍에 문제가 있다는 것을 일부 암시해주지만, 반드시 문제가 있다고 볼 수 없음.</li>
+<li>implied covariance는 여러 파라미터들의 함수이므로 복잡하게 작용됨.</li>
+</ul>
+<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_air, <span class="at">type =</span> <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$type
+[1] "cor.bollen"
+
+$cov
+        overll clarty  color   odor
+overall  0.000                     
+clarity -0.009  0.000              
+color   -0.023  0.019  0.000       
+odor     0.166 -0.103 -0.007  0.000
+</code></pre>
+</div>
+</div>
+<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_air, <span class="at">type =</span> <span class="st">"normalized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$type
+[1] "normalized"
+
+$cov
+        overll clarty  color   odor
+overall  0.000                     
+clarity -0.065  0.000              
+color   -0.157  0.129  0.000       
+odor     1.153 -0.797 -0.054  0.000
+</code></pre>
+</div>
+</div>
+<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_air, <span class="at">type =</span> <span class="st">"standardized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$type
+[1] "standardized"
+
+$cov
+        overll clarty  color   odor
+overall  0.000                     
+clarity -0.532  0.000              
+color   -3.700  3.200  0.000       
+odor     3.200 -3.700 -0.532  0.000
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="non-nested-models" class="level2">
+<h2 class="anchored" data-anchor-id="non-nested-models">Non-nested Models</h2>
+<p><em>Source: pp.&nbsp;190-194, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</em></p>
+<p>동일한 데이터, 동일한 변수로 구성된 두 개의 서로 다른 모형이 내포되어 있지 않은 경우</p>
+<ul>
+<li>서로 다른 이론에 기반한 두 개 이상의 모형을 비교하는 경우가 종종 발생</li>
+<li>모델 적합도와 모델 복잡성을 모두 반영하여 이 두 속성이 서로 균형 이루도록 함; 복잡성에 대한 페널티가 부과</li>
+<li>비슷한 적합도를 가진 모형 중에서는 더 간단한 모형을 선호함; 모집단에서의 일반화 가능성이 높음!</li>
+<li>현재까지 매우 신뢰할 만한 지표는 없음</li>
+<li>정보이론에 기반하거나 bootstrapping을 통한 방법이 제안됨</li>
+</ul>
+<section id="aic" class="level3">
+<h3 class="anchored" data-anchor-id="aic">AIC</h3>
+<p>Akaike Information Criterion</p>
+<ul>
+<li>3가지 버전이 있음; 프로그램마다 다름<br>
+</li>
+<li>두 모형에 대한 차이를 보는 것이 목적이므로, 어떤 버전도 상관 없음</li>
+<li>표본의 수가 커질 수록, <span class="math inline">\(L_0\)</span>가 감소하는데, 따라서 복잡성에 대한 페널티의 상대적 중요성이 감소함.</li>
+</ul>
+<p>연구자 모형의 log-likelihood를 <span class="math inline">\(L_0\)</span>, free parameter의 수를 <span class="math inline">\(q\)</span>라 하면,</p>
+<p><span class="math inline">\(AIC = -2\log L_0 + 2q\)</span> <span class="math inline">\(\begin{align}
+AIC_2 &amp; = \chi^2_{ML} + 2q \\~
+  &amp; = -2\log L_0 + 2\log L_1 + 2q, ~~ L_1: likelihood ~for ~the ~perfect ~model\\
+\end{align}\)</span><br>
+<span class="math inline">\(AIC_3 = \chi^2_{ML} - 2df_M\)</span></p>
+</section>
+<section id="bic" class="level3">
+<h3 class="anchored" data-anchor-id="bic">BIC</h3>
+<p>Bayesian Information Criterion</p>
+<ul>
+<li>모형의 복잡성에 대한 페널티가 AIC에 비해 (표본이 커질 수록) 더 큼</li>
+<li>표본의 수가 커질 수록 <span class="math inline">\(L_0\)</span>가 감소하는 것을 상쇄시키면서 복잡성에 대한 페널티를 더 강하게 부과함.</li>
+<li>AIC와 BIC는 전혀 다른 이론적 기반을 가지고 있음</li>
+</ul>
+<p><span class="math inline">\(BIC = -2\log L_0 + q\log N\)</span><br>
+<span class="math inline">\(BIC_2 = \chi^2_{ML} + q\log N\)</span></p>
+<ul>
+<li>AIC는 BIC보다 복잡한 모델을 선호하는 경향이 있음.</li>
+<li>모델이 너무 복잡해지는 과적합(overfitting)이 우려되는 경우, BIC가 더 적합할 수 있음.</li>
+<li>모델이 너무 단순해지는 과소적합(underfitting)이 더 큰 문제라면, AIC가 유리할 수 있음.</li>
+<li>탐색적 요인 분석에서 잠재 변수를 정확하게 추정하는 것이 목표일 때:
+<ul>
+<li>요인을 너무 많이 추정하는 것이 더 큰 오류로 간주된다면, BIC가 AIC보다 나은 선택일 수 있음.</li>
+<li>요인을 너무 적게 추정하는 것이 더 심각한 오류라면, AIC가 더 유리할 수 있음.</li>
+</ul></li>
+<li>Lin et al.&nbsp;(2017)의 매개경로 모델 시뮬레이션 결과에 따르면:
+<ul>
+<li>잘못 지정된 파라미터가 적을 때, AIC가 더 정확했으며, BIC는 지나치게 간결한 모델을 선택하는 경향이 있었음.</li>
+<li>잘못 지정된 파라미터가 많을 때, BIC가 더 정확해졌고, AIC는 지나치게 복잡한 모델을 선택함.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="power-and-precision" class="level1">
+<h1>Power and Precision</h1>
+<p>A prior (prospective) power analysis</p>
+<ul>
+<li>The probability of detecting a true effect</li>
+<li>여러 방법이 제안되어 있음; Kline(2023) 참고</li>
+</ul>
+<p><img src="images/kline-fig10-3.png" class="img-fluid" width="620"></p>
+<p>In Table 10.3 at N = 373, if the model does not have close fit in the population, the probability of correctly rejecting in significance testing the close-fit hypothesis is .317. The minimum sample size required for power ≥ .90 is N = 1,997.</p>
+<p>The MacCallum-RMSEA method (MacCallum et al., 1996): based on the noncentral chi-square distribution and the RMSEA.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">findRMSEApower</span>(rmsea0, rmseaA, df, n, <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">group =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Power at N = 373</strong></p>
+<div id="cell-70" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># exact fit</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(<span class="dv">0</span>, .<span class="dv">05</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3378327</code></pre>
+</div>
+</div>
+<div id="cell-71" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># close fit</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(.<span class="dv">05</span>, .<span class="dv">08</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3172584</code></pre>
+</div>
+</div>
+<div id="cell-72" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># not-close fit</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(.<span class="dv">05</span>, .<span class="dv">01</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2291066</code></pre>
+</div>
+</div>
+<div id="cell-73" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poor fit</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(.<span class="dv">10</span>, .<span class="dv">05</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6127939</code></pre>
+</div>
+</div>
+<p><strong>Minimum N for power at least .90</strong></p>
+<div id="cell-75" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># exact fit</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(<span class="dv">0</span>, .<span class="dv">05</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1319</code></pre>
+</div>
+</div>
+<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># close fit</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(.<span class="dv">05</span>, .<span class="dv">08</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1997</code></pre>
+</div>
+</div>
+<div id="cell-77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># not-close fit</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(.<span class="dv">05</span>, .<span class="dv">01</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1527</code></pre>
+</div>
+</div>
+<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poor fit</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(.<span class="dv">10</span>, .<span class="dv">05</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 758</code></pre>
+</div>
+</div>
 <!-- > 이러한 맥락에서 일반적으로 자유도가 많은 모델을 다루는 것을 선호한다는 점에 유의하는 것도 중요합니다. 자유도 개념의 직관적인 의미는 모델을 부정(disconfirm)할 수 있는 차원이기 때문입니다. 따라서 모델의 자유도가 많을수록 모델을 거부할 수 있는 차원이 많아지고, 따라서 데이터에 대해 테스트할 때 모델을 부정할 수 있는 가능성이 높아집니다. 포퍼의 논리에 따르면 경험적 과학은 모델을 확증할 수 없고 부인할 수만 있기 때문에 이는 테스트 프로세스의 바람직한 특징입니다. 따라서 연구된 현상을 그럴듯하게 설명하는 두 가지 모델이 있는 경우, 자유도가 더 높은 모델이 데이터 설명 및 설명 수단으로 더 강력한 후보로 고려될 수 있습니다. 그 이유는 더 많은 자유도를 가진 모델이 거부될 가능성이 더 높기 때문이며, 거부되지 않았다면 그 모델을 통해 얻은 결과를 더 신뢰할 수 있는 것으로 볼 수 있기 때문입니다. 이러한 추론은 본질적으로 SEM 문헌에서 널리 논의되는 파시모니(parsimony) 원칙의 개념적 기초입니다(예: Raykov & Marcoulides, 1999 및 이에 대한 참고 문헌). 따라서 경험적 과학의 목표는 반증가능한(falsifiable) 이론을 수립하는 것이라고 주장하는 포퍼의 논리는 파시모니(parsimony) 원칙의 적용을 통해 촉진됩니다. 더 간결한(parsimonious) 모델이 수용 가능한 것으로 밝혀지면, 덜 간결한 모델보다 거부될 가능성이 더 높기 때문에 더 많은 신뢰를 가질 수 있습니다. 그러나 연구자들은 파시모니(parsimony) 원칙을 기계적이고 융통성 없이 적용하면 잘못된 모델에 유리한 결론을 내리고, 올바른 모델과 양립할 수 없는 함의를 도출할 수 있다는 점에 주의를 기울여야 합니다. (번역 by DeepL)
 
 ::: {style="line-height: 1.5em; font-size: .9em"}
@@ -1422,8 +2038,6 @@ Source: p. 42, Raykov, T., & Marcoulides, G. A. (2006). A first course in struct
 ::: -->
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->

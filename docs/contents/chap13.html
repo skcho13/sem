@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-04">
+<meta name="dcterms.date" content="2024-10-14">
 
 <title>Chapter 13-14. Path Analysis –  CHA Statistics II in R</title>
 <style>
@@ -440,7 +440,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 4, 2024</p>
+      <p class="date">October 14, 2024</p>
     </div>
   </div>
   
@@ -521,7 +521,7 @@ window.Quarto = {
 </div>
 <p>variables: byses, bytests, par_inv, ffugrad, ethnic</p>
 <p>Underrepresented ethnic minority, or URM, is coded so that students from African American, Hispanic, and Native backgrounds are coded 1 and students of Asian and Caucasian descent are coded 0.</p>
-<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nels_gpa <span class="ot">&lt;-</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  nels <span class="sc">|&gt;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ethnic, <span class="at">ses =</span> byses, <span class="at">prev =</span> bytests, <span class="at">par =</span> par_inv, <span class="at">gpa =</span> ffugrad) <span class="sc">|&gt;</span></span>
@@ -575,7 +575,7 @@ gpa       5 811  5.760 1.450  6.000  1.000  8.000  7.000 0.051</code></pre>
 <section id="구조모형" class="level3">
 <h3 class="anchored" data-anchor-id="구조모형">구조모형</h3>
 <p><img src="images/fig13-3.png" class="img-fluid" width="800"></p>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1054,7 +1054,7 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.022 0.012 0.034 Sig
 <p>자유도가 높을수록 모형이 데이터와 잘 맞지 않은지에 대한 판별을 더 신뢰할 수 있음.</p>
 <p><img src="images/fig14-7.png" class="img-fluid" width="800"></p>
 <p><strong>공분산 기반 모형</strong></p>
-<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
+<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>nels_cov <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM/homework overid 2018.sav"</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>nels_cov <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1071,7 +1071,7 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.022 0.012 0.034 Sig
 8 mean     ""            0.272     0.0025   52.0      2.56      5.75 </code></pre>
 </div>
 </div>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>nels_cov2 <span class="ot">&lt;-</span> nels_cov[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>)] <span class="sc">|&gt;</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lav_matrix_vechr</span>(<span class="at">diagonal =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
@@ -1087,7 +1087,7 @@ Homework -0.02808143  0.1763745  2.069067  0.65011969  0.33545523
 Grades   -0.08141289  0.3381521  6.435165  0.33545523  2.18744100</code></pre>
 </div>
 </div>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>nels_cov2 <span class="sc">|&gt;</span> <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Minority FamBack  PreAch Homework  Grades
@@ -1099,7 +1099,7 @@ Grades    -0.1315  0.2751  0.4890   0.2813  1.0000</code></pre>
 </div>
 </div>
 <p><strong>이제 모형 적합도(model fit)에 대한 정보를 얻을 수 있음!</strong></p>
-<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
+<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>mod_hw <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades ~ PreAch + Homework</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Homework ~ PreAch + FamBack + Minority</span></span>
@@ -1334,7 +1334,7 @@ Grades      0.025   0.022      0  5.6e-17 0.0e+00</code></pre>
 <p><img src="images/fig14-7-1.png" class="img-fluid" width="750"></p>
 <p><img src="images/fig14-12-2.png" class="img-fluid" width="680"></p>
 <p><img src="images/fig14-7-2.png" class="img-fluid" width="750"></p>
-<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="70">
+<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>mod_hw_reduced <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades ~ PreAch + 0*Homework</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Homework ~ 0*PreAch + FamBack + Minority</span></span>
@@ -1444,7 +1444,7 @@ Variances:
 </div>
 </div>
 </div>
-<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
+<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(hw_fit, hw_fit_reduced) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="co"># anova(hw_fit, hw_fit_reduced)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1458,7 +1458,7 @@ hw_fit_reduced  4 16069 16123 69.6789      67.51 0.18098       2   2.19e-15 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="63">
+<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>fit_stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"srmr"</span>, <span class="st">"cfi"</span>, <span class="st">"aic"</span>)</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit_reduced, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1469,7 +1469,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
     0.128     0.071     0.908 16069.427 </code></pre>
 </div>
 </div>
-<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
+<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(hw_fit, hw_fit_reduced) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1573,6 +1573,53 @@ hw_fit - hw_fit_larger -0.009 0.001   0 -1.162
 <h2 class="anchored" data-anchor-id="more-complex-models">More Complex Models</h2>
 <section id="equivalent-and-nonequivalent-models" class="level3">
 <h3 class="anchored" data-anchor-id="equivalent-and-nonequivalent-models">Equivalent and Nonequivalent Models</h3>
+<ul>
+<li>모형 적합도가 동일한 모형들(동등모형)들이 다수 혹은 무수한 많이 존재할 수 있음.<br>
+</li>
+<li>충분히 가능성이 있는 동등모형들에 대해 고민할 필요가 있음.<br>
+</li>
+<li>Nearly-equivalent models 또는 존재하기에 구조모형에 대해서 신중할 필요가 있음.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="동등한 모형을 제거하기 위한 제안들">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+동등한 모형을 제거하기 위한 제안들
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;196, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+<p>번역 by Google Translate</p>
+<ol type="1">
+<li><p>실험적 또는 종단적 설계에서 시간적 선행성은 결과 이전에 조작되거나 측정된 원인 간의 직접적 효과를 역전시키는 것을 배제합니다(역인과성 없음 또는 시간적 역방향 인과성).</p></li>
+<li><p>횡단면 설계에서 분석된 모델의 일부가 이전 실험적 또는 종단적 설계에서 평가된 경우 해당 연구의 결과는 일부 인과적 순서를 배제하는 데 도움이 될 수 있습니다.</p></li>
+<li><p>인구 통계적 특성이나 안정적인 성격 특성과 같은 특정 변수는 내생적일 가능성이 낮거나 불가능할 수 있습니다. 예를 들어, 태도 변수에서 연대기적 연령으로의 직접적 효과를 지정하는 것은 비논리적입니다.</p></li>
+<li><p>변수의 특성을 감안할 때 일부 인과적 순서는 이론적으로 의심스러울 수 있습니다. 예를 들어, 부모의 IQ는 그 반대보다 자녀의 IQ에 영향을 미칠 가능성이 더 높을 수 있습니다.</p></li>
+<li><p>매개 변수로 지정된 변수는 잠재적으로 변경 가능해야 합니다. 그렇지 않으면 매개 변수가 될 가능성이 낮습니다. 예를 들어, 안정적이고 비교적 변하지 않는 특성으로 개념화된 변수는 원인으로 지정할 수 있지만 매개 변수로 지정할 수는 없습니다(주제 상자 7.1).</p></li>
+<li><p>일부 매개변수를 이론이나 이전 연구 결과와 호환되는 0이 아닌 값으로 고정하면 해당 매개변수를 포함하는 동등한 모델이 배제됩니다. 이는 이러한 고정된 값이 지정된 경로나 변수의 임의적 재구성에 적합하지 않기 때문입니다(Mulaik, 2009b).</p></li>
+<li><p>모델의 다른 몇 가지 변수와만 선택적으로 연관된 변수를 추가하면 동등한 버전의 수를 줄이는 데 도움이 될 수 있습니다. 모델에 X → Y 경로가 있다고 가정합니다. X를 직접 유발하지만 Y를 유발하지 않는 것으로 추정되는 변수를 추가하면 X가 Y와 비교하여 고유한 부모를 가지므로 X와 Y가 모두 내생적이라면 규칙 11.2가 적용되지 않습니다. 이 전략은 일반적으로 데이터를 수집하기 전에 구현해야 합니다.</p></li>
+<li><p>동등한 모델은 변수 수준에서 동일한 잔차를 갖지만 사례 수준의 잔차는 이러한 모델에 따라 달라질 수 있습니다. Raykov와 Penev(2001)는 더 낮은 표준화된 평균 개별 사례 잔차가 있는 모델이 더 높은 평균을 가진 동등한 버전보다 선호될 것이라고 제안했습니다. 복잡한 점은 잠재 변수가 있는 구조적 모델이 요인 점수 불확정성으로 인해 개별 사례에 대한 고유한 예측을 생성하지 않는다는 것입니다. 이 개념은 14장에서 설명합니다. Raykov-Penev 방법을 적용하는 것은 사례 잔차가 회귀 잔차와 더 직접적으로 유사한 명백한 변수 경로 모델에 더 간단합니다.</p></li>
+</ol>
+<p>(원문)</p>
+<ol type="1">
+<li><p>Temporal precedence in experimental or longitudinal designs precludes reversing direct effects between causes manipulated or measured before outcomes (no retrocausality, or backwards causation in time).</p></li>
+<li><p>If any part of a model analyzed in a cross-sectional design has been evaluated in prior experimental or longitudinal designs, results from those studies may help to rule out some causal orderings.</p></li>
+<li><p>Certain variables, such as demographic characteristics or stable personality characteristics, may be unlikely or impossible to be endogenous. For example, specifying a direct effect from an attitudinal variable to chronological age in years is illogical.</p></li>
+<li><p>Some causal orderings may be theoretically doubtful, given the nature of the variables. For example, parental IQ may be more likely to affect child IQ than the reverse.</p></li>
+<li><p>Variables specified as mediators must be potentially changeable; otherwise, they are unlikely mediators. For example, variables conceptualized as stable, relatively unchanging traits could be specified as causes, but not mediators (Topic Box 7.1).</p></li>
+<li><p>Fixing some parameters to nonzero values compatible with theory or results from prior studies would rule out equivalent models involving those parameters. This is because such fixed values are not suitable for arbitrary reconfigurations of the paths or variables for which they were specified (Mulaik, 2009b).</p></li>
+<li><p>Adding variables that are selectively associated with just a few of the other variables in the model can help to reduce the number of equivalent versions. Suppose that a model has the path X → Y. Adding a variable presumed to directly cause X but not Y means that X has a unique parent compared to Y, so Rule 11.2 would not apply, if both X and Y were endogenous. This strategy must usually be implemented before the data are collected.</p></li>
+<li><p>Although equivalent models have identical residuals at the variable level, residuals at the case level can vary over such models. Raykov and Penev (2001) suggested that models with the lower standardized average individual case residuals would be preferred over equivalent versions with higher averages. A complication is that structural models with latent variables do not generate unique predictions for individual cases due to factor score indeterminacy, a concept explained Chapter 14. Applying the Raykov–Penev method is more straightforward for manifest-variable path models, where case residuals are more directly analogous to regression residuals.</p></li>
+</ol>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1621,7 +1668,7 @@ Important
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="st">  PreAch ~ Homework + FamBack + Minority</span></span>
 <span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>hw_fit_reversed <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_hw_reversed, <span class="at">sample.cov =</span> nels_cov2, <span class="at">sample.nobs =</span> <span class="dv">1000</span>, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cell-74" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="24" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-74" class="cell quarto-layout-panel" data-execution_count="24" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-layout-ncol="2">
 
 </div>
 <div id="cell-75" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
@@ -1653,22 +1700,22 @@ hw_fit_reversed - hw_fit  0     0    0   0   0
 <section id="nonrecursive-models" class="level3">
 <h3 class="anchored" data-anchor-id="nonrecursive-models">Nonrecursive Models</h3>
 <p><img src="images/fig14-18.png" class="img-fluid" width="750"></p>
-<div id="cell-77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
+<div id="cell-77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
 <details class="code-fold">
 <summary>Get the covariance matrix</summary>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="st">  1</span></span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.181    1</span></span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="st">  0.09  0.05    1</span></span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.05  0.09    -0.181  1</span></span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.2  0.32    -0.115  0.09    1</span></span>
-<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.076    0.087   -0.34   0.2 0.598   1</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.181 1</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="st">  0.09 0.05 1</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.05 0.09 -0.181 1</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.2 0.32 -0.115 0.09 1</span></span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.076 0.087 -0.34 0.2 0.598 1</span></span>
 <span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="st">"8.7  8.1 10.4    7.3 9.7 8"</span></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="st">"8.7 8.1 10.4 7.3 9.7 8"</span></span>
 <span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">sd =</span> sd, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">'mper_con'</span>, <span class="st">'man_self'</span>, <span class="st">'wper_con'</span>, <span class="st">'wom_self'</span>, <span class="st">'m_trust'</span>, <span class="st">'w_trust'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
+<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>mod_trust <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="st">  m_trust ~ w_trust + mper_con + man_self</span></span>
@@ -1775,26 +1822,39 @@ Variances:
 </section>
 <section id="longitudinal-models" class="level3">
 <h3 class="anchored" data-anchor-id="longitudinal-models">Longitudinal Models</h3>
-<p>Do job stress and emotional exhaustion (or burnout) have reciprocal effects?<br>
+<p>Do job stress and emotional exhaustion (or burnout) have <strong>reciprocal effects</strong>?<br>
 Estimated via longitudinal data.</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The study assessed stress and the three components of burnout (emotional exhaustion, depersonalisation, and low personal accomplishment) in a 3-year longitudinal study of a representative sample of 331 UK doctors.</p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>McManus, I. C., Winder, B. C., &amp; Gordon, D. (2002). The causal links between stress and burnout in a longitudinal study of UK doctors. The Lancet, 359(9323), 2089-2090.</p>
+</div>
+</div>
+</div>
+</div>
 <p><img src="images/fig14-19.png" class="img-fluid" width="700"></p>
-<div id="cell-80" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-80" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
 <details class="code-fold">
 <summary>Get the covariance matrix</summary>
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="st">  21.623                            </span></span>
 <span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="st">  2.052 9.797                       </span></span>
-<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="st">  10.98 4.548   19.625                  </span></span>
-<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.186 -0.027  0.76    8.18                </span></span>
-<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="st">  10.614    2.773   8.911   -0.789  20.43           </span></span>
-<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a><span class="st">  0.808 6.377   2.756   -0.131  3.46    9.302       </span></span>
-<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a><span class="st">  7.301 3.795   11.361  -0.024  9.939   4.889   16.892  </span></span>
-<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.374    -0.772  0.037   4.737   -2.729  -0.777  -1.059  7.673</span></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="st">  10.98 4.548 19.625                    </span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.186 -0.027 0.76 8.18                </span></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="st">  10.614 2.773 8.911 -0.789 20.43           </span></span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a><span class="st">  0.808 6.377 2.756 -0.131 3.46 9.302       </span></span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a><span class="st">  7.301 3.795 11.361 -0.024 9.939 4.889 16.892  </span></span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.374 -0.772 0.037 4.737 -2.729 -0.777 -1.059 7.673</span></span>
 <span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Stress_2"</span>, <span class="st">"Depersonal_2"</span>, <span class="st">"EExhaust_2"</span>, <span class="st">"PAcomplish_2"</span>,  <span class="st">"Stress_1"</span>, <span class="st">"Depersonal_1"</span>, <span class="st">"EExhaust_1"</span>, <span class="st">"PAcomplish_1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
+<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>mod_stress <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
 <span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Stress_2 ~ Depersonal_1 + Stress_1 + EExhaust_2</span></span>
@@ -2372,7 +2432,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","descPosition":"bottom","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
