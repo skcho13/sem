@@ -1668,7 +1668,7 @@ Important
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="st">  PreAch ~ Homework + FamBack + Minority</span></span>
 <span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>hw_fit_reversed <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_hw_reversed, <span class="at">sample.cov =</span> nels_cov2, <span class="at">sample.nobs =</span> <span class="dv">1000</span>, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cell-74" class="cell quarto-layout-panel" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24" data-layout-ncol="2">
+<div id="cell-74" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="24" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 
 </div>
 <div id="cell-75" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
@@ -1961,8 +1961,8 @@ Family가 미치는 간접효과는 어떠한가?<br>
 Fully vs.&nbsp;partially mediated model 비교</p>
 <p><img src="images/fig14-21.png" class="img-fluid" width="600"></p>
 <p><img src="images/fig14-21-1.png" class="img-fluid" width="610"></p>
-<div id="cell-83" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>henri <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM//henry et al.sav"</span>)</span>
+<div id="cell-83" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>henri <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM/henry et al.sav"</span>)</span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>henri <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 246 x 5
@@ -2433,7 +2433,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
