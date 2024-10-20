@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-14">
+<meta name="dcterms.date" content="2024-10-21">
 
 <title>Structural Equations –  CHA Statistics II in R</title>
 <style>
@@ -445,7 +445,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 14, 2024</p>
+      <p class="date">October 21, 2024</p>
     </div>
   </div>
   
@@ -528,6 +528,8 @@ x_1 \\ x_2
 \zeta_1 \\ \zeta_2 \\ \zeta_3
 \end{bmatrix}
 \]</span></p>
+<p>가정 1: 내생변수의 오차항과 외생변수는 서로 독립; <span class="math inline">\(\zeta \perp X\)</span><br>
+가정 2: 각 변수는 평균이 0이고, 변수들은 multivariate normal을 따름</p>
 <div>
 
 </div>
@@ -991,12 +993,66 @@ x6: 그 사람 때문에 기분이 나빠질 것입니다.</p>
 </div>
 </div>
 </div>
-<p><img src="images/bollen-fig7-4.png" class="img-fluid" width="550"></p>
 <div style="line-height: 1.5em; font-size: .9em">
-<p>Figure 7.4 Confirmatory Factor Analysis Model for Sympathy (<span class="math inline">\(\xi_1\)</span>) and Anger (<span class="math inline">\(\xi_2\)</span>). Each Measured with Three Indicators (<span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_6\)</span>)</p>
 <p>Source: p.&nbsp;260, Bollen, K. A. (1989). Structural equations with latent variables</p>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
+<p><img src="images/bollen-fig7-4.png" class="img-fluid" width="550"></p>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Figure 7.4 Confirmatory Factor Analysis Model for Sympathy (<span class="math inline">\(\xi_1\)</span>) and Anger (<span class="math inline">\(\xi_2\)</span>).<br>
+Each Measured with Three Indicators (<span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_6\)</span>)</p>
+</div>
+<p>Matrix representation for the CFA model:</p>
+<p><span class="math inline">\(x_1 = \lambda_{11}\xi_1 + \delta_1\)</span>, &nbsp; <span class="math inline">\(x_2 = \lambda_{21}\xi_1 + \delta_2\)</span>, &nbsp;<span class="math inline">\(x_3 = \lambda_{31}\xi_1 + \delta_3\)</span>,<br>
+<span class="math inline">\(x_4 = \lambda_{42}\xi_2 + \delta_4\)</span>, &nbsp;<span class="math inline">\(x_5 = \lambda_{52}\xi_2 + \delta_5\)</span>, &nbsp;<span class="math inline">\(x_6 = \lambda_{62}\xi_2 + \delta_6\)</span></p>
+<p><span class="math inline">\(\begin{bmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6
+\end{bmatrix} =
+\begin{bmatrix}
+\lambda_{11} &amp; 0 \\
+\lambda_{21} &amp; 0 \\
+\lambda_{31} &amp; 0 \\
+0 &amp; \lambda_{42} \\
+0 &amp; \lambda_{52} \\
+0 &amp; \lambda_{62}
+\end{bmatrix}
+\begin{bmatrix}
+\xi_1 \\ \xi_2
+\end{bmatrix} +
+\begin{bmatrix}
+\delta_1 \\ \delta_2 \\ \delta_3 \\ \delta_4 \\ \delta_5 \\ \delta_6
+\end{bmatrix}\)</span></p>
+<p><span class="math inline">\(\mathbf{x} = \mathbf{\Lambda}\mathbf{\xi} + \boldsymbol{\delta}\)</span></p>
+<p>가정: <span class="math inline">\(COV(\xi_i, \delta_j) = 0\)</span> for all <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span></p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[50, 50]">
+<div class="quarto-layout-row">
+<div class="column quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>The covariance matrix of exogenous variables:</p>
+<p><span class="math display">\[\mathbf{\Phi} =
+\begin{bmatrix}
+\phi_{11} &amp;  \\
+\phi_{21} &amp; \phi_{22}
+\end{bmatrix}
+\]</span></p>
+</div>
+<div class="column quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>The covariance matrices of the errors of measurement</p>
+<p><span class="math display">\[\mathbf{\Theta_{\delta}} =
+\begin{bmatrix}
+V(\delta_1) \\
+0 &amp; V(\delta_2) \\
+0 &amp; 0 &amp; V(\delta_3) \\
+0 &amp; 0 &amp; 0 &amp; V(\delta_4) \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; V(\delta_5) \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; V(\delta_6)
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+</div>
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fig 7.4</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  6.982</span></span>
@@ -1014,7 +1070,7 @@ x6: 그 사람 때문에 기분이 나빠질 것입니다.</p>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>fit_sa <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sa, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">138</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
+<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coveriance residuals</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1032,7 +1088,7 @@ x6  0.334  0.136 -0.126  0.013  0.020  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation residuals</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa, <span class="at">type =</span> <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1050,7 +1106,7 @@ x6  0.057  0.025 -0.025  0.002  0.004  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># standardized residuals</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa, <span class="at">type =</span> <span class="st">"standardized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1069,7 +1125,7 @@ x6  1.585  0.483 -0.493  0.568  0.566  0.000
 </div>
 </div>
 <p><strong>Normalized vs standardized residuals</strong>: ratios of covariance residuals over the standard error of the sample covariance, not the standard error of the difference between sample and predicted values.</p>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># normalized residuals</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_sa, <span class="at">type =</span> <span class="st">"normalized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1139,7 +1195,7 @@ Chi-Square 분포 특성
 </ul>
 </div>
 </div>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
+<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1148,7 +1204,7 @@ Chi-Square 분포 특성
 </div>
 </div>
 </div>
-<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1164,7 +1220,7 @@ Chi-Square 분포 특성
 <li>기존의 관행처럼 <span class="math inline">\(p\)</span> &lt; 0.05 일 때, 모형이 완전한 적합도을 보이지 못한다고 판단할 수 있음.</li>
 <li>즉, 공분산의 잔차 중 일부가 모집단에서 0이 아닐 수 있음을 의미함.</li>
 </ul>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fitting function의 최소값</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitmeasures</span>(fit_sa, <span class="st">"fmin"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1172,7 +1228,7 @@ Chi-Square 분포 특성
 0.0349 </code></pre>
 </div>
 </div>
-<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 설정한 모형의 log-likelihood &amp; unrestricted 모형의 log-likelihood, chi-square 값</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_sa, <span class="fu">c</span>(<span class="st">"chisq"</span>, <span class="st">"pvalue"</span>, <span class="st">"logl"</span>, <span class="st">"unrestricted.logl"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1180,7 +1236,7 @@ Chi-Square 분포 특성
             9.635             0.292         -1657.646         -1652.828 </code></pre>
 </div>
 </div>
-<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
+<div id="cell-37" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sa, <span class="at">fit.measures =</span> T, <span class="at">estimates =</span> F) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 37 iterations
@@ -1361,7 +1417,7 @@ RMSEA의 해석
 <p>예를 들어, 위의 CFA 예에서, 표본의 크기 N=200으로 생성된 데이터로부터 얻은 결과로 보면,<br>
 <span class="math inline">\(\chi^2_{ML}(8) = 13.963\)</span>을 얻고, <span class="math inline">\(\hat\delta = 13.963 - 8 = 5.963\)</span>임.<br>
 따라서, <span class="math inline">\(\chi^2_{ML}\)</span>값의 표본 분포는 <span class="math inline">\(\chi^2(8, ~5.963)\)</span>를 따름.</p>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="205">
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="205">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> semTools<span class="sc">::</span><span class="fu">kd</span>(cov, <span class="at">n =</span> <span class="dv">200</span>, <span class="at">type =</span> <span class="st">"exact"</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>mod_sa <span class="ot">&lt;-</span> <span class="st">"</span></span>
@@ -1375,7 +1431,7 @@ RMSEA의 해석
 13.963  8.000 </code></pre>
 </div>
 </div>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="98">
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="98">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1384,7 +1440,7 @@ RMSEA의 해석
 </div>
 </div>
 </div>
-<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="206">
+<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="206">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_sa, <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>, <span class="st">"rmsea.pvalue"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         rmsea rmsea.ci.lower rmsea.ci.upper   rmsea.pvalue 
@@ -1469,6 +1525,9 @@ Simulates fit index cutoffs for latent variable models that are tailored to the 
 </div>
 </div>
 </div>
+<p>Keith’s 교재 14장 ADVICE: MEASURES OF FIT 참고</p>
+<p>흔히 적용하는 적합도 지수의 임계값들:<br>
+<img src="images/table14-5.png" class="img-fluid" width="700"></p>
 </section>
 </section>
 <section id="적합도에-평가에-대한-가이드라인-by-klein2023" class="level2">
@@ -1631,7 +1690,7 @@ Emprical vs.&nbsp;Theoretical
 <p><img src="images/cfa-airquality.png" class="img-fluid" width="300"></p>
 </div>
 </div>
-<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
+<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="st">  0.331</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="st">  0.431 1.160</span></span>
@@ -1720,7 +1779,7 @@ Variances:
 <blockquote class="blockquote">
 <p><em>“설문지를 실시한 사람은 일부 응답자가 색상과 선명도 질문의 차이를 구별하는 데 어려움을 겪었다고 밝혔습니다. 이는 맑은 공기는 색상이 없을 것으로 예상하고, 반대로 공기의 색상이 나쁘면 선명도 평가도 나쁠 것이기 때문에 타당해 보였습니다. 한 지표에 대한 응답 오류가 부분적으로 구분할 수 없는 다른 지표의 오류와 상관관계가 있을 수 있기 때문에 선명도 측정 오류가 색상 측정 오류와 상관관계가 있었을 수 있습니다.”</em></p>
 </blockquote>
-<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>model_air_modi <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="st">  air_quality =~ overall + clarity + color + odor</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="st">  color ~~ clarity</span></span>
@@ -1809,7 +1868,7 @@ Variances:
 <li>파라미터가 추가로 추정할 때 <span class="math inline">\(\chi^2\)</span> 값이 얼마나 감소하는지를 추정; Lagrangian multiplier test</li>
 <li>한번에 하나씩 변화시켜야 함; 하나를 수정하면, 다른 것들이 영향을 받을 수 있음</li>
 </ul>
-<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
+<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modificationIndices</span>(fit_air, <span class="at">sort =</span> T) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op     rhs     mi    epc sepc.lv sepc.all sepc.nox
@@ -1821,7 +1880,7 @@ Variances:
 15   color ~~    odor  0.254 -0.014  -0.014   -0.115   -0.115</code></pre>
 </div>
 </div>
-<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
+<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_air, <span class="fu">c</span>(<span class="st">"chisq"</span>, <span class="st">"df"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_air_modi, <span class="fu">c</span>(<span class="st">"chisq"</span>, <span class="st">"df"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1831,7 +1890,7 @@ chisq    df
 5.581 1.000 </code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
+<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chi-Squared Difference Test</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_air, fit_air_modi) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1861,7 +1920,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <li>잔차가 높은 변수 쌍에 문제가 있다는 것을 일부 암시해주지만, 반드시 문제가 있다고 볼 수 없음.</li>
 <li>implied covariance는 여러 파라미터들의 함수이므로 복잡하게 작용됨.</li>
 </ul>
-<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_air, <span class="at">type =</span> <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -1876,7 +1935,7 @@ odor     0.166 -0.103 -0.007  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
+<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_air, <span class="at">type =</span> <span class="st">"normalized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -1891,7 +1950,7 @@ odor     1.153 -0.797 -0.054  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
+<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_air, <span class="at">type =</span> <span class="st">"standardized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -1904,6 +1963,23 @@ clarity -0.532  0.000
 color   -3.700  3.200  0.000       
 odor     3.200 -3.700 -0.532  0.000
 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Tips for Inspecting the Residuals">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tips for Inspecting the Residuals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Source: p.&nbsp;173, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+<p>잔차에 대해 보고하는 것이 중요하지만, 카이제곱 검정의 결과와 근사 적합 지수 값과 마찬가지로 잔차 크기와 모델의 잘못된 지정(specification) 유형 또는 정도 사이에는 신뢰할 수 있는 연관성이 없다는 점을 알아야 합니다.</p>
+<p>예를 들어 상대적으로 작은 상관 잔차로 나타나는 지정(specification) 오류의 정도는 경미할 수도 있지만 심각할 수도 있습니다. 한 가지 이유는 다음 장에서 정의되는 수정 지수(modification index)를 포함한 잔차(residuals) 및 기타 진단 통계 값 자체가 잘못된 지정의 영향을 받기 때문입니다. 두 번째 이유는 모델의 한 부분의 잘못된 지정으로 인해 모델의 다른 부분의 추정이 왜곡되어 전역 추정(global estimation)으로 오류가 전파되기 때문입니다. 세 번째는 잔차가 동일하지만 인과 효과의 모순된 패턴을 갖는 등가(equivalent) 모델입니다. 그러나 우리는 일반적으로 모델의 어느 부분이 잘못된지 미리 알 수 없으므로 잔차가 우리에게 말하는 것을 정확히 이해하기 어려울 수 있습니다.</p>
+<p>잔차 패턴을 검사하는 것이 때로는 도움이 될 수 있습니다. <span class="math inline">\(r_{XY}\)</span> &gt; 0인 한 쌍의 변수 X와 Y가 간접적인 인과 경로로만 연결되어 있다고 가정합니다. 해당 쌍의 잔차는 양수입니다. 즉, 모델이 해당 쌍의 연관성을 과소 예측한다는 의미입니다. 이 경우 X와 Y 사이에 직접적인 인과관계가 없다는 가설은 의심스러울 수 있으며, 따라서 이들 사이에 직접적인 인과관계를 추가하는 재지정(re-specification)이 고려해 볼 수 있습니다. 또 다른 가능성은 두 변수가 모두 내생변수인 경우 교란(disturbance) 상관 관계를 지정하는 것입니다. 그러나 모델에 추가할 효과 유형(인과 대 비인과 관계) 또는 방향성(예: X가 Y를 유발하고 Y가 X를 유발함)은 잔차가 우리에게 말해 줄 수 있는 것이 아닙니다. 전역 적합(global fit) 통계에 마법이 없는 것처럼 진단 통계에도 마법이 없습니다. 적어도 연구자들이 재지정(respecificaiton)에 대해 매우 신중하게 생각해야 하는 부담을 덜어줄 수 있는 것은 없습니다.</p>
+<p><em>번역 by Google Translate</em></p>
 </div>
 </div>
 </section>
@@ -1975,28 +2051,28 @@ AIC_2 &amp; = \chi^2_{ML} + 2q \\~
 <p>The MacCallum-RMSEA method (MacCallum et al., 1996): based on the noncentral chi-square distribution and the RMSEA.</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">findRMSEApower</span>(rmsea0, rmseaA, df, n, <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">group =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Power at N = 373</strong></p>
-<div id="cell-71" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-74" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># exact fit</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(<span class="dv">0</span>, .<span class="dv">05</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3378327</code></pre>
 </div>
 </div>
-<div id="cell-72" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div id="cell-75" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># close fit</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(.<span class="dv">05</span>, .<span class="dv">08</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3172584</code></pre>
 </div>
 </div>
-<div id="cell-73" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># not-close fit</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(.<span class="dv">05</span>, .<span class="dv">01</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2291066</code></pre>
 </div>
 </div>
-<div id="cell-74" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
+<div id="cell-77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poor fit</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEApower</span>(.<span class="dv">10</span>, .<span class="dv">05</span>, <span class="dv">5</span>, <span class="dv">373</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2004,28 +2080,28 @@ AIC_2 &amp; = \chi^2_{ML} + 2q \\~
 </div>
 </div>
 <p><strong>Minimum N for power at least .90</strong></p>
-<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
+<div id="cell-79" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># exact fit</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(<span class="dv">0</span>, .<span class="dv">05</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1319</code></pre>
 </div>
 </div>
-<div id="cell-77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div id="cell-80" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># close fit</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(.<span class="dv">05</span>, .<span class="dv">08</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1997</code></pre>
 </div>
 </div>
-<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># not-close fit</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(.<span class="dv">05</span>, .<span class="dv">01</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1527</code></pre>
 </div>
 </div>
-<div id="cell-79" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
+<div id="cell-82" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poor fit</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">findRMSEAsamplesize</span>(.<span class="dv">10</span>, .<span class="dv">05</span>, <span class="dv">5</span>, .<span class="dv">90</span>, .<span class="dv">05</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
