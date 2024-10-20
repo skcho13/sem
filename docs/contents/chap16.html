@@ -827,6 +827,7 @@ R squared
 <p>이상적으로 요인이 지표들을 50% 이상 설명해 주기를 바람: <span class="math inline">\(R^2 &gt; 0.5\)</span><br>
 좀 더 느슨하게는 average variance extracted (AVE)가 0.5 이상이면 좋음.</p>
 <p>Reliability에 대한 참고: pp.&nbsp;239-241, Kline(2023)</p>
+<p><span class="math inline">\(\displaystyle\omega = \frac{(\sum \lambda_i)^2 \cdot \phi}{(\sum \lambda_i)^2 \cdot \phi + \sum \theta_{ii}}\)</span>, &nbsp; <span class="math inline">\(\phi\)</span>: factor variance, &nbsp; <span class="math inline">\(\theta_{ii}\)</span>: error variance</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">AVE</span>(fit)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Verbal Nonverbal   Spatial    Memory </span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  0.579     0.477     0.509     0.537 </span></span>
