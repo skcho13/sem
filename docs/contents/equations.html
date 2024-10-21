@@ -729,8 +729,8 @@ Coveriance에 대한 성질
 </div>
 <div class="callout-body-container">
 <p><strong>기본적인 구조 모형의 가설(hypothesis)</strong>:</p>
-<p><span class="math inline">\(\Sigma = \Sigma(\theta)\)</span></p>
-<p>즉, 모집단의 공분산 = 모수(parameter)로 표현되는(implied) 공분산</p>
+<p><span class="math inline">\(\Sigma = \Sigma(\theta)\)</span><br>
+즉, 모집단의 공분산 = 모수(parameter)로 표현되는(implied) 공분산</p>
 </div>
 </div>
 </div>
@@ -740,7 +740,7 @@ Coveriance에 대한 성질
 </ul>
 <p>이제 이 둘의 차 <span class="math inline">\(\mathbf{S} - \hat{\Sigma}(\theta)\)</span>를 최소화하는 파라미터들(통칭 <span class="math inline">\(\theta\)</span>)를 찾고자 함.</p>
 <p>예를 들어,</p>
-<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># covariance matrix</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  225.2</span></span>
@@ -748,7 +748,7 @@ Coveriance에 대한 성질
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">  111.4 26.5 105.2'</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"x1"</span>, <span class="st">"y1"</span>, <span class="st">"y2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regressopm</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  y2 ~ 0*x1 + y1</span></span>
@@ -759,7 +759,7 @@ Coveriance에 대한 성질
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(model, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">200</span>, <span class="at">fixed.x =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  lhs op rhs     est     se      z pvalue ci.lower ci.upper
@@ -772,8 +772,9 @@ Coveriance에 대한 성질
 </div>
 </div>
 <div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a> sigma_hat <span class="ot">&lt;-</span> <span class="fu">lavInspect</span>(fit, <span class="st">"cov.all"</span>)[<span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> sigma_hat <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied covariance matrix</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sigma_hat <span class="ot">&lt;-</span> <span class="fu">lavInspect</span>(fit, <span class="st">"cov.all"</span>)[<span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sigma_hat <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      x1   y1    y2
 x1 224.1 31.9   8.4
@@ -800,7 +801,7 @@ y2 103.0 0.1   0.5</code></pre>
 \end{bmatrix}\)</span></p>
 </blockquote>
 <blockquote class="blockquote">
-<p>이는 어떤 다른 파라미터 추정치에 대해서도 이 공분산 차이보다 더 작을 수 없다는 의미임.<br>
+<p>이는 어떤 다른 파라미터 값에 대해서도 이 공분산 차이보다 더 작을 수 없다는 의미임.<br>
 한편, 어떤 의미에서 차이가 작다는지를 정의해야 함.</p>
 </blockquote>
 </section>
@@ -815,7 +816,7 @@ y2 103.0 0.1   0.5</code></pre>
 <p><span class="math inline">\(\mathbf{S} - \hat{\Sigma}(\theta)\)</span>가 작다는 것을 어떻게 정의할 것인가?<br>
 혹은, 두 행렬 <span class="math inline">\(\mathbf{S}\)</span>, <span class="math inline">\(\hat{\Sigma}(\theta)\)</span> 사이의 거리를 어떻게 정의할 것인가?</p>
 <blockquote class="blockquote">
-<p>Fiting function(목적 함수)를 통해 그 함수가 최소가 되는 파라미터를 찾는 방식</p>
+<p>Fitting function(목적 함수)를 통해 그 함수가 최소가 되는 파라미터를 찾는 방식</p>
 </blockquote>
 </div>
 </div>
@@ -1313,13 +1314,13 @@ Standardized Root Mean Square Residual:
 </ul>
 </div>
 </div>
-<p>모든 적합도 지수는 $와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 함수임.<br>
-특히, fitting function <span class="math inline">\(F_{ML}\)</span>은 $와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 차이를 측정해주는 스칼러 함수임.</p>
+<p>모든 적합도 지수는 <span class="math inline">\(\mathbf{S}\)</span>와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 함수임.<br>
+특히, fitting function <span class="math inline">\(F_{ML}\)</span>은 <span class="math inline">\(\mathbf{S}\)</span>와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 차이를 측정해주는 스칼러 함수임.</p>
 <ul>
 <li><span class="math inline">\(F_{ML} \to 0\)</span> as <span class="math inline">\(N \to \infty\)</span></li>
 <li>추정할 파라미터를 늘리면 <span class="math inline">\(F_{ML}\)</span>는 감소함; 즉, 항상 더 나쁜 모형이 됨.</li>
 </ul>
-<p><span class="math inline">\(F_{ML}\)</span> 값 자체는 해석하기 어렵기 때문에, <span class="math inline">\(F_{ML}\)</span>을 이용한 $와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 차이를 측정해주는 다른 지표들이 유용함.</p>
+<p><span class="math inline">\(F_{ML}\)</span> 값 자체는 해석하기 어렵기 때문에, <span class="math inline">\(F_{ML}\)</span>을 이용한 <span class="math inline">\(\mathbf{S}\)</span>와 <span class="math inline">\(\hat{\Sigma}(\theta)\)</span>의 차이를 측정해주는 다른 지표들이 유용함.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Model fit indices">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
