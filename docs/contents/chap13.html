@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-15">
+<meta name="dcterms.date" content="2024-10-24">
 
 <title>Chapter 13-14. Path Analysis –  CHA Statistics II in R</title>
 <style>
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -109,6 +109,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -440,7 +443,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 15, 2024</p>
+      <p class="date">October 24, 2024</p>
     </div>
   </div>
   
@@ -452,7 +455,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
@@ -465,12 +468,12 @@ window.Quarto = {
 </div>
 <section id="데이터-준비" class="level2">
 <h2 class="anchored" data-anchor-id="데이터-준비">데이터 준비</h2>
-<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/n=1000,stud &amp; par shorter all miss blank.csv"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>nels <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,000 x 93
+<pre><code># A tibble: 1,000 × 93
   stu_id sch_id sstratid   sex  race ethnic bys42a bys42b bys44a bys44b bys44c
    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 1 124966   1249        1     2     4      1      3      4      2      4      4
@@ -479,40 +482,40 @@ window.Quarto = {
 4 180660   1806        1     1     4      1      2     NA      1      4      4
 5 180672   1806        1     2     4      1      2      3      1      4      3
 6 298885   2988        2     1     3      0      5      4      2      3      3
-# i 994 more rows
-# i 82 more variables: bys44d &lt;dbl&gt;, bys44e &lt;dbl&gt;, bys44f &lt;dbl&gt;, bys44g &lt;dbl&gt;,
+# ℹ 994 more rows
+# ℹ 82 more variables: bys44d &lt;dbl&gt;, bys44e &lt;dbl&gt;, bys44f &lt;dbl&gt;, bys44g &lt;dbl&gt;,
 #   bys44h &lt;dbl&gt;, bys44i &lt;dbl&gt;, bys44j &lt;dbl&gt;, bys44k &lt;dbl&gt;, bys44l &lt;dbl&gt;,
 #   bys44m &lt;dbl&gt;, bys48a &lt;dbl&gt;, bys48b &lt;dbl&gt;, bys79a &lt;dbl&gt;, byfamsiz &lt;dbl&gt;,
 #   famcomp &lt;dbl&gt;, bygrads &lt;dbl&gt;, byses &lt;dbl&gt;, byfaminc &lt;dbl&gt;, parocc &lt;dbl&gt;,
 #   bytxrstd &lt;dbl&gt;, bytxmstd &lt;dbl&gt;, bytxsstd &lt;dbl&gt;, bytxhstd &lt;dbl&gt;,
-#   bypared &lt;dbl&gt;, bytests &lt;dbl&gt;, par_inv &lt;dbl&gt;, f1s36a1 &lt;dbl&gt;, ...</code></pre>
+#   bypared &lt;dbl&gt;, bytests &lt;dbl&gt;, par_inv &lt;dbl&gt;, f1s36a1 &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SPSS data: labelled data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="co"># install.packages("haven")</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>nels_sav <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/n=1000,stud &amp; par shorter.sav"</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nels_sav <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,000 x 93
+<pre><code># A tibble: 1,000 × 93
   stu_id    sch_id    sstratid sex     race    ethnic  bys42a   bys42b   bys44a 
   &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt;
-1 124966    1249      1        2 [Fem~ 4 [Whi~ 1 [whi~  3 [2-3~  4 [3-4~ 2 [Agr~
-2 124972    1249      1        1 [Mal~ 4 [Whi~ 1 [whi~  4 [3-4~  5 [4-5~ 1 [Str~
-3 175551    1755      1        2 [Fem~ 3 [Bla~ 0 [blk~ NA        3 [2-3~ 2 [Agr~
-4 180660    1806      1        1 [Mal~ 4 [Whi~ 1 [whi~  2 [1-2~ NA       1 [Str~
-5 180672    1806      1        2 [Fem~ 4 [Whi~ 1 [whi~  2 [1-2~  3 [2-3~ 1 [Str~
-6 298885    2988      2        1 [Mal~ 3 [Bla~ 0 [blk~  5 [4-5~  4 [3-4~ 2 [Agr~
-# i 994 more rows
-# i 84 more variables: bys44b &lt;dbl+lbl&gt;, bys44c &lt;dbl+lbl&gt;, bys44d &lt;dbl+lbl&gt;,
+1 124966    1249      1        2 [Fem… 4 [Whi… 1 [whi…  3 [2-3…  4 [3-4… 2 [Agr…
+2 124972    1249      1        1 [Mal… 4 [Whi… 1 [whi…  4 [3-4…  5 [4-5… 1 [Str…
+3 175551    1755      1        2 [Fem… 3 [Bla… 0 [blk… NA        3 [2-3… 2 [Agr…
+4 180660    1806      1        1 [Mal… 4 [Whi… 1 [whi…  2 [1-2… NA       1 [Str…
+5 180672    1806      1        2 [Fem… 4 [Whi… 1 [whi…  2 [1-2…  3 [2-3… 1 [Str…
+6 298885    2988      2        1 [Mal… 3 [Bla… 0 [blk…  5 [4-5…  4 [3-4… 2 [Agr…
+# ℹ 994 more rows
+# ℹ 84 more variables: bys44b &lt;dbl+lbl&gt;, bys44c &lt;dbl+lbl&gt;, bys44d &lt;dbl+lbl&gt;,
 #   bys44e &lt;dbl+lbl&gt;, bys44f &lt;dbl+lbl&gt;, bys44g &lt;dbl+lbl&gt;, bys44h &lt;dbl+lbl&gt;,
 #   bys44i &lt;dbl+lbl&gt;, bys44j &lt;dbl+lbl&gt;, bys44k &lt;dbl+lbl&gt;, bys44l &lt;dbl+lbl&gt;,
 #   bys44m &lt;dbl+lbl&gt;, bys48a &lt;dbl+lbl&gt;, bys48b &lt;dbl+lbl&gt;, bys79a &lt;dbl+lbl&gt;,
 #   byfamsiz &lt;dbl+lbl&gt;, famcomp &lt;dbl+lbl&gt;, bygrads &lt;dbl+lbl&gt;, byses &lt;dbl+lbl&gt;,
-#   byfaminc &lt;dbl+lbl&gt;, parocc &lt;dbl&gt;, bytxrstd &lt;dbl+lbl&gt;, ...</code></pre>
+#   byfaminc &lt;dbl+lbl&gt;, parocc &lt;dbl&gt;, bytxrstd &lt;dbl+lbl&gt;, bytxmstd &lt;dbl+lbl&gt;, …</code></pre>
 </div>
 </div>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nels_sav<span class="sc">$</span>ethnic <span class="sc">|&gt;</span> labelled<span class="sc">::</span><span class="fu">val_labels</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>blk,namer,hisp    white-asian        missing 
@@ -521,7 +524,7 @@ window.Quarto = {
 </div>
 <p>variables: byses, bytests, par_inv, ffugrad, ethnic</p>
 <p>Underrepresented ethnic minority, or URM, is coded so that students from African American, Hispanic, and Native backgrounds are coded 1 and students of Asian and Caucasian descent are coded 0.</p>
-<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nels_gpa <span class="ot">&lt;-</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  nels <span class="sc">|&gt;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ethnic, <span class="at">ses =</span> byses, <span class="at">prev =</span> bytests, <span class="at">par =</span> par_inv, <span class="at">gpa =</span> ffugrad) <span class="sc">|&gt;</span></span>
@@ -529,7 +532,7 @@ window.Quarto = {
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>nels_gpa <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 811 x 5
+<pre><code># A tibble: 811 × 5
   ethnic    ses  prev     par   gpa
    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 1      1 -0.563  64.4  1.04    5.25
@@ -538,12 +541,12 @@ window.Quarto = {
 4      1  0.687  46.6  0.199   6.5 
 5      1  0.633  54.9  0.975   4.25
 6      0  0.992  38.5 -0.157   6   
-# i 805 more rows</code></pre>
+# ℹ 805 more rows</code></pre>
 </div>
 </div>
 <section id="상관계수와-평균-표준편차" class="level3">
 <h3 class="anchored" data-anchor-id="상관계수와-평균-표준편차">상관계수와 평균, 표준편차</h3>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>nels_gpa <span class="sc">|&gt;</span> <span class="fu">lowerCor</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -555,7 +558,7 @@ par    0.075 0.432 0.445 1.000
 gpa    0.131 0.299 0.499 0.364 1.000</code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nels_gpa <span class="sc">|&gt;</span> <span class="fu">describe</span>(<span class="at">skew =</span> F) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       vars   n   mean    sd median    min    max  range    se
@@ -575,7 +578,7 @@ gpa       5 811  5.760 1.450  6.000  1.000  8.000  7.000 0.051</code></pre>
 <section id="구조모형" class="level3">
 <h3 class="anchored" data-anchor-id="구조모형">구조모형</h3>
 <p><img src="images/fig13-3.png" class="img-fluid" width="800"></p>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -649,7 +652,7 @@ R-Square:
 <li><code>header</code>: 헤더 표시 여부</li>
 <li><code>nd</code>: the number of digits</li>
 </ul>
-<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">header =</span> <span class="cn">FALSE</span>, <span class="at">nd =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -712,7 +715,7 @@ Variances:
 </div>
 </div>
 <p><strong>표준화된 파라미터 추정치만 표시</strong></p>
-<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standardizedSolution</span>(sem_fit, <span class="at">type =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      lhs op    rhs est.std    se      z pvalue ci.lower ci.upper
@@ -753,7 +756,7 @@ Variances:
 <li>Bootstrap; the Bollen-Stine bootstrap</li>
 </ul>
 <p>예를 들어, MLM을 estimator로 사용하려면,</p>
-<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="73">
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MLM estimator</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> mod,</span>
@@ -813,7 +816,7 @@ Variances:
 </div>
 </div>
 <p>부트스트랩(bootstrap) 방법을 사용한 표준오차 추정치</p>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> mod, </span>
@@ -824,25 +827,25 @@ Variances:
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap =</span> <span class="dv">1000</span>,  <span class="co"># default; the number of bootstrap samples</span></span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="34">
+<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(sem_fit, <span class="at">standardized =</span> <span class="st">"std.all"</span>, <span class="at">boot.ci.type =</span> <span class="st">"bca.simple"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      lhs op    rhs    est    se      z pvalue ci.lower ci.upper std.all
-1     gpa  ~ ethnic -0.124 0.117 -1.058  0.290   -0.382    0.077  -0.035
-2     gpa  ~    ses  0.093 0.067  1.388  0.165   -0.042    0.220   0.049
-3     gpa  ~   prev  0.070 0.006 11.462  0.000    0.059    0.083   0.417
-4     gpa  ~    par  0.292 0.068  4.274  0.000    0.161    0.420   0.160
-5     par  ~   prev  0.032 0.003 10.474  0.000    0.026    0.038   0.345
-6     par  ~    ses  0.333 0.034  9.703  0.000    0.265    0.401   0.321
-7     par  ~ ethnic -0.286 0.066 -4.348  0.000   -0.412   -0.151  -0.146
-8    prev  ~    ses  4.431 0.355 12.467  0.000    3.713    5.119   0.395
-9    prev  ~ ethnic  4.195 0.686  6.115  0.000    2.834    5.568   0.198
-10    gpa ~~    gpa  1.521 0.071 21.412  0.000    1.406    1.692   0.724
-11    par ~~    par  0.452 0.025 18.174  0.000    0.407    0.508   0.719
-12   prev ~~   prev 55.370 2.543 21.776  0.000   50.803   60.889   0.752
-13 ethnic ~~ ethnic  0.164 0.008 19.666  0.000    0.149    0.183   1.000
-14 ethnic ~~    ses  0.103 0.012  8.845  0.000    0.079    0.128   0.333
-15    ses ~~    ses  0.586 0.026 22.645  0.000    0.539    0.643   1.000</code></pre>
+1     gpa  ~ ethnic -0.124 0.116 -1.070  0.285   -0.355    0.101  -0.035
+2     gpa  ~    ses  0.093 0.068  1.369  0.171   -0.053    0.221   0.049
+3     gpa  ~   prev  0.070 0.006 11.320  0.000    0.058    0.082   0.417
+4     gpa  ~    par  0.292 0.064  4.567  0.000    0.165    0.419   0.160
+5     par  ~   prev  0.032 0.003 10.095  0.000    0.026    0.038   0.345
+6     par  ~    ses  0.333 0.035  9.447  0.000    0.269    0.406   0.321
+7     par  ~ ethnic -0.286 0.064 -4.463  0.000   -0.401   -0.147  -0.146
+8    prev  ~    ses  4.431 0.352 12.601  0.000    3.706    5.038   0.395
+9    prev  ~ ethnic  4.195 0.695  6.035  0.000    2.841    5.632   0.198
+10    gpa ~~    gpa  1.521 0.073 20.919  0.000    1.400    1.687   0.724
+11    par ~~    par  0.452 0.024 18.790  0.000    0.406    0.501   0.719
+12   prev ~~   prev 55.370 2.391 23.156  0.000   50.717   60.103   0.752
+13 ethnic ~~ ethnic  0.164 0.008 19.459  0.000    0.148    0.180   1.000
+14 ethnic ~~    ses  0.103 0.012  8.808  0.000    0.082    0.129   0.333
+15    ses ~~    ses  0.586 0.027 21.712  0.000    0.534    0.642   1.000</code></pre>
 </div>
 </div>
 </section>
@@ -855,22 +858,22 @@ Variances:
 </li>
 <li><a href="https://cran.r-project.org/web/packages/semPlot/index.html">semPlot 참조</a></li>
 </ul>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tidySEM<span class="sc">::</span><span class="fu">graph_sem</span>(sem_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chap13_files/figure-html/cell-17-output-1.png" width="720" height="720" class="figure-img"></p>
+<p><img src="chap13_files/figure-html/cell-18-output-1.png" width="720" height="720" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lavaanExtra<span class="sc">::</span><span class="fu">nice_tidySEM</span>(sem_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chap13_files/figure-html/cell-18-output-1.png" width="720" height="720" class="figure-img"></p>
+<p><img src="chap13_files/figure-html/cell-19-output-1.png" width="720" height="720" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -891,13 +894,13 @@ Tip
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
+<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># semPaths2: a customized plot function using semPlot::semPaths()</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">semPaths2</span>(sem_fit, <span class="at">layout =</span> <span class="st">"spring"</span>, <span class="at">rotation =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chap13_files/figure-html/cell-20-output-1.png" width="720" height="720" class="figure-img"></p>
+<p><img src="chap13_files/figure-html/cell-21-output-1.png" width="720" height="720" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -905,7 +908,7 @@ Tip
 </section>
 <section id="간접효과-ses---par---gpa" class="level3">
 <h3 class="anchored" data-anchor-id="간접효과-ses---par---gpa">간접효과 ses -&gt; par -&gt; gpa</h3>
-<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
+<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="st">  gpa ~ b1*ethnic + b2*ses + b3*prev + b4*par</span></span>
@@ -981,7 +984,7 @@ Defined Parameters:
 <section id="모든-간접효과-ses---gpa" class="level3">
 <h3 class="anchored" data-anchor-id="모든-간접효과-ses---gpa">모든 간접효과: ses -&gt; gpa</h3>
 <p><a href="https://sfcheung.github.io/manymome/index.html">manymome 참조</a></p>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All indirect paths from x to y</span></span>
@@ -1000,7 +1003,7 @@ Path(s):
 3 ses -&gt; prev -&gt; par -&gt; gpa</code></pre>
 </div>
 </div>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indirect effect estimates</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ind_est <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> sem_fit, <span class="at">R =</span> <span class="dv">1000</span>,</span>
@@ -1012,9 +1015,9 @@ Path(s):
 <pre><code>
 ==  Indirect Effect(s)   ==
                             ind CI.lo CI.hi Sig
-ses -&gt; par -&gt; gpa         0.097 0.052 0.154 Sig
-ses -&gt; prev -&gt; gpa        0.312 0.247 0.393 Sig
-ses -&gt; prev -&gt; par -&gt; gpa 0.041 0.022 0.064 Sig
+ses -&gt; par -&gt; gpa         0.097 0.055 0.146 Sig
+ses -&gt; prev -&gt; gpa        0.312 0.243 0.385 Sig
+ses -&gt; prev -&gt; par -&gt; gpa 0.041 0.022 0.065 Sig
 
  - [CI.lo to CI.hi] are 95.0% bias-corrected confidence intervals by
    nonparametric bootstrapping with 1000 samples.
@@ -1022,7 +1025,7 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.041 0.022 0.064 Sig
  </code></pre>
 </div>
 </div>
-<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standarized estimates</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>ind_est_std <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> sem_fit, <span class="at">R =</span> <span class="dv">1000</span>,</span>
@@ -1036,8 +1039,8 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.041 0.022 0.064 Sig
 <pre><code>
 ==  Indirect Effect(s) (Both x-variable(s) and y-variable(s) Standardized)  ==
                             std CI.lo CI.hi Sig
-ses -&gt; par -&gt; gpa         0.051 0.028 0.081 Sig
-ses -&gt; prev -&gt; gpa        0.165 0.131 0.203 Sig
+ses -&gt; par -&gt; gpa         0.051 0.029 0.079 Sig
+ses -&gt; prev -&gt; gpa        0.165 0.130 0.204 Sig
 ses -&gt; prev -&gt; par -&gt; gpa 0.022 0.012 0.034 Sig
 
  - [CI.lo to CI.hi] are 95.0% bias-corrected confidence intervals by
@@ -1054,11 +1057,11 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.022 0.012 0.034 Sig
 <p>자유도가 높을수록 모형이 데이터와 잘 맞지 않은지에 대한 판별을 더 신뢰할 수 있음.</p>
 <p><img src="images/fig14-7.png" class="img-fluid" width="800"></p>
 <p><strong>공분산 기반 모형</strong></p>
-<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>nels_cov <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM/homework overid 2018.sav"</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>nels_cov <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 8 x 7
+<pre><code># A tibble: 8 × 7
   rowtype_ varname_    Minority   FamBack   PreAch  Homework   Grades
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 1 n        ""         1000      1000      1000     1000      1000    
@@ -1071,7 +1074,7 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.022 0.012 0.034 Sig
 8 mean     ""            0.272     0.0025   52.0      2.56      5.75 </code></pre>
 </div>
 </div>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>nels_cov2 <span class="ot">&lt;-</span> nels_cov[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>)] <span class="sc">|&gt;</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lav_matrix_vechr</span>(<span class="at">diagonal =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
@@ -1087,7 +1090,7 @@ Homework -0.02808143  0.1763745  2.069067  0.65011969  0.33545523
 Grades   -0.08141289  0.3381521  6.435165  0.33545523  2.18744100</code></pre>
 </div>
 </div>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>nels_cov2 <span class="sc">|&gt;</span> <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Minority FamBack  PreAch Homework  Grades
@@ -1099,7 +1102,7 @@ Grades    -0.1315  0.2751  0.4890   0.2813  1.0000</code></pre>
 </div>
 </div>
 <p><strong>이제 모형 적합도(model fit)에 대한 정보를 얻을 수 있음!</strong></p>
-<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
+<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>mod_hw <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades ~ PreAch + Homework</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Homework ~ PreAch + FamBack + Minority</span></span>
@@ -1163,7 +1166,7 @@ Standardized Root Mean Square Residual:
 </div>
 </div>
 <p><strong>implied/predicted correlation matrix</strong></p>
-<div id="cell-44" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
+<div id="cell-45" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(hw_fit, <span class="st">"cor.all"</span>)[<span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Minority FamBack PreAch Homework Grades
@@ -1176,7 +1179,7 @@ Grades    -0.1563   0.253  0.489   0.2813  1.000</code></pre>
 </div>
 <section id="공분산-분석" class="level3">
 <h3 class="anchored" data-anchor-id="공분산-분석">공분산 분석</h3>
-<div id="cell-46" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
+<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sample covariance matrix</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>nels_cov2 <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1188,7 +1191,7 @@ Homework   -0.028    0.18    2.1    0.650  0.335
 Grades     -0.081    0.34    6.4    0.335  2.187</code></pre>
 </div>
 </div>
-<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied/predicted covariance matrix</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitted</span>(hw_fit)<span class="sc">$</span>cov[<span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 또는 inspect(hw_fit, "cov.all")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1202,7 +1205,7 @@ Grades     -0.097    0.31    6.4    0.335  2.185</code></pre>
 </div>
 </div>
 <p><strong>Residuals</strong></p>
-<div id="cell-49" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
+<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Raw</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(hw_fit, <span class="at">type =</span> <span class="st">"raw"</span>)<span class="sc">$</span>cov[<span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1214,7 +1217,7 @@ Homework    0.000   0.000      0  0.0e+00 5.6e-17
 Grades      0.015   0.027      0  5.6e-17 0.0e+00</code></pre>
 </div>
 </div>
-<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
+<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardized</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(hw_fit, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov[<span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1226,7 +1229,7 @@ Homework     0.00    0.00      0  0.0e+00 5.6e-17
 Grades       0.96    0.91      0  5.6e-17 0.0e+00</code></pre>
 </div>
 </div>
-<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
+<div id="cell-52" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardized like Mplus</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(hw_fit, <span class="at">type =</span> <span class="st">"standardized.mplus"</span>)<span class="sc">$</span>cov[<span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1241,7 +1244,7 @@ Grades       0.97    0.91      0  5.6e-17 0.0e+00</code></pre>
 </section>
 <section id="상관행렬-분석" class="level3">
 <h3 class="anchored" data-anchor-id="상관행렬-분석">상관행렬 분석</h3>
-<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="54">
+<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sample correlation</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cov2cor</span>(nels_cov2) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1253,7 +1256,7 @@ Homework  -0.0832   0.263  0.288   1.0000  0.281
 Grades    -0.1315   0.275  0.489   0.2813  1.000</code></pre>
 </div>
 </div>
-<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
+<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied/predicted correlation</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(hw_fit, <span class="st">"cor.all"</span>)[<span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1266,7 +1269,7 @@ Grades    -0.1563   0.253  0.489   0.2813  1.000</code></pre>
 </div>
 </div>
 <p><strong>Residuals</strong></p>
-<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="56">
+<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(hw_fit, <span class="at">type =</span> <span class="st">"cor.bollen"</span>)<span class="sc">$</span>cov[<span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Minority FamBack PreAch Homework  Grades
@@ -1280,7 +1283,7 @@ Grades      0.025   0.022      0  5.6e-17 0.0e+00</code></pre>
 </section>
 <section id="모형-적합도-지표들" class="level3">
 <h3 class="anchored" data-anchor-id="모형-적합도-지표들">모형 적합도 지표들</h3>
-<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="58">
+<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select fit statistics</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>fit_stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rmr"</span>, <span class="st">"gfi"</span>, <span class="st">"nfi"</span>, <span class="st">"pnfi"</span>, <span class="st">"fmin"</span>, <span class="st">"rmsea"</span>, <span class="st">"aic"</span>, <span class="st">"ecvi"</span>)</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1290,7 +1293,7 @@ Grades      0.025   0.022      0  5.6e-17 0.0e+00</code></pre>
     0.000     1.000     1.000     0.000     0.000     0.000 12495.216     0.037 </code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="59">
+<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all fit statistics</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(sem_fit) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1334,7 +1337,7 @@ Grades      0.025   0.022      0  5.6e-17 0.0e+00</code></pre>
 <p><img src="images/fig14-7-1.png" class="img-fluid" width="750"></p>
 <p><img src="images/fig14-12-2.png" class="img-fluid" width="680"></p>
 <p><img src="images/fig14-7-2.png" class="img-fluid" width="750"></p>
-<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
+<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>mod_hw_reduced <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades ~ PreAch + 0*Homework</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Homework ~ 0*PreAch + FamBack + Minority</span></span>
@@ -1444,7 +1447,7 @@ Variances:
 </div>
 </div>
 </div>
-<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(hw_fit, hw_fit_reduced) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="co"># anova(hw_fit, hw_fit_reduced)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1455,10 +1458,10 @@ Chi-Squared Difference Test
 hw_fit          2 16006 16070  2.1687                                          
 hw_fit_reduced  4 16069 16123 69.6789      67.51 0.18098       2   2.19e-15 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
 </div>
 </div>
-<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
+<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>fit_stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"srmr"</span>, <span class="st">"cfi"</span>, <span class="st">"aic"</span>)</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit_reduced, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1469,7 +1472,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
     0.128     0.071     0.908 16069.427 </code></pre>
 </div>
 </div>
-<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
+<div id="cell-66" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(hw_fit, hw_fit_reduced) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1480,15 +1483,15 @@ Chi-Squared Difference Test
 hw_fit          2 16006 16070  2.1687                                          
 hw_fit_reduced  4 16069 16123 69.6789      67.51 0.18098       2   2.19e-15 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 ####################### Model Fit Indices ###########################
-                       chisq df pvalue        rmsea           cfi           tli
-hw_fit         2.169&lt;U+2020&gt;  2   .338 .009&lt;U+2020&gt; 1.000&lt;U+2020&gt; 0.999&lt;U+2020&gt;
-hw_fit_reduced       69.679   4   .000        .128          .908          .793 
-                       srmr               aic               bic
-hw_fit         .008&lt;U+2020&gt; 16005.917&lt;U+2020&gt; 16069.718&lt;U+2020&gt;
-hw_fit_reduced        .071         16069.427         16123.412 
+                 chisq df pvalue rmsea    cfi    tli  srmr        aic
+hw_fit          2.169†  2   .338 .009† 1.000† 0.999† .008† 16005.917†
+hw_fit_reduced 69.679   4   .000 .128   .908   .793  .071  16069.427 
+                      bic
+hw_fit         16069.718†
+hw_fit_reduced 16123.412 
 
 ################## Differences in Fit Indices #######################
                         df rmsea    cfi    tli  srmr   aic    bic
@@ -1510,7 +1513,7 @@ hw_fit_reduced - hw_fit  2 0.119 -0.092 -0.206 0.063 63.51 53.695
 </div>
 </div>
 </div>
-<div id="cell-67" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
+<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>mod_hw_larger <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades ~ PreAch + Homework + FamBack</span></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Homework ~ PreAch + FamBack + Minority</span></span>
@@ -1524,7 +1527,7 @@ hw_fit_reduced - hw_fit  2 0.119 -0.092 -0.206 0.063 63.51 53.695
 <span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed.x =</span> <span class="cn">FALSE</span></span>
 <span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
+<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(hw_fit_larger, hw_fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1535,7 +1538,7 @@ hw_fit_larger  1 16007 16076 1.3304
 hw_fit         2 16006 16070 2.1687    0.83821     0       1     0.3599</code></pre>
 </div>
 </div>
-<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
+<div id="cell-70" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit_larger, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1545,7 +1548,7 @@ hw_fit         2 16006 16070 2.1687    0.83821     0       1     0.3599</code></
     0.018     0.008     1.000 16007.079 </code></pre>
 </div>
 </div>
-<div id="cell-70" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="68">
+<div id="cell-71" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(hw_fit, hw_fit_larger) <span class="sc">|&gt;</span> <span class="fu">summary</span>(<span class="at">fit.measures =</span> fit_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1557,9 +1560,9 @@ hw_fit_larger  1 16007 16076 1.3304
 hw_fit         2 16006 16070 2.1687    0.83821     0       1     0.3599
 
 ####################### Model Fit Indices ###########################
-                     rmsea         srmr           cfi               aic
-hw_fit_larger        .018  .008&lt;U+2020&gt;        1.000         16007.079 
-hw_fit        .009&lt;U+2020&gt;        .008  1.000&lt;U+2020&gt; 16005.917&lt;U+2020&gt;
+              rmsea  srmr    cfi        aic
+hw_fit_larger .018  .008† 1.000  16007.079 
+hw_fit        .009† .008  1.000† 16005.917†
 
 ################## Differences in Fit Indices #######################
                         rmsea  srmr cfi    aic
@@ -1668,10 +1671,10 @@ Important
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="st">  PreAch ~ Homework + FamBack + Minority</span></span>
 <span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>hw_fit_reversed <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_hw_reversed, <span class="at">sample.cov =</span> nels_cov2, <span class="at">sample.nobs =</span> <span class="dv">1000</span>, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cell-74" class="cell quarto-layout-panel" data-execution_count="24" data-layout-ncol="2" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-75" class="cell quarto-layout-panel" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-layout-ncol="2" data-execution_count="48">
 
 </div>
-<div id="cell-75" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
+<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(hw_fit, hw_fit_reversed) <span class="sc">|&gt;</span> <span class="fu">summary</span>(<span class="at">fit.measures =</span> fit_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1683,16 +1686,13 @@ hw_fit           2 16006 16070 2.1687
 hw_fit_reversed  2 16006 16070 2.1687          0     0       0           
 
 ####################### Model Fit Indices ###########################
-                        chisq df        rmsea         srmr           cfi
-hw_fit          2.169&lt;U+2020&gt;  2 .009&lt;U+2020&gt; .008&lt;U+2020&gt; 1.000&lt;U+2020&gt;
-hw_fit_reversed 2.169&lt;U+2020&gt;  2 .009&lt;U+2020&gt;        .008  1.000&lt;U+2020&gt;
-                              aic
-hw_fit          16005.917&lt;U+2020&gt;
-hw_fit_reversed 16005.917&lt;U+2020&gt;
+                rmsea  srmr    cfi        aic
+hw_fit          .009† .008† 1.000† 16005.917†
+hw_fit_reversed .009† .008  1.000† 16005.917†
 
 ################## Differences in Fit Indices #######################
-                         df rmsea srmr cfi aic
-hw_fit_reversed - hw_fit  0     0    0   0   0
+                         rmsea srmr cfi aic
+hw_fit_reversed - hw_fit     0    0   0   0
 </code></pre>
 </div>
 </div>
@@ -1700,7 +1700,7 @@ hw_fit_reversed - hw_fit  0     0    0   0   0
 <section id="nonrecursive-models" class="level3">
 <h3 class="anchored" data-anchor-id="nonrecursive-models">Nonrecursive Models</h3>
 <p><img src="images/fig14-18.png" class="img-fluid" width="750"></p>
-<div id="cell-77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
+<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
 <details class="code-fold">
 <summary>Get the covariance matrix</summary>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
@@ -1715,7 +1715,7 @@ hw_fit_reversed - hw_fit  0     0    0   0   0
 <span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">sd =</span> sd, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">'mper_con'</span>, <span class="st">'man_self'</span>, <span class="st">'wper_con'</span>, <span class="st">'wom_self'</span>, <span class="st">'m_trust'</span>, <span class="st">'w_trust'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="54">
+<div id="cell-79" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>mod_trust <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="st">  m_trust ~ w_trust + mper_con + man_self</span></span>
@@ -1838,7 +1838,7 @@ Estimated via longitudinal data.</p>
 </div>
 </div>
 <p><img src="images/fig14-19.png" class="img-fluid" width="700"></p>
-<div id="cell-80" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
+<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
 <details class="code-fold">
 <summary>Get the covariance matrix</summary>
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
@@ -1854,7 +1854,7 @@ Estimated via longitudinal data.</p>
 <span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Stress_2"</span>, <span class="st">"Depersonal_2"</span>, <span class="st">"EExhaust_2"</span>, <span class="st">"PAcomplish_2"</span>,  <span class="st">"Stress_1"</span>, <span class="st">"Depersonal_1"</span>, <span class="st">"EExhaust_1"</span>, <span class="st">"PAcomplish_1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="56">
+<div id="cell-82" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>mod_stress <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
 <span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Stress_2 ~ Depersonal_1 + Stress_1 + EExhaust_2</span></span>
@@ -1961,11 +1961,11 @@ Family가 미치는 간접효과는 어떠한가?<br>
 Fully vs.&nbsp;partially mediated model 비교</p>
 <p><img src="images/fig14-21.png" class="img-fluid" width="600"></p>
 <p><img src="images/fig14-21-1.png" class="img-fluid" width="610"></p>
-<div id="cell-83" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="69">
+<div id="cell-84" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>henri <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM/henry et al.sav"</span>)</span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>henri <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 246 x 5
+<pre><code># A tibble: 246 × 5
   i_delin i_violen p_delin p_violen family
     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
 1  1.47     0.773    1.25    1.29   -0.652
@@ -1974,7 +1974,7 @@ Fully vs.&nbsp;partially mediated model 비교</p>
 4  3.83     2.45     0.279  -0.276   1.69 
 5  0.969   -0.0923  -0.884  -0.502   4.61 
 6 -0.0740   0.321   -0.755  -0.978  -0.844
-# i 240 more rows</code></pre>
+# ℹ 240 more rows</code></pre>
 </div>
 </div>
 
@@ -2433,7 +2433,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","selector":".lightbox","loop":false,"closeEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

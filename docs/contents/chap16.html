@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-23">
+<meta name="dcterms.date" content="2024-10-24">
 
 <title>Chapter 15-16. Confirmatory Factor Analysis –  CHA Statistics II in R</title>
 <style>
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -106,6 +106,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -433,7 +436,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 23, 2024</p>
+      <p class="date">October 24, 2024</p>
     </div>
   </div>
   
@@ -445,7 +448,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="157">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
@@ -501,30 +504,30 @@ window.Quarto = {
 <p><span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, density function: <span class="math inline">\(\displaystyle f(x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}\)</span></p>
 <p><span class="math inline">\(X \sim N(0, 1)\)</span>: <span class="math inline">\(\displaystyle f(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}x^2}\)</span>, (standard normal distribution)</p>
 <p>예를 들어, 1000명의 사람들이 각자 16번의 동전 던지기를 시행하면서 좌우로 움직인다면,</p>
-<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="160">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,000 x 16
-      V1    V2    V3    V4    V5    V6    V7    V8    V9   V10   V11   V12   V13
-   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     1     1    -1    -1    -1    -1    -1     1    -1    -1    -1    -1    -1
- 2     1     1    -1     1     1     1    -1    -1     1    -1     1    -1     1
- 3    -1    -1     1    -1    -1     1    -1    -1     1    -1    -1    -1    -1
- 4    -1    -1     1    -1    -1     1     1     1    -1    -1     1    -1    -1
- 5     1     1     1     1    -1     1    -1     1     1    -1    -1    -1     1
- 6    -1     1    -1     1    -1    -1     1     1     1     1     1     1     1
- 7    -1     1    -1     1     1     1    -1     1     1     1     1    -1     1
- 8     1    -1    -1     1    -1    -1    -1     1    -1    -1    -1     1     1
- 9     1    -1     1    -1     1     1    -1    -1    -1     1    -1     1     1
-10    -1    -1     1     1    -1     1     1    -1    -1     1    -1     1     1
-# i 990 more rows
-# i 3 more variables: V14 &lt;dbl&gt;, V15 &lt;dbl&gt;, V16 &lt;dbl&gt;</code></pre>
+<pre><code># A tibble: 1,000 × 16
+      V1    V2    V3    V4    V5    V6    V7    V8    V9   V10   V11   V12   V13   V14
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     1     1    -1    -1    -1    -1    -1     1    -1    -1    -1    -1    -1     1
+ 2     1     1    -1     1     1     1    -1    -1     1    -1     1    -1     1     1
+ 3    -1    -1     1    -1    -1     1    -1    -1     1    -1    -1    -1    -1    -1
+ 4    -1    -1     1    -1    -1     1     1     1    -1    -1     1    -1    -1    -1
+ 5     1     1     1     1    -1     1    -1     1     1    -1    -1    -1     1     1
+ 6    -1     1    -1     1    -1    -1     1     1     1     1     1     1     1     1
+ 7    -1     1    -1     1     1     1    -1     1     1     1     1    -1     1     1
+ 8     1    -1    -1     1    -1    -1    -1     1    -1    -1    -1     1     1     1
+ 9     1    -1     1    -1     1     1    -1    -1    -1     1    -1     1     1     1
+10    -1    -1     1     1    -1     1     1    -1    -1     1    -1     1     1     1
+# ℹ 990 more rows
+# ℹ 2 more variables: V15 &lt;dbl&gt;, V16 &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="3">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chap16_files/figure-html/cell-4-output-1.png" width="560" height="400" class="figure-img"></p>
+<p><img src="chap16_files/figure-html/cell-6-output-1.png" width="560" height="400" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -635,7 +638,7 @@ V(\delta_1) \\
 <li>Short-term memory (Memory)</li>
 </ul>
 <p><img src="images/fig16-1.png" class="img-fluid" width="600"></p>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="162">
 <details class="code-fold">
 <summary>Load the data</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>das2 <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 16 CFA 1/das 2 cov.sav"</span>)</span>
@@ -682,7 +685,7 @@ V(\delta_1) \\
 </div>
 </div>
 <p>DAS-II 모형의 CFA:</p>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="163">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>das2_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
@@ -851,41 +854,26 @@ Composite Reliability
 </div>
 <section id="implied-covariancecorrelation-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="implied-covariancecorrelation-matrix">Implied Covariance/Correlation Matrix</h3>
-<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="165">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied covariance matrix</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitted</span>(fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitted</span>(fit)<span class="sc">$</span>cov <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>$cov
-        nvss    wdss    vsss    psss    mass    sqss    pcss    rdss    rpss
-nvss 101.872                                                                
-wdss  52.464  91.885                                                        
-vsss  61.251  57.689 103.870                                                
-psss  33.464  31.518  36.797 105.867                                        
-mass  43.692  41.151  48.043  40.513 104.869                                
-sqss  47.046  44.310  51.731  43.623  56.957  93.882                        
-pcss  42.028  39.584  46.213  37.267  48.658  52.393  84.894                
-rdss  41.280  38.879  45.390  36.604  47.792  51.460  55.230  99.875        
-rpss  33.407  31.465  36.734  29.623  38.678  41.647  44.698  43.902 101.872
-dfss  45.428  42.787  49.952  35.230  45.998  49.529  44.873  44.074  35.669
-dbss  46.998  44.265  51.679  36.448  47.588  51.241  46.423  45.597  36.902
-soss  50.823  47.867  55.884  39.414  51.460  55.411  50.201  49.308  39.905
-        dfss    dbss    soss
-nvss                        
-wdss                        
-vsss                        
-psss                        
-mass                        
-sqss                        
-pcss                        
-rdss                        
-rpss                        
-dfss 121.847                
-dbss  56.459 102.871        
-soss  61.053  63.163 112.859
-</code></pre>
+<pre><code>       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss   dbss   soss
+nvss 101.87                                                                             
+wdss  52.46  91.88                                                                      
+vsss  61.25  57.69 103.87                                                               
+psss  33.46  31.52  36.80 105.87                                                        
+mass  43.69  41.15  48.04  40.51 104.87                                                 
+sqss  47.05  44.31  51.73  43.62  56.96  93.88                                          
+pcss  42.03  39.58  46.21  37.27  48.66  52.39  84.89                                   
+rdss  41.28  38.88  45.39  36.60  47.79  51.46  55.23  99.87                            
+rpss  33.41  31.46  36.73  29.62  38.68  41.65  44.70  43.90 101.87                     
+dfss  45.43  42.79  49.95  35.23  46.00  49.53  44.87  44.07  35.67 121.85              
+dbss  47.00  44.27  51.68  36.45  47.59  51.24  46.42  45.60  36.90  56.46 102.87       
+soss  50.82  47.87  55.88  39.41  51.46  55.41  50.20  49.31  39.90  61.05  63.16 112.86</code></pre>
 </div>
 </div>
-<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="166">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied correlation matrix</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit, <span class="st">"cor.ov"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()  </span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># cor.ov: observed variables only</span></span>
@@ -949,166 +937,114 @@ Summary options
 </ul>
 </div>
 </div>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="168">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
 [1] "raw"
 
 $cov
-       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss
-nvss  0.000                                                               
-wdss  1.468  0.000                                                        
-vsss -1.326  0.239  0.000                                                 
-psss  5.487  5.436  5.151  0.000                                          
-mass -3.742  0.796 -0.103 -1.562  0.000                                   
-sqss -3.101 -2.363  1.203 -4.672  2.968  0.000                            
-pcss  4.914 -2.630  2.726  1.684 -1.716  1.540  0.000                     
-rdss  2.665 -7.918 -1.445  4.345 -6.843 -1.523  0.700  0.000              
-rpss  0.550 -3.500 -0.779  4.334  1.272  2.298 -3.749  4.038  0.000       
-dfss  4.509  1.158  1.983  1.724 -6.048 -2.588 -0.928  1.869 -2.710  0.000
-dbss -4.052 -2.318 -0.742  0.506  3.348  1.693  1.517  1.344  1.051 -0.529
-soss  1.112  2.070 -0.953 -2.460  3.471 -1.478 -1.262 -1.368  0.045  0.869
-       dbss   soss
-nvss              
-wdss              
-vsss              
-psss              
-mass              
-sqss              
-pcss              
-rdss              
-rpss              
-dfss              
-dbss  0.000       
-soss -0.242  0.000
+       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss   dbss   soss
+nvss  0.000                                                                             
+wdss  1.468  0.000                                                                      
+vsss -1.326  0.239  0.000                                                               
+psss  5.487  5.436  5.151  0.000                                                        
+mass -3.742  0.796 -0.103 -1.562  0.000                                                 
+sqss -3.101 -2.363  1.203 -4.672  2.968  0.000                                          
+pcss  4.914 -2.630  2.726  1.684 -1.716  1.540  0.000                                   
+rdss  2.665 -7.918 -1.445  4.345 -6.843 -1.523  0.700  0.000                            
+rpss  0.550 -3.500 -0.779  4.334  1.272  2.298 -3.749  4.038  0.000                     
+dfss  4.509  1.158  1.983  1.724 -6.048 -2.588 -0.928  1.869 -2.710  0.000              
+dbss -4.052 -2.318 -0.742  0.506  3.348  1.693  1.517  1.344  1.051 -0.529  0.000       
+soss  1.112  2.070 -0.953 -2.460  3.471 -1.478 -1.262 -1.368  0.045  0.869 -0.242  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="169">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit, <span class="at">type=</span><span class="st">"standardized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
 [1] "standardized"
 
 $cov
-              nvss          wdss          vsss          psss          mass
-nvss         0.000                                                        
-wdss         1.319         0.000                                          
-vsss        -1.679         0.298         0.000                            
-psss         2.335         2.371         2.369         0.000              
-mass        -2.044         0.436        -0.063        -0.825 346956626.925
-sqss        -2.148        -1.658         0.961        -3.801         3.887
-pcss         3.200        -1.869         2.113         1.010        -1.427
-rdss         1.391        -4.417        -0.875         2.023        -4.363
-rpss         0.240        -1.566        -0.369         1.729         0.606
-dfss         2.114         0.568         1.044         0.651        -2.861
-dbss        -2.430        -1.423        -0.512         0.236         1.953
-soss         0.668         1.272        -0.674        -1.127         2.015
-              sqss          pcss          rdss          rpss          dfss
-nvss                                                                      
-wdss                                                                      
-vsss                                                                      
-psss                                                                      
-mass                                                                      
-sqss 121216123.901                                                        
-pcss         1.778         0.000                                          
-rdss        -1.315         1.162  76639007.444                            
-rpss         1.418        -3.798         2.472 237262015.107              
-dfss        -1.546        -0.545         0.867        -1.052 162795134.700
-dbss         1.292         1.155         0.798         0.500        -0.373
-soss        -1.177        -0.990        -0.817         0.021         0.635
-              dbss          soss
-nvss                            
-wdss                            
-vsss                            
-psss                            
-mass                            
-sqss                            
-pcss                            
-rdss                            
-rpss                            
-dfss                            
-dbss  88848735.180              
-soss        -0.275 185340208.945
+              nvss          wdss          vsss          psss          mass          sqss
+nvss         0.000                                                                      
+wdss         1.319         0.000                                                        
+vsss        -1.679         0.298         0.000                                          
+psss         2.335         2.371         2.369         0.000                            
+mass        -2.044         0.436        -0.063        -0.825 346956626.925              
+sqss        -2.148        -1.658         0.961        -3.801         3.887 121216123.901
+pcss         3.200        -1.869         2.113         1.010        -1.427         1.778
+rdss         1.391        -4.417        -0.875         2.023        -4.363        -1.315
+rpss         0.240        -1.566        -0.369         1.729         0.606         1.418
+dfss         2.114         0.568         1.044         0.651        -2.861        -1.546
+dbss        -2.430        -1.423        -0.512         0.236         1.953         1.292
+soss         0.668         1.272        -0.674        -1.127         2.015        -1.177
+              pcss          rdss          rpss          dfss          dbss          soss
+nvss                                                                                    
+wdss                                                                                    
+vsss                                                                                    
+psss                                                                                    
+mass                                                                                    
+sqss                                                                                    
+pcss         0.000                                                                      
+rdss         1.162  76639007.444                                                        
+rpss        -3.798         2.472 237262015.107                                          
+dfss        -0.545         0.867        -1.052 162795134.700                            
+dbss         1.155         0.798         0.500        -0.373  88848735.180              
+soss        -0.990        -0.817         0.021         0.635        -0.275 185340208.945
 </code></pre>
 </div>
 </div>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="170">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">"cor.bollen"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
 [1] "cor.bollen"
 
 $cov
-       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss
-nvss  0.000                                                               
-wdss  0.015  0.000                                                        
-vsss -0.013  0.002  0.000                                                 
-psss  0.053  0.055  0.049  0.000                                          
-mass -0.036  0.008 -0.001 -0.015  0.000                                   
-sqss -0.032 -0.025  0.012 -0.047  0.030  0.000                            
-pcss  0.053 -0.030  0.029  0.018 -0.018  0.017  0.000                     
-rdss  0.026 -0.083 -0.014  0.042 -0.067 -0.016  0.008  0.000              
-rpss  0.005 -0.036 -0.008  0.042  0.012  0.023 -0.040  0.040  0.000       
-dfss  0.040  0.011  0.018  0.015 -0.054 -0.024 -0.009  0.017 -0.024  0.000
-dbss -0.040 -0.024 -0.007  0.005  0.032  0.017  0.016  0.013  0.010 -0.005
-soss  0.010  0.020 -0.009 -0.023  0.032 -0.014 -0.013 -0.013  0.000  0.007
-       dbss   soss
-nvss              
-wdss              
-vsss              
-psss              
-mass              
-sqss              
-pcss              
-rdss              
-rpss              
-dfss              
-dbss  0.000       
-soss -0.002  0.000
+       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss   dbss   soss
+nvss  0.000                                                                             
+wdss  0.015  0.000                                                                      
+vsss -0.013  0.002  0.000                                                               
+psss  0.053  0.055  0.049  0.000                                                        
+mass -0.036  0.008 -0.001 -0.015  0.000                                                 
+sqss -0.032 -0.025  0.012 -0.047  0.030  0.000                                          
+pcss  0.053 -0.030  0.029  0.018 -0.018  0.017  0.000                                   
+rdss  0.026 -0.083 -0.014  0.042 -0.067 -0.016  0.008  0.000                            
+rpss  0.005 -0.036 -0.008  0.042  0.012  0.023 -0.040  0.040  0.000                     
+dfss  0.040  0.011  0.018  0.015 -0.054 -0.024 -0.009  0.017 -0.024  0.000              
+dbss -0.040 -0.024 -0.007  0.005  0.032  0.017  0.016  0.013  0.010 -0.005  0.000       
+soss  0.010  0.020 -0.009 -0.023  0.032 -0.014 -0.013 -0.013  0.000  0.007 -0.002  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="171">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링: 절대값이 0.05보다 작은 값은 NA로 대체</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>resid_cor <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">"cor.bollen"</span>)<span class="sc">$</span>cov</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>resid_cor[<span class="fu">abs</span>(resid_cor) <span class="sc">&lt;</span> <span class="fl">0.05</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>resid_cor <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss
-nvss      .                                                               
-wdss     NA      .                                                        
-vsss     NA     NA      .                                                 
-psss  0.053  0.055     NA      .                                          
-mass     NA     NA     NA     NA      .                                   
-sqss     NA     NA     NA     NA     NA      .                            
-pcss  0.053     NA     NA     NA     NA     NA      .                     
-rdss     NA -0.083     NA     NA -0.067     NA     NA      .              
-rpss     NA     NA     NA     NA     NA     NA     NA     NA      .       
-dfss     NA     NA     NA     NA -0.054     NA     NA     NA     NA      .
-dbss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA
-soss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA
-       dbss   soss
-nvss              
-wdss              
-vsss              
-psss              
-mass              
-sqss              
-pcss              
-rdss              
-rpss              
-dfss              
-dbss      .       
-soss     NA      .</code></pre>
+<pre><code>       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss   dbss   soss
+nvss      .                                                                             
+wdss     NA      .                                                                      
+vsss     NA     NA      .                                                               
+psss  0.053  0.055     NA      .                                                        
+mass     NA     NA     NA     NA      .                                                 
+sqss     NA     NA     NA     NA     NA      .                                          
+pcss  0.053     NA     NA     NA     NA     NA      .                                   
+rdss     NA -0.083     NA     NA -0.067     NA     NA      .                            
+rpss     NA     NA     NA     NA     NA     NA     NA     NA      .                     
+dfss     NA     NA     NA     NA -0.054     NA     NA     NA     NA      .              
+dbss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA      .       
+soss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA      .</code></pre>
 </div>
 </div>
 </section>
 <section id="modification-indices" class="level3">
 <h3 class="anchored" data-anchor-id="modification-indices">Modification Indices</h3>
 <p>파라미터를 추가로 추정하여 <span class="math inline">\(\chi^2\)</span> 값의 변화를 확인</p>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="172">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit, <span class="at">sort =</span> <span class="cn">TRUE</span>, <span class="at">maximum.number =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          lhs op  rhs     mi    epc sepc.lv sepc.all sepc.nox
@@ -1122,7 +1058,7 @@ soss     NA      .</code></pre>
 111      mass ~~ rdss 11.561 -7.250  -7.250   -0.149   -0.149</code></pre>
 </div>
 </div>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="173">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링: MI &gt; 10 이상인 것만 출력</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(mi <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1138,7 +1074,7 @@ soss     NA      .</code></pre>
 87       wdss ~~ rdss 11.198 -6.360  -6.360   -0.144   -0.144</code></pre>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="174">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링: operator가 =~인 것, 즉 회귀계수만 출력</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit, <span class="at">sort =</span> <span class="cn">TRUE</span>, <span class="at">maximum.number =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"=~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1157,7 +1093,7 @@ soss     NA      .</code></pre>
 <section id="cross-loadings" class="level3">
 <h3 class="anchored" data-anchor-id="cross-loadings">Cross-loadings</h3>
 <p><img src="images/fig16-7.png" class="img-fluid" width="600"></p>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="175">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>das2_model_crossload <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
@@ -1288,7 +1224,7 @@ R-Square:
 </div>
 </div>
 <p>이전 모형과 비교하면,</p>
-<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="176">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nested models</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit, fit_crossload) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1300,7 +1236,7 @@ fit_crossload 47 67479 67624 127.49
 fit           48 67477 67618 127.99    0.49144     0       1     0.4833</code></pre>
 </div>
 </div>
-<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="177">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(fit, fit_crossload) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1312,12 +1248,9 @@ fit_crossload 47 67479 67624 127.49
 fit           48 67477 67618 127.99    0.49144     0       1     0.4833
 
 ####################### Model Fit Indices ###########################
-                        chisq df pvalue        rmsea          cfi          tli
-fit_crossload 127.495&lt;U+2020&gt; 47   .000        .046         .981         .974 
-fit                  127.986  48   .000 .046&lt;U+2020&gt; .981&lt;U+2020&gt; .974&lt;U+2020&gt;
-                      srmr               aic               bic
-fit_crossload .027&lt;U+2020&gt;        67478.643         67623.866 
-fit                  .027  67477.134&lt;U+2020&gt; 67617.673&lt;U+2020&gt;
+                 chisq df pvalue rmsea   cfi   tli  srmr        aic        bic
+fit_crossload 127.495† 47   .000 .046  .981  .974  .027† 67478.643  67623.866 
+fit           127.986  48   .000 .046† .981† .974† .027  67477.134† 67617.673†
 
 ################## Differences in Fit Indices #######################
                     df  rmsea cfi   tli srmr    aic    bic
@@ -1329,7 +1262,7 @@ fit - fit_crossload  1 -0.001   0 0.001    0 -1.509 -6.193
 <section id="factor-model" class="level3">
 <h3 class="anchored" data-anchor-id="factor-model">3-factor model</h3>
 <p><img src="images/fig16-8.png" class="img-fluid" width="600"></p>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
+<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="178">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>das2_model_3f <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss + pcss + rdss + rpss</span></span>
@@ -1451,7 +1384,7 @@ R-Square:
 </code></pre>
 </div>
 </div>
-<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="34">
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="179">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare models</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(fit, fit_3f) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1463,15 +1396,12 @@ Chi-Squared Difference Test
 fit    48 67477 67618 127.99                                          
 fit_3f 51 67507 67633 163.86      35.87 0.11703       3  7.978e-08 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 ####################### Model Fit Indices ###########################
-                 chisq df pvalue        rmsea          cfi          tli
-fit    127.986&lt;U+2020&gt; 48   .000 .046&lt;U+2020&gt; .981&lt;U+2020&gt; .974&lt;U+2020&gt;
-fit_3f        163.856  51   .000        .053         .974         .966 
-               srmr               aic               bic
-fit    .027&lt;U+2020&gt; 67477.134&lt;U+2020&gt; 67617.673&lt;U+2020&gt;
-fit_3f        .029         67507.004         67633.489 
+          chisq df pvalue rmsea   cfi   tli  srmr        aic        bic
+fit    127.986† 48   .000 .046† .981† .974† .027† 67477.134† 67617.673†
+fit_3f 163.856  51   .000 .053  .974  .966  .029  67507.004  67633.489 
 
 ################## Differences in Fit Indices #######################
              df rmsea    cfi    tli  srmr   aic    bic
@@ -1483,7 +1413,7 @@ fit_3f - fit  3 0.007 -0.008 -0.008 0.002 29.87 15.816
 <section id="transform-4-factor-to-3-factor-model-with-constraints-2-step" class="level3">
 <h3 class="anchored" data-anchor-id="transform-4-factor-to-3-factor-model-with-constraints-2-step">Transform 4-factor to 3-factor model with constraints (2-step)</h3>
 <p>3-factor 모델이 초기 모델에 내포되어 있음을 확인할 수 있음.</p>
-<div id="cell-37" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="180">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>das2_model_constrain <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # free the first paraemters</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ NA*nvss + wdss + vsss</span></span>
@@ -1583,6 +1513,8 @@ Latent Variables:
 
 Covariances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  Nonverbal ~~                                                          
+    Spatial           1.000                               1.000    1.000
   Verbal ~~                                                             
     Nonverbal  (a)    0.806    0.021   38.739    0.000    0.806    0.806
     Spatial    (a)    0.806    0.021   38.739    0.000    0.806    0.806
@@ -1590,8 +1522,6 @@ Covariances:
     Memory     (b)    0.862    0.019   45.886    0.000    0.862    0.862
   Spatial ~~                                                            
     Memory     (b)    0.862    0.019   45.886    0.000    0.862    0.862
-  Nonverbal ~~                                                          
-    Spatial           1.000                               1.000    1.000
   Verbal ~~                                                             
     Memory            0.824    0.022   36.764    0.000    0.824    0.824
 
@@ -1616,7 +1546,7 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
+<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="181">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare models</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit_3f, fit_3f_2) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1631,7 +1561,7 @@ fit_3f_2 51 67507 67633 163.86  1.387e-09     0       0           </code></pre>
 </section>
 <section id="modification-indices-for-3-factor-model" class="level3">
 <h3 class="anchored" data-anchor-id="modification-indices-for-3-factor-model">Modification indices for 3-factor model</h3>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="54">
+<div id="cell-44" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="182">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit_3f, <span class="at">sort =</span> <span class="cn">TRUE</span>, <span class="at">maximum.number =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op  rhs     mi     epc sepc.lv sepc.all sepc.nox
@@ -1647,7 +1577,7 @@ fit_3f_2 51 67507 67633 163.86  1.387e-09     0       0           </code></pre>
 </div>
 <p><img src="images/fig16-8.png" class="img-fluid" width="600"></p>
 <p>가령, mass와 rdss의 잔차/오차분산 간의 상관관계를 추정하면,</p>
-<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
+<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="183">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>das2_model_3f_modi <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss + pcss + rdss + rpss</span></span>
@@ -1664,7 +1594,7 @@ fit_3f_2 51 67507 67633 163.86  1.387e-09     0       0           </code></pre>
 21 rdss ~~ rdss  48.374 2.864 16.889      0   42.760   53.987   0.484</code></pre>
 </div>
 </div>
-<div id="cell-44" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="184">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_3f, fit_3f_modi) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1674,147 +1604,95 @@ Chi-Squared Difference Test
 fit_3f_modi 50 67483 67614 138.09                                          
 fit_3f      51 67507 67633 163.86     25.764 0.17594       1  3.858e-07 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
 </div>
 </div>
 </section>
 <section id="residuals-for-3-factor-model" class="level3">
 <h3 class="anchored" data-anchor-id="residuals-for-3-factor-model">Residuals for 3-factor model</h3>
-<div id="cell-46" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
+<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="185">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
 [1] "cor.bollen"
 
 $cov
-       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss
-nvss  0.000                                                               
-wdss  0.015  0.000                                                        
-vsss -0.014  0.004  0.000                                                 
-psss  0.051  0.055  0.048  0.000                                          
-mass -0.023  0.023  0.015 -0.002  0.000                                   
-sqss -0.021 -0.012  0.026 -0.036  0.065  0.000                            
-pcss  0.039 -0.040  0.017 -0.011 -0.036 -0.008  0.000                     
-rdss  0.019 -0.088 -0.021  0.020 -0.078 -0.033  0.065  0.000              
-rpss -0.012 -0.051 -0.025  0.014 -0.009 -0.005 -0.009  0.073  0.000       
-dfss  0.038  0.011  0.017  0.012 -0.043 -0.016 -0.018  0.013 -0.038  0.000
-dbss -0.041 -0.023 -0.007  0.002  0.045  0.028  0.008  0.010 -0.004 -0.005
-soss  0.009  0.022 -0.008 -0.026  0.045 -0.004 -0.022 -0.016 -0.015  0.007
-       dbss   soss
-nvss              
-wdss              
-vsss              
-psss              
-mass              
-sqss              
-pcss              
-rdss              
-rpss              
-dfss              
-dbss  0.000       
-soss -0.002  0.000
+       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss   dbss   soss
+nvss  0.000                                                                             
+wdss  0.015  0.000                                                                      
+vsss -0.014  0.004  0.000                                                               
+psss  0.051  0.055  0.048  0.000                                                        
+mass -0.023  0.023  0.015 -0.002  0.000                                                 
+sqss -0.021 -0.012  0.026 -0.036  0.065  0.000                                          
+pcss  0.039 -0.040  0.017 -0.011 -0.036 -0.008  0.000                                   
+rdss  0.019 -0.088 -0.021  0.020 -0.078 -0.033  0.065  0.000                            
+rpss -0.012 -0.051 -0.025  0.014 -0.009 -0.005 -0.009  0.073  0.000                     
+dfss  0.038  0.011  0.017  0.012 -0.043 -0.016 -0.018  0.013 -0.038  0.000              
+dbss -0.041 -0.023 -0.007  0.002  0.045  0.028  0.008  0.010 -0.004 -0.005  0.000       
+soss  0.009  0.022 -0.008 -0.026  0.045 -0.004 -0.022 -0.016 -0.015  0.007 -0.002  0.000
 </code></pre>
 </div>
 </div>
-<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="56">
+<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="186">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f_modi, <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
 [1] "cor.bollen"
 
 $cov
-       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss
-nvss  0.000                                                               
-wdss  0.014  0.000                                                        
-vsss -0.014  0.004  0.000                                                 
-psss  0.056  0.060  0.054  0.000                                          
-mass -0.031  0.016  0.007 -0.012  0.000                                   
-sqss -0.013 -0.005  0.035 -0.032  0.051  0.000                            
-pcss  0.047 -0.033  0.025 -0.007 -0.050 -0.003  0.000                     
-rdss  0.012 -0.095 -0.028  0.010  0.000 -0.047  0.051  0.000              
-rpss -0.008 -0.048 -0.021  0.014 -0.022 -0.004 -0.008  0.060  0.000       
-dfss  0.039  0.012  0.018  0.016 -0.052 -0.010 -0.012  0.005 -0.036  0.000
-dbss -0.041 -0.023 -0.006  0.006  0.035  0.033  0.013  0.000 -0.003 -0.005
-soss  0.008  0.021 -0.008 -0.022  0.034  0.002 -0.017 -0.027 -0.013  0.007
-       dbss   soss
-nvss              
-wdss              
-vsss              
-psss              
-mass              
-sqss              
-pcss              
-rdss              
-rpss              
-dfss              
-dbss  0.000       
-soss -0.002  0.000
+       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss   dbss   soss
+nvss  0.000                                                                             
+wdss  0.014  0.000                                                                      
+vsss -0.014  0.004  0.000                                                               
+psss  0.056  0.060  0.054  0.000                                                        
+mass -0.031  0.016  0.007 -0.012  0.000                                                 
+sqss -0.013 -0.005  0.035 -0.032  0.051  0.000                                          
+pcss  0.047 -0.033  0.025 -0.007 -0.050 -0.003  0.000                                   
+rdss  0.012 -0.095 -0.028  0.010  0.000 -0.047  0.051  0.000                            
+rpss -0.008 -0.048 -0.021  0.014 -0.022 -0.004 -0.008  0.060  0.000                     
+dfss  0.039  0.012  0.018  0.016 -0.052 -0.010 -0.012  0.005 -0.036  0.000              
+dbss -0.041 -0.023 -0.006  0.006  0.035  0.033  0.013  0.000 -0.003 -0.005  0.000       
+soss  0.008  0.021 -0.008 -0.022  0.034  0.002 -0.017 -0.027 -0.013  0.007 -0.002  0.000
 </code></pre>
 </div>
 </div>
 <p>Word Definitions(wdss)와 Recall of Designs(rdss) 간의 공분산에 대한 논의: 양수 vs.&nbsp;음수</p>
-<div id="cell-49" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="44">
+<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="187">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keith's Table 16.3: normalized? standardized?</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"pcss"</span>, <span class="st">"soss"</span>, <span class="st">"dbss"</span>, <span class="st">"dfss"</span>, <span class="st">"rpss"</span>, <span class="st">"rdss"</span>, <span class="st">"sqss"</span>, <span class="st">"mass"</span>, <span class="st">"psss"</span>, <span class="st">"vsss"</span>, <span class="st">"wdss"</span>, <span class="st">"nvss"</span>)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"normalized"</span>)<span class="sc">$</span>cov[vars, vars] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss
-pcss  0.000 -0.553  0.192 -0.458 -0.227  1.570 -0.197 -0.905 -0.289  0.418
-soss -0.553  0.000 -0.040  0.173 -0.385 -0.413 -0.095  1.144 -0.686 -0.207
-dbss  0.192 -0.040  0.000 -0.130 -0.111  0.263  0.685  1.150  0.050 -0.166
-dfss -0.458  0.173 -0.130  0.000 -1.026  0.352 -0.413 -1.139  0.321  0.444
-rpss -0.227 -0.385 -0.111 -1.026  0.000  1.861 -0.125 -0.239  0.376 -0.661
-rdss  1.570 -0.413  0.263  0.352  1.861  0.000 -0.827 -2.040  0.530 -0.535
-sqss -0.197 -0.095  0.685 -0.413 -0.125 -0.827  0.000  1.565 -0.948  0.643
-mass -0.905  1.144  1.150 -1.139 -0.239 -2.040  1.565  0.000 -0.052  0.385
-psss -0.289 -0.686  0.050  0.321  0.376  0.530 -0.948 -0.052  0.000  1.271
-vsss  0.418 -0.207 -0.166  0.444 -0.661 -0.535  0.643  0.385  1.271  0.000
-wdss -1.052  0.548 -0.586  0.294 -1.393 -2.365 -0.318  0.605  1.456  0.108
-nvss  0.997  0.226 -1.069  0.992 -0.317  0.486 -0.547 -0.615  1.346 -0.351
-       wdss   nvss
-pcss -1.052  0.997
-soss  0.548  0.226
-dbss -0.586 -1.069
-dfss  0.294  0.992
-rpss -1.393 -0.317
-rdss -2.365  0.486
-sqss -0.318 -0.547
-mass  0.605 -0.615
-psss  1.456  1.346
-vsss  0.108 -0.351
-wdss  0.000  0.363
-nvss  0.363  0.000</code></pre>
+<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss   wdss   nvss
+pcss  0.000 -0.553  0.192 -0.458 -0.227  1.570 -0.197 -0.905 -0.289  0.418 -1.052  0.997
+soss -0.553  0.000 -0.040  0.173 -0.385 -0.413 -0.095  1.144 -0.686 -0.207  0.548  0.226
+dbss  0.192 -0.040  0.000 -0.130 -0.111  0.263  0.685  1.150  0.050 -0.166 -0.586 -1.069
+dfss -0.458  0.173 -0.130  0.000 -1.026  0.352 -0.413 -1.139  0.321  0.444  0.294  0.992
+rpss -0.227 -0.385 -0.111 -1.026  0.000  1.861 -0.125 -0.239  0.376 -0.661 -1.393 -0.317
+rdss  1.570 -0.413  0.263  0.352  1.861  0.000 -0.827 -2.040  0.530 -0.535 -2.365  0.486
+sqss -0.197 -0.095  0.685 -0.413 -0.125 -0.827  0.000  1.565 -0.948  0.643 -0.318 -0.547
+mass -0.905  1.144  1.150 -1.139 -0.239 -2.040  1.565  0.000 -0.052  0.385  0.605 -0.615
+psss -0.289 -0.686  0.050  0.321  0.376  0.530 -0.948 -0.052  0.000  1.271  1.456  1.346
+vsss  0.418 -0.207 -0.166  0.444 -0.661 -0.535  0.643  0.385  1.271  0.000  0.108 -0.351
+wdss -1.052  0.548 -0.586  0.294 -1.393 -2.365 -0.318  0.605  1.456  0.108  0.000  0.363
+nvss  0.997  0.226 -1.069  0.992 -0.317  0.486 -0.547 -0.615  1.346 -0.351  0.363  0.000</code></pre>
 </div>
 </div>
-<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
+<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="188">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"standardized.mplus"</span>)<span class="sc">$</span>cov[vars, vars] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss
-pcss  0.000 -1.646  0.497 -1.055 -0.586  4.085 -0.894 -3.242 -0.710  1.062
-soss -1.646  0.000 -0.204  0.581 -0.751 -0.983 -0.276  2.420 -1.291 -0.638
-dbss  0.497 -0.204  0.000 -0.412 -0.205  0.573  1.734  2.341  0.089 -0.472
-dfss -1.055  0.581 -0.412  0.007 -1.717  0.668 -0.970 -2.232  0.506  0.995
-rpss -0.586 -0.751 -0.205 -1.717  0.007  3.546 -0.330 -0.486  0.609 -1.243
-rdss  4.085 -0.983  0.573  0.668  3.546  0.004 -3.189 -6.045  1.024 -1.217
-sqss -0.894 -0.276  1.734 -0.970 -0.330 -3.189  0.005  4.087 -2.523  1.636
-mass -3.242  2.420  2.341 -2.232 -0.486 -6.045  4.087  0.000 -0.100  0.814
-psss -0.710 -1.291  0.089  0.506  0.609  1.024 -2.523 -0.100  0.005  2.182
-vsss  1.062 -0.638 -0.472  0.995 -1.243 -1.217  1.636  0.814  2.182  0.000
-wdss -2.539  1.294 -1.417  0.578 -2.380 -5.017 -0.747  1.129  2.277  0.512
-nvss  2.161  0.559 -2.747  1.928 -0.539  0.943 -1.337 -1.219  2.134 -2.247
-       wdss   nvss
-pcss -2.539  2.161
-soss  1.294  0.559
-dbss -1.417 -2.747
-dfss  0.578  1.928
-rpss -2.380 -0.539
-rdss -5.017  0.943
-sqss -0.747 -1.337
-mass  1.129 -1.219
-psss  2.277  2.134
-vsss  0.512 -2.247
-wdss  0.000  1.220
-nvss  1.220     NA</code></pre>
+<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss   wdss   nvss
+pcss  0.000 -1.646  0.497 -1.055 -0.586  4.085 -0.894 -3.242 -0.710  1.062 -2.539  2.161
+soss -1.646  0.000 -0.204  0.581 -0.751 -0.983 -0.276  2.420 -1.291 -0.638  1.294  0.559
+dbss  0.497 -0.204  0.000 -0.412 -0.205  0.573  1.734  2.341  0.089 -0.472 -1.417 -2.747
+dfss -1.055  0.581 -0.412  0.007 -1.717  0.668 -0.970 -2.232  0.506  0.995  0.578  1.928
+rpss -0.586 -0.751 -0.205 -1.717  0.007  3.546 -0.330 -0.486  0.609 -1.243 -2.380 -0.539
+rdss  4.085 -0.983  0.573  0.668  3.546  0.004 -3.189 -6.045  1.024 -1.217 -5.017  0.943
+sqss -0.894 -0.276  1.734 -0.970 -0.330 -3.189  0.005  4.087 -2.523  1.636 -0.747 -1.337
+mass -3.242  2.420  2.341 -2.232 -0.486 -6.045  4.087  0.000 -0.100  0.814  1.129 -1.219
+psss -0.710 -1.291  0.089  0.506  0.609  1.024 -2.523 -0.100  0.005  2.182  2.277  2.134
+vsss  1.062 -0.638 -0.472  0.995 -1.243 -1.217  1.636  0.814  2.182  0.000  0.512 -2.247
+wdss -2.539  1.294 -1.417  0.578 -2.380 -5.017 -0.747  1.129  2.277  0.512  0.000  1.220
+nvss  2.161  0.559 -2.747  1.928 -0.539  0.943 -1.337 -1.219  2.134 -2.247  1.220     NA</code></pre>
 </div>
 </div>
 <p>Word Definitions(wdss)와 Recall of Designs(rdss) 간의 상관에 대한 논의;</p>
@@ -1823,44 +1701,39 @@ nvss  1.220     NA</code></pre>
 <li>실제 상관계수: <span class="math inline">\(r = 0.32\)</span></li>
 <li>그 차이는 대략 0.09</li>
 </ul>
-<div id="cell-52" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
+<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="189">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keith's Table 16.4</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"cor"</span>)<span class="sc">$</span>cov[vars, vars] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss
-pcss  0.000 -0.022  0.008 -0.018 -0.009  0.065 -0.008 -0.036 -0.011  0.017
-soss -0.022  0.000 -0.002  0.007 -0.015 -0.016 -0.004  0.045 -0.026 -0.008
-dbss  0.008 -0.002  0.000 -0.005 -0.004  0.010  0.028  0.045  0.002 -0.007
-dfss -0.018  0.007 -0.005  0.000 -0.038  0.013 -0.016 -0.043  0.012  0.017
-rpss -0.009 -0.015 -0.004 -0.038  0.000  0.073 -0.005 -0.009  0.014 -0.025
-rdss  0.065 -0.016  0.010  0.013  0.073  0.000 -0.033 -0.078  0.020 -0.021
-sqss -0.008 -0.004  0.028 -0.016 -0.005 -0.033  0.000  0.065 -0.036  0.026
-mass -0.036  0.045  0.045 -0.043 -0.009 -0.078  0.065  0.000 -0.002  0.015
-psss -0.011 -0.026  0.002  0.012  0.014  0.020 -0.036 -0.002  0.000  0.048
-vsss  0.017 -0.008 -0.007  0.017 -0.025 -0.021  0.026  0.015  0.048  0.000
-wdss -0.040  0.022 -0.023  0.011 -0.051 -0.088 -0.012  0.023  0.055  0.004
-nvss  0.039  0.009 -0.041  0.038 -0.012  0.019 -0.021 -0.023  0.051 -0.014
-       wdss   nvss
-pcss -0.040  0.039
-soss  0.022  0.009
-dbss -0.023 -0.041
-dfss  0.011  0.038
-rpss -0.051 -0.012
-rdss -0.088  0.019
-sqss -0.012 -0.021
-mass  0.023 -0.023
-psss  0.055  0.051
-vsss  0.004 -0.014
-wdss  0.000  0.015
-nvss  0.015  0.000</code></pre>
+<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss   wdss   nvss
+pcss  0.000 -0.022  0.008 -0.018 -0.009  0.065 -0.008 -0.036 -0.011  0.017 -0.040  0.039
+soss -0.022  0.000 -0.002  0.007 -0.015 -0.016 -0.004  0.045 -0.026 -0.008  0.022  0.009
+dbss  0.008 -0.002  0.000 -0.005 -0.004  0.010  0.028  0.045  0.002 -0.007 -0.023 -0.041
+dfss -0.018  0.007 -0.005  0.000 -0.038  0.013 -0.016 -0.043  0.012  0.017  0.011  0.038
+rpss -0.009 -0.015 -0.004 -0.038  0.000  0.073 -0.005 -0.009  0.014 -0.025 -0.051 -0.012
+rdss  0.065 -0.016  0.010  0.013  0.073  0.000 -0.033 -0.078  0.020 -0.021 -0.088  0.019
+sqss -0.008 -0.004  0.028 -0.016 -0.005 -0.033  0.000  0.065 -0.036  0.026 -0.012 -0.021
+mass -0.036  0.045  0.045 -0.043 -0.009 -0.078  0.065  0.000 -0.002  0.015  0.023 -0.023
+psss -0.011 -0.026  0.002  0.012  0.014  0.020 -0.036 -0.002  0.000  0.048  0.055  0.051
+vsss  0.017 -0.008 -0.007  0.017 -0.025 -0.021  0.026  0.015  0.048  0.000  0.004 -0.014
+wdss -0.040  0.022 -0.023  0.011 -0.051 -0.088 -0.012  0.023  0.055  0.004  0.000  0.015
+nvss  0.039  0.009 -0.041  0.038 -0.012  0.019 -0.021 -0.023  0.051 -0.014  0.015  0.000</code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="higher-order-model" class="level2">
 <h2 class="anchored" data-anchor-id="higher-order-model">Higher-order model</h2>
+<p>Hierarchical CFA model</p>
+<p>First-order factors들에 대한 인과모형: 요인들 간의 관계를 설명<br>
+Second-order factors에 대한 indicators들: first order factors</p>
+<ul>
+<li>아래와 같은 모형은 first-order factors 간의 상관관계를 g로 다 설명할 수 있다는 가설을 반영</li>
+<li>g로 설명되지 않는 부분인 disturbance가 존재: 내생변수가 됨</li>
+<li>Identified되려며 적어도 3개의 1st-order 요인이 존재해야 함</li>
+</ul>
 <p><img src="images/fig16-11.png" class="img-fluid" width="600"></p>
-<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="57">
+<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="190">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>das2_model_higher <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
@@ -1989,48 +1862,36 @@ R-Square:
 </code></pre>
 </div>
 </div>
-<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_higher, <span class="st">"normalized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="191">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(fit, fit_higher) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>$type
-[1] "normalized"
+<pre><code>################### Nested Model Comparison #########################
 
-$cov
-       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss
-nvss  0.000                                                               
-wdss  0.414  0.000                                                        
-vsss -0.364  0.091  0.000                                                 
-psss  1.251  1.361  1.123  0.000                                          
-mass -1.229  0.006 -0.324 -0.419  0.000                                   
-sqss -1.029 -0.794  0.073 -1.178  0.695  0.000                            
-pcss  0.947 -1.106  0.301  0.819 -0.100  0.913  0.000                     
-rdss  0.317 -2.540 -0.778  1.426 -1.425  0.061  0.146  0.000              
-rpss -0.103 -1.181 -0.477  1.427  0.651  1.048 -0.998  1.056  0.000       
-dfss  1.605  0.904  1.052  0.316 -1.623 -0.753 -0.387  0.299 -0.724  0.000
-dbss -0.533 -0.063  0.338 -0.088  0.464  0.132  0.091  0.039  0.084 -0.124
-soss  0.862  1.172  0.415 -0.747  0.543 -0.554 -0.546 -0.544 -0.100  0.288
-       dbss   soss
-nvss              
-wdss              
-vsss              
-psss              
-mass              
-sqss              
-pcss              
-rdss              
-rpss              
-dfss              
-dbss  0.000       
-soss -0.115  0.000
+Chi-Squared Difference Test
+
+           Df   AIC   BIC  Chisq Chisq diff    RMSEA Df diff Pr(&gt;Chisq)    
+fit        48 67477 67618 127.99                                           
+fit_higher 50 67487 67618 141.97     13.986 0.086552       2  0.0009183 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####################### Model Fit Indices ###########################
+              chisq df pvalue rmsea   cfi   tli  srmr        aic        bic
+fit        127.986† 48   .000 .046† .981† .974† .027† 67477.134† 67617.673†
+fit_higher 141.972  50   .000 .048  .978  .972  .029  67487.120  67618.289 
+
+################## Differences in Fit Indices #######################
+                 df rmsea    cfi    tli  srmr   aic   bic
+fit_higher - fit  2 0.002 -0.003 -0.003 0.003 9.986 0.617
 </code></pre>
 </div>
 </div>
-<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
+<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="192">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fit_higher, <span class="at">what =</span> <span class="st">"est"</span>, <span class="at">edge.label.cex =</span> .<span class="dv">8</span>, <span class="at">fade =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chap16_files/figure-html/cell-33-output-1.png" width="420" height="420" class="figure-img"></p>
+<p><img src="chap16_files/figure-html/cell-37-output-1.png" width="560" height="400" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2038,48 +1899,52 @@ soss -0.115  0.000
 </section>
 <section id="bifactor-model" class="level2">
 <h2 class="anchored" data-anchor-id="bifactor-model">Bifactor model</h2>
-<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Bifactor model</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>das2_model_bifactor <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
-<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ dfss + dbss + soss</span></span>
-<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ NA*nvss + 1*wdss + vsss + psss + mass + sqss + pcss + rdss + rpss + dfss + dbss + soss</span></span>
-<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="st">  mass ~~ 0*mass</span></span>
-<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # orthogonal factors (uncorrelated factors)</span></span>
-<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Nonverbal</span></span>
-<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Spatial</span></span>
-<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Memory</span></span>
-<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Spatial</span></span>
-<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Memory</span></span>
-<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial ~~ 0*Memory</span></span>
-<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Verbal</span></span>
-<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Nonverbal</span></span>
-<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Spatial</span></span>
-<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Memory</span></span>
-<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<p>또는 Nested-factor models, general-specific models</p>
+<ul>
+<li>보통, indicators들이 general factor로 이루어졌다고 보지만, 하위의 domain-specific factors에 대해 살펴보고자 하는 상황에서 발생</li>
+<li>General factor g: 모든 indicator들에 대한 직접적인 공통요인이나</li>
+<li>Domain-specific factors에 대해서는 인과적 효과가 없다고 가정</li>
+<li>Indicators의 분산은 3개의 요인들로 분할됨: 1) general factor, 2) domain-specific factors, 3) errors</li>
+<li>보통, 요인들 간의 상관은 없는 것으로 가정: canonical</li>
+<li>Hierchical 모형에 비해 더 해석 가능하며, 구조모형에 들어갈 때에도 보다 유리함; <a href="https://www.researchgate.net/profile/Karen-Sousa/publication/228369180_A_Comparison_of_Bifactor_and_Second-Order_Models_of_Quality_of_Life/links/09e4150aaad4e77775000000/A-Comparison-of-Bifactor-and-Second-Order-Models-of-Quality-of-Life.pdf">Chen et al., 2006</a>; <a href="https://www.researchgate.net/profile/Gilles-Gignac/publication/26514567_Higher-order_models_versus_direct_hierarchical_models_g_as_superordinate_or_breadth_factor/links/00b7d519d8f340d272000000/Higher-order-models-versus-direct-hierarchical-models-g-as-superordinate-or-breadth-factor.pdf">Gignac, 2008</a>; pp.&nbsp;256-257, Kline(2023)
+<ul>
+<li>Bifactor model: g와 domain-specific factors 모두 외생변수</li>
+<li>Hierarchical model: domain-specific factors는 g에 의해 설명되지 않는 부분</li>
+</ul></li>
+</ul>
+<p><img src="images/fig16-15.png" class="img-fluid" width="650"></p>
+<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="193">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>das2_model_bifactor <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ dfss + dbss + soss</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ nvss + wdss + vsss + psss + mass + sqss + pcss + rdss + rpss + dfss + dbss + soss</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a><span class="st">  mass ~~ 0*mass</span></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # orthogonal factors (uncorrelated factors)</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Nonverbal</span></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Spatial</span></span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Memory</span></span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Spatial</span></span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Memory</span></span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial ~~ 0*Memory</span></span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Verbal</span></span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Nonverbal</span></span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Spatial</span></span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Memory</span></span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
 <span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor,</span>
-<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov =</span> das2cov,</span>
-<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.nobs =</span> <span class="dv">800</span>,</span>
-<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov.rescale =</span> <span class="cn">FALSE</span></span>
-<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb67-30"><a href="#cb67-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-31"><a href="#cb67-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 또는 아래와 같이 uncorrelated factors로 설정</span></span>
-<span id="cb67-32"><a href="#cb67-32" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor,</span>
-<span id="cb67-33"><a href="#cb67-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov =</span> das2cov,</span>
-<span id="cb67-34"><a href="#cb67-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.nobs =</span> <span class="dv">800</span>,</span>
-<span id="cb67-35"><a href="#cb67-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov.rescale =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb67-36"><a href="#cb67-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">auto.cov.lv.x =</span> <span class="cn">FALSE</span></span>
-<span id="cb67-37"><a href="#cb67-37" aria-hidden="true" tabindex="-1"></a>) <span class="co"># uncorrelated factors</span></span>
-<span id="cb67-38"><a href="#cb67-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-39"><a href="#cb67-39" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_bif, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 위에서처럼 orthogonal factor로 직접 설정하거나 다름와 같이 옵션으로 설정</span></span>
+<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>,</span>
+<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">auto.cov.lv.x =</span> <span class="cn">FALSE</span>) <span class="co"># uncorrelated factors</span></span>
+<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_bif, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 594 iterations
+<pre><code>lavaan 0.6-19 ended normally after 769 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -2106,12 +1971,12 @@ User Model versus Baseline Model:
 
 Loglikelihood and Information Criteria:
 
-  Loglikelihood user model (H0)             -33704.821
-  Loglikelihood unrestricted model (H1)     -33650.578
+  Loglikelihood user model (H0)             -33698.817
+  Loglikelihood unrestricted model (H1)     -33644.574
                                                       
-  Akaike (AIC)                               67479.642
-  Bayesian (BIC)                             67643.604
-  Sample-size adjusted Bayesian (SABIC)      67532.459
+  Akaike (AIC)                               67467.635
+  Bayesian (BIC)                             67631.596
+  Sample-size adjusted Bayesian (SABIC)      67520.452
 
 Root Mean Square Error of Approximation:
 
@@ -2134,34 +1999,34 @@ Parameter Estimates:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   Verbal =~                                                             
-    nvss              1.000                               3.675    0.364
-    wdss              1.189    0.210    5.661    0.000    4.371    0.456
-    vsss              0.999    0.162    6.159    0.000    3.670    0.360
+    nvss              1.000                               3.673    0.364
+    wdss              1.189    0.210    5.661    0.000    4.368    0.456
+    vsss              0.999    0.162    6.159    0.000    3.668    0.360
   Nonverbal =~                                                          
     psss              1.000                               0.109    0.011
-    mass             70.326  219.176    0.321    0.748    7.646    0.746
-    sqss             11.347   35.165    0.323    0.747    1.234    0.127
+    mass             70.327  219.185    0.321    0.748    7.641    0.746
+    sqss             11.347   35.167    0.323    0.747    1.233    0.127
   Spatial =~                                                            
-    pcss              1.000                               1.687    0.183
-    rdss              3.889    2.449    1.588    0.112    6.562    0.656
-    rpss              1.110    0.273    4.070    0.000    1.873    0.185
+    pcss              1.000                               1.686    0.183
+    rdss              3.889    2.449    1.588    0.112    6.558    0.656
+    rpss              1.110    0.273    4.070    0.000    1.872    0.185
   Memory =~                                                             
-    dfss              1.000                               3.291    0.298
-    dbss              0.837    0.227    3.686    0.000    2.754    0.271
-    soss              1.136    0.350    3.247    0.001    3.738    0.352
+    dfss              1.000                               3.289    0.298
+    dbss              0.837    0.227    3.686    0.000    2.752    0.271
+    soss              1.136    0.350    3.247    0.001    3.735    0.352
   G =~                                                                  
-    nvss              1.109    0.064   17.389    0.000    6.485    0.642
-    wdss              1.000                               5.850    0.610
-    vsss              1.226    0.065   18.772    0.000    7.172    0.703
-    psss              0.956    0.074   12.902    0.000    5.595    0.543
-    mass              1.166    0.078   14.989    0.000    6.822    0.666
-    sqss              1.267    0.076   16.629    0.000    7.412    0.765
-    pcss              1.180    0.072   16.387    0.000    6.900    0.748
-    rdss              1.113    0.075   14.795    0.000    6.511    0.651
-    rpss              0.937    0.073   12.815    0.000    5.484    0.543
-    dfss              1.137    0.082   13.930    0.000    6.653    0.602
-    dbss              1.206    0.078   15.540    0.000    7.055    0.695
-    soss              1.277    0.082   15.664    0.000    7.471    0.703
+    nvss              1.000                               6.481    0.642
+    wdss              0.902    0.052   17.389    0.000    5.846    0.610
+    vsss              1.106    0.058   19.161    0.000    7.168    0.703
+    psss              0.863    0.065   13.335    0.000    5.591    0.543
+    mass              1.052    0.067   15.680    0.000    6.818    0.666
+    sqss              1.143    0.065   17.587    0.000    7.408    0.765
+    pcss              1.064    0.062   17.301    0.000    6.896    0.748
+    rdss              1.004    0.065   15.458    0.000    6.507    0.651
+    rpss              0.846    0.064   13.239    0.000    5.481    0.543
+    dfss              1.026    0.071   14.479    0.000    6.648    0.602
+    dbss              1.088    0.067   16.313    0.000    7.051    0.695
+    soss              1.152    0.070   16.457    0.000    7.466    0.703
 
 Covariances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -2186,194 +2051,130 @@ Covariances:
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
    .mass              0.000                               0.000    0.000
-   .nvss             46.440    3.259   14.248    0.000   46.440    0.455
-   .wdss             38.673    3.802   10.172    0.000   38.673    0.420
-   .vsss             39.087    3.019   12.945    0.000   39.087    0.376
-   .psss             74.685    3.977   18.778    0.000   74.685    0.705
-   .sqss             37.534    2.243   16.737    0.000   37.534    0.399
-   .pcss             34.543    2.497   13.834    0.000   34.543    0.406
-   .rdss             14.542   26.089    0.557    0.577   14.542    0.145
-   .rpss             68.417    3.959   17.282    0.000   68.417    0.671
-   .dfss             66.910    4.717   14.186    0.000   66.910    0.548
-   .dbss             45.638    3.274   13.938    0.000   45.638    0.443
-   .soss             43.221    4.804    8.998    0.000   43.221    0.382
-    Verbal           13.508    3.302    4.091    0.000    1.000    1.000
+   .nvss             46.382    3.255   14.248    0.000   46.382    0.455
+   .wdss             38.625    3.797   10.172    0.000   38.625    0.420
+   .vsss             39.039    3.016   12.945    0.000   39.039    0.376
+   .psss             74.591    3.972   18.778    0.000   74.591    0.705
+   .sqss             37.487    2.240   16.737    0.000   37.487    0.399
+   .pcss             34.500    2.494   13.834    0.000   34.500    0.406
+   .rdss             14.524   26.056    0.557    0.577   14.524    0.145
+   .rpss             68.332    3.954   17.282    0.000   68.332    0.671
+   .dfss             66.827    4.711   14.186    0.000   66.827    0.548
+   .dbss             45.581    3.270   13.938    0.000   45.581    0.443
+   .soss             43.167    4.798    8.998    0.000   43.167    0.382
+    Verbal           13.491    3.298    4.091    0.000    1.000    1.000
     Nonverbal         0.012    0.074    0.160    0.873    1.000    1.000
-    Spatial           2.847    1.993    1.428    0.153    1.000    1.000
-    Memory           10.833    4.351    2.490    0.013    1.000    1.000
-    G                34.221    3.819    8.961    0.000    1.000    1.000
+    Spatial           2.844    1.991    1.428    0.153    1.000    1.000
+    Memory           10.820    4.345    2.490    0.013    1.000    1.000
+    G                41.999    4.389    9.569    0.000    1.000    1.000
 </code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit_bif, <span class="at">what =</span> <span class="st">"est"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>() <span class="co"># minus variance for mass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>mass에 대한 variance가 음수가 되어 <code>mass ~~ 0*mass</code>으로 설정했음.</p>
+<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="194">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit_bif, <span class="at">what =</span> <span class="st">"est"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$lambda
      Verbal Nnvrbl Spatil Memory     G
-nvss  1.000  0.000  0.000  0.000 1.109
-wdss  1.189  0.000  0.000  0.000 1.000
-vsss  0.999  0.000  0.000  0.000 1.226
-psss  0.000  1.000  0.000  0.000 0.956
-mass  0.000 70.326  0.000  0.000 1.166
-sqss  0.000 11.347  0.000  0.000 1.267
-pcss  0.000  0.000  1.000  0.000 1.180
-rdss  0.000  0.000  3.889  0.000 1.113
-rpss  0.000  0.000  1.110  0.000 0.937
-dfss  0.000  0.000  0.000  1.000 1.137
-dbss  0.000  0.000  0.000  0.837 1.206
-soss  0.000  0.000  0.000  1.136 1.277
+nvss  1.000  0.000  0.000  0.000 1.000
+wdss  1.189  0.000  0.000  0.000 0.902
+vsss  0.999  0.000  0.000  0.000 1.106
+psss  0.000  1.000  0.000  0.000 0.863
+mass  0.000 70.327  0.000  0.000 1.052
+sqss  0.000 11.347  0.000  0.000 1.143
+pcss  0.000  0.000  1.000  0.000 1.064
+rdss  0.000  0.000  3.889  0.000 1.004
+rpss  0.000  0.000  1.110  0.000 0.846
+dfss  0.000  0.000  0.000  1.000 1.026
+dbss  0.000  0.000  0.000  0.837 1.088
+soss  0.000  0.000  0.000  1.136 1.152
 
 $theta
-       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss
-nvss 46.440                                                               
-wdss  0.000 38.673                                                        
-vsss  0.000  0.000 39.087                                                 
-psss  0.000  0.000  0.000 74.685                                          
-mass  0.000  0.000  0.000  0.000  0.000                                   
-sqss  0.000  0.000  0.000  0.000  0.000 37.534                            
-pcss  0.000  0.000  0.000  0.000  0.000  0.000 34.543                     
-rdss  0.000  0.000  0.000  0.000  0.000  0.000  0.000 14.542              
-rpss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000 68.417       
-dfss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000 66.910
-dbss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
-soss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
-       dbss   soss
-nvss              
-wdss              
-vsss              
-psss              
-mass              
-sqss              
-pcss              
-rdss              
-rpss              
-dfss              
-dbss 45.638       
-soss  0.000 43.221
+       nvss   wdss   vsss   psss   mass   sqss   pcss   rdss   rpss   dfss   dbss   soss
+nvss 46.382                                                                             
+wdss  0.000 38.625                                                                      
+vsss  0.000  0.000 39.039                                                               
+psss  0.000  0.000  0.000 74.591                                                        
+mass  0.000  0.000  0.000  0.000  0.000                                                 
+sqss  0.000  0.000  0.000  0.000  0.000 37.487                                          
+pcss  0.000  0.000  0.000  0.000  0.000  0.000 34.500                                   
+rdss  0.000  0.000  0.000  0.000  0.000  0.000  0.000 14.524                            
+rpss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000 68.332                     
+dfss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000 66.827              
+dbss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000 45.581       
+soss  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000 43.167
 
 $psi
           Verbal Nnvrbl Spatil Memory      G
-Verbal    13.508                            
+Verbal    13.491                            
 Nonverbal  0.000  0.012                     
-Spatial    0.000  0.000  2.847              
-Memory     0.000  0.000  0.000 10.833       
-G          0.000  0.000  0.000  0.000 34.221
+Spatial    0.000  0.000  2.844              
+Memory     0.000  0.000  0.000 10.820       
+G          0.000  0.000  0.000  0.000 41.999
 </code></pre>
 </div>
 </div>
-<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
+<div id="cell-66" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="196">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterTable</span>(fit_bif) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   id       lhs op       rhs user block group free ustart exo label plabel
-1   1    Verbal =~      nvss    1     1     1    0      1   0         .p1.
-2   2    Verbal =~      wdss    1     1     1    1     NA   0         .p2.
-3   3    Verbal =~      vsss    1     1     1    2     NA   0         .p3.
-4   4 Nonverbal =~      psss    1     1     1    0      1   0         .p4.
-5   5 Nonverbal =~      mass    1     1     1    3     NA   0         .p5.
-6   6 Nonverbal =~      sqss    1     1     1    4     NA   0         .p6.
-7   7   Spatial =~      pcss    1     1     1    0      1   0         .p7.
-8   8   Spatial =~      rdss    1     1     1    5     NA   0         .p8.
-9   9   Spatial =~      rpss    1     1     1    6     NA   0         .p9.
-10 10    Memory =~      dfss    1     1     1    0      1   0        .p10.
-11 11    Memory =~      dbss    1     1     1    7     NA   0        .p11.
-12 12    Memory =~      soss    1     1     1    8     NA   0        .p12.
-13 13         G =~      nvss    1     1     1    9     NA   0        .p13.
-14 14         G =~      wdss    1     1     1    0      1   0        .p14.
-15 15         G =~      vsss    1     1     1   10     NA   0        .p15.
-16 16         G =~      psss    1     1     1   11     NA   0        .p16.
-17 17         G =~      mass    1     1     1   12     NA   0        .p17.
-18 18         G =~      sqss    1     1     1   13     NA   0        .p18.
-19 19         G =~      pcss    1     1     1   14     NA   0        .p19.
-20 20         G =~      rdss    1     1     1   15     NA   0        .p20.
-21 21         G =~      rpss    1     1     1   16     NA   0        .p21.
-22 22         G =~      dfss    1     1     1   17     NA   0        .p22.
-23 23         G =~      dbss    1     1     1   18     NA   0        .p23.
-24 24         G =~      soss    1     1     1   19     NA   0        .p24.
-25 25      mass ~~      mass    1     1     1    0      0   0        .p25.
-26 26    Verbal ~~ Nonverbal    1     1     1    0      0   0        .p26.
-27 27    Verbal ~~   Spatial    1     1     1    0      0   0        .p27.
-28 28    Verbal ~~    Memory    1     1     1    0      0   0        .p28.
-29 29 Nonverbal ~~   Spatial    1     1     1    0      0   0        .p29.
-30 30 Nonverbal ~~    Memory    1     1     1    0      0   0        .p30.
-31 31   Spatial ~~    Memory    1     1     1    0      0   0        .p31.
-32 32    Verbal ~~         G    1     1     1    0      0   0        .p32.
-33 33 Nonverbal ~~         G    1     1     1    0      0   0        .p33.
-34 34   Spatial ~~         G    1     1     1    0      0   0        .p34.
-35 35    Memory ~~         G    1     1     1    0      0   0        .p35.
-36 36      nvss ~~      nvss    0     1     1   20     NA   0        .p36.
-37 37      wdss ~~      wdss    0     1     1   21     NA   0        .p37.
-38 38      vsss ~~      vsss    0     1     1   22     NA   0        .p38.
-39 39      psss ~~      psss    0     1     1   23     NA   0        .p39.
-40 40      sqss ~~      sqss    0     1     1   24     NA   0        .p40.
-41 41      pcss ~~      pcss    0     1     1   25     NA   0        .p41.
-42 42      rdss ~~      rdss    0     1     1   26     NA   0        .p42.
-43 43      rpss ~~      rpss    0     1     1   27     NA   0        .p43.
-44 44      dfss ~~      dfss    0     1     1   28     NA   0        .p44.
-45 45      dbss ~~      dbss    0     1     1   29     NA   0        .p45.
-46 46      soss ~~      soss    0     1     1   30     NA   0        .p46.
-47 47    Verbal ~~    Verbal    0     1     1   31     NA   0        .p47.
-48 48 Nonverbal ~~ Nonverbal    0     1     1   32     NA   0        .p48.
-49 49   Spatial ~~   Spatial    0     1     1   33     NA   0        .p49.
-50 50    Memory ~~    Memory    0     1     1   34     NA   0        .p50.
-51 51         G ~~         G    0     1     1   35     NA   0        .p51.
-    start    est      se
-1   1.000  1.000   0.000
-2   0.967  1.189   0.210
-3   1.074  0.999   0.162
-4   1.000  1.000   0.000
-5   1.538 70.326 219.176
-6   1.538 11.347  35.165
-7   1.000  1.000   0.000
-8   1.171  3.889   2.449
-9   0.857  1.110   0.273
-10  1.000  1.000   0.000
-11  1.016  0.837   0.227
-12  1.125  1.136   0.350
-13  1.000  1.109   0.064
-14  1.000  1.000   0.000
-15  1.056  1.226   0.065
-16  0.737  0.956   0.074
-17  0.852  1.166   0.078
-18  0.923  1.267   0.076
-19  0.868  1.180   0.072
-20  0.828  1.113   0.075
-21  0.676  0.937   0.073
-22  0.914  1.137   0.082
-23  0.922  1.206   0.078
-24  0.989  1.277   0.082
-25  0.000  0.000   0.000
-26  0.000  0.000   0.000
-27  0.000  0.000   0.000
-28  0.000  0.000   0.000
-29  0.000  0.000   0.000
-30  0.000  0.000   0.000
-31  0.000  0.000   0.000
-32  0.000  0.000   0.000
-33  0.000  0.000   0.000
-34  0.000  0.000   0.000
-35  0.000  0.000   0.000
-36 51.000 46.440   3.259
-37 46.000 38.673   3.802
-38 52.000 39.087   3.019
-39 53.000 74.685   3.977
-40 47.000 37.534   2.243
-41 42.500 34.543   2.497
-42 50.000 14.542  26.089
-43 51.000 68.417   3.959
-44 61.000 66.910   4.717
-45 51.500 45.638   3.274
-46 56.500 43.221   4.804
-47  0.050 13.508   3.302
-48  0.050  0.012   0.074
-49  0.050  2.847   1.993
-50  0.050 10.833   4.351
-51  0.050 34.221   3.819</code></pre>
+<pre><code>   id       lhs op       rhs user block group free ustart exo label plabel  start    est      se
+1   1    Verbal =~      nvss    1     1     1    0      1   0         .p1.  1.000  1.000   0.000
+2   2    Verbal =~      wdss    1     1     1    1     NA   0         .p2.  0.967  1.189   0.210
+3   3    Verbal =~      vsss    1     1     1    2     NA   0         .p3.  1.074  0.999   0.162
+4   4 Nonverbal =~      psss    1     1     1    0      1   0         .p4.  1.000  1.000   0.000
+5   5 Nonverbal =~      mass    1     1     1    3     NA   0         .p5.  1.538 70.327 219.185
+6   6 Nonverbal =~      sqss    1     1     1    4     NA   0         .p6.  1.538 11.347  35.167
+7   7   Spatial =~      pcss    1     1     1    0      1   0         .p7.  1.000  1.000   0.000
+8   8   Spatial =~      rdss    1     1     1    5     NA   0         .p8.  1.171  3.889   2.449
+9   9   Spatial =~      rpss    1     1     1    6     NA   0         .p9.  0.857  1.110   0.273
+10 10    Memory =~      dfss    1     1     1    0      1   0        .p10.  1.000  1.000   0.000
+11 11    Memory =~      dbss    1     1     1    7     NA   0        .p11.  1.016  0.837   0.227
+12 12    Memory =~      soss    1     1     1    8     NA   0        .p12.  1.125  1.136   0.350
+13 13         G =~      nvss    1     1     1    0      1   0        .p13.  1.000  1.000   0.000
+14 14         G =~      wdss    1     1     1    9     NA   0        .p14.  0.905  0.902   0.052
+15 15         G =~      vsss    1     1     1   10     NA   0        .p15.  1.056  1.106   0.058
+16 16         G =~      psss    1     1     1   11     NA   0        .p16.  0.737  0.863   0.065
+17 17         G =~      mass    1     1     1   12     NA   0        .p17.  0.852  1.052   0.067
+18 18         G =~      sqss    1     1     1   13     NA   0        .p18.  0.923  1.143   0.065
+19 19         G =~      pcss    1     1     1   14     NA   0        .p19.  0.868  1.064   0.062
+20 20         G =~      rdss    1     1     1   15     NA   0        .p20.  0.828  1.004   0.065
+21 21         G =~      rpss    1     1     1   16     NA   0        .p21.  0.676  0.846   0.064
+22 22         G =~      dfss    1     1     1   17     NA   0        .p22.  0.914  1.026   0.071
+23 23         G =~      dbss    1     1     1   18     NA   0        .p23.  0.922  1.088   0.067
+24 24         G =~      soss    1     1     1   19     NA   0        .p24.  0.989  1.152   0.070
+25 25      mass ~~      mass    1     1     1    0      0   0        .p25.  0.000  0.000   0.000
+26 26    Verbal ~~ Nonverbal    1     1     1    0      0   0        .p26.  0.000  0.000   0.000
+27 27    Verbal ~~   Spatial    1     1     1    0      0   0        .p27.  0.000  0.000   0.000
+28 28    Verbal ~~    Memory    1     1     1    0      0   0        .p28.  0.000  0.000   0.000
+29 29 Nonverbal ~~   Spatial    1     1     1    0      0   0        .p29.  0.000  0.000   0.000
+30 30 Nonverbal ~~    Memory    1     1     1    0      0   0        .p30.  0.000  0.000   0.000
+31 31   Spatial ~~    Memory    1     1     1    0      0   0        .p31.  0.000  0.000   0.000
+32 32    Verbal ~~         G    1     1     1    0      0   0        .p32.  0.000  0.000   0.000
+33 33 Nonverbal ~~         G    1     1     1    0      0   0        .p33.  0.000  0.000   0.000
+34 34   Spatial ~~         G    1     1     1    0      0   0        .p34.  0.000  0.000   0.000
+35 35    Memory ~~         G    1     1     1    0      0   0        .p35.  0.000  0.000   0.000
+36 36      nvss ~~      nvss    0     1     1   20     NA   0        .p36. 50.936 46.382   3.255
+37 37      wdss ~~      wdss    0     1     1   21     NA   0        .p37. 45.943 38.625   3.797
+38 38      vsss ~~      vsss    0     1     1   22     NA   0        .p38. 51.935 39.039   3.016
+39 39      psss ~~      psss    0     1     1   23     NA   0        .p39. 52.934 74.591   3.972
+40 40      sqss ~~      sqss    0     1     1   24     NA   0        .p40. 46.941 37.487   2.240
+41 41      pcss ~~      pcss    0     1     1   25     NA   0        .p41. 42.447 34.500   2.494
+42 42      rdss ~~      rdss    0     1     1   26     NA   0        .p42. 49.938 14.524  26.056
+43 43      rpss ~~      rpss    0     1     1   27     NA   0        .p43. 50.936 68.332   3.954
+44 44      dfss ~~      dfss    0     1     1   28     NA   0        .p44. 60.924 66.827   4.711
+45 45      dbss ~~      dbss    0     1     1   29     NA   0        .p45. 51.436 45.581   3.270
+46 46      soss ~~      soss    0     1     1   30     NA   0        .p46. 56.429 43.167   4.798
+47 47    Verbal ~~    Verbal    0     1     1   31     NA   0        .p47.  0.050 13.491   3.298
+48 48 Nonverbal ~~ Nonverbal    0     1     1   32     NA   0        .p48.  0.050  0.012   0.074
+49 49   Spatial ~~   Spatial    0     1     1   33     NA   0        .p49.  0.050  2.844   1.991
+50 50    Memory ~~    Memory    0     1     1   34     NA   0        .p50.  0.050 10.820   4.345
+51 51         G ~~         G    0     1     1   35     NA   0        .p51.  0.050 41.999   4.389</code></pre>
 </div>
 </div>
 </section>
 <section id="single-indicator-model" class="level2">
 <h2 class="anchored" data-anchor-id="single-indicator-model">Single-indicator model</h2>
-<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="197">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>das2_model_single <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
@@ -2387,7 +2188,7 @@ G          0.000  0.000  0.000  0.000 34.221
 <span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>fit_single <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_single, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
 <span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_single, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 114 iterations
+<pre><code>lavaan 0.6-19 ended normally after 114 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -2414,12 +2215,12 @@ User Model versus Baseline Model:
 
 Loglikelihood and Information Criteria:
 
-  Loglikelihood user model (H0)             -28212.815
-  Loglikelihood unrestricted model (H1)     -28155.175
+  Loglikelihood user model (H0)             -28207.812
+  Loglikelihood unrestricted model (H1)     -28150.172
                                                       
-  Akaike (AIC)                               56471.630
-  Bayesian (BIC)                             56579.376
-  Sample-size adjusted Bayesian (SABIC)      56506.339
+  Akaike (AIC)                               56461.624
+  Bayesian (BIC)                             56569.370
+  Sample-size adjusted Bayesian (SABIC)      56496.332
 
 Root Mean Square Error of Approximation:
 
@@ -2442,19 +2243,19 @@ Parameter Estimates:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   Verbal =~                                                             
-    nvss              1.000                               7.506    0.743
-    wdss              0.928    0.049   19.010    0.000    6.965    0.726
-    vsss              1.097    0.053   20.784    0.000    8.237    0.808
+    nvss              1.000                               7.501    0.743
+    wdss              0.928    0.049   19.010    0.000    6.961    0.726
+    vsss              1.097    0.053   20.784    0.000    8.231    0.808
   Nonverbal =~                                                          
-    psss              1.000                               5.635    0.547
-    mass              1.277    0.091   14.001    0.000    7.198    0.702
-    sqss              1.394    0.093   15.001    0.000    7.857    0.810
+    psss              1.000                               5.631    0.547
+    mass              1.277    0.091   14.001    0.000    7.193    0.702
+    sqss              1.394    0.093   15.001    0.000    7.852    0.810
   Spatial =~                                                            
-    pcss              1.000                               7.528    0.817
-    rdss              0.979    0.047   20.818    0.000    7.369    0.737
-    rpss              0.787    0.049   16.184    0.000    5.923    0.586
+    pcss              1.000                               7.523    0.817
+    rdss              0.979    0.047   20.818    0.000    7.365    0.737
+    rpss              0.787    0.049   16.184    0.000    5.920    0.586
   Memory =~                                                             
-    dfss              1.000                              10.539    0.954
+    dfss              1.000                              10.531    0.954
   G =~                                                                  
     Verbal            1.000                               0.850    0.850
     Nonverbal         0.843    0.066   12.848    0.000    0.954    0.954
@@ -2464,24 +2265,24 @@ Latent Variables:
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
    .dfss             10.940                              10.940    0.090
-   .nvss             45.661    2.950   15.477    0.000   45.661    0.448
-   .wdss             43.487    2.730   15.929    0.000   43.487    0.473
-   .vsss             36.158    2.766   13.071    0.000   36.158    0.348
-   .psss             74.247    4.008   18.523    0.000   74.247    0.700
-   .mass             53.191    3.222   16.507    0.000   53.191    0.507
-   .sqss             32.264    2.570   12.553    0.000   32.264    0.343
-   .pcss             28.326    2.275   12.450    0.000   28.326    0.333
-   .rdss             45.694    2.918   15.660    0.000   45.694    0.457
-   .rpss             66.915    3.687   18.150    0.000   66.915    0.656
-   .Verbal           15.629    2.182    7.163    0.000    0.277    0.277
-   .Nonverbal         2.835    1.170    2.423    0.015    0.089    0.089
-   .Spatial           9.423    2.052    4.593    0.000    0.166    0.166
-   .Memory           66.929    4.294   15.586    0.000    0.603    0.603
-    G                40.710    4.237    9.609    0.000    1.000    1.000
+   .nvss             45.604    2.946   15.477    0.000   45.604    0.448
+   .wdss             43.432    2.727   15.929    0.000   43.432    0.473
+   .vsss             36.113    2.763   13.071    0.000   36.113    0.348
+   .psss             74.154    4.003   18.523    0.000   74.154    0.700
+   .mass             53.124    3.218   16.507    0.000   53.124    0.507
+   .sqss             32.224    2.567   12.553    0.000   32.224    0.343
+   .pcss             28.291    2.272   12.450    0.000   28.291    0.333
+   .rdss             45.637    2.914   15.660    0.000   45.637    0.457
+   .rpss             66.831    3.682   18.150    0.000   66.831    0.656
+   .Verbal           15.610    2.179    7.163    0.000    0.277    0.277
+   .Nonverbal         2.832    1.169    2.423    0.015    0.089    0.089
+   .Spatial           9.412    2.049    4.593    0.000    0.166    0.166
+   .Memory           66.832    4.289   15.582    0.000    0.603    0.603
+    G                40.659    4.231    9.609    0.000    1.000    1.000
 </code></pre>
 </div>
 </div>
-<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
+<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="198">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>das2_model_single2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
@@ -2489,16 +2290,10 @@ Variances:
 <span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ Verbal + Nonverbal + Spatial + dfss</span></span>
 <span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>fit_single2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_single2,</span>
-<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov =</span> das2cov,</span>
-<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.nobs =</span> <span class="dv">800</span>,</span>
-<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov.rescale =</span> <span class="cn">FALSE</span></span>
-<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_single2, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>fit_single2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_single2, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_single2, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-18 ended normally after 97 iterations
+<pre><code>lavaan 0.6-19 ended normally after 99 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -2525,12 +2320,12 @@ User Model versus Baseline Model:
 
 Loglikelihood and Information Criteria:
 
-  Loglikelihood user model (H0)             -28212.815
-  Loglikelihood unrestricted model (H1)     -28155.175
+  Loglikelihood user model (H0)             -28207.812
+  Loglikelihood unrestricted model (H1)     -28150.172
                                                       
-  Akaike (AIC)                               56471.630
-  Bayesian (BIC)                             56579.376
-  Sample-size adjusted Bayesian (SABIC)      56506.339
+  Akaike (AIC)                               56461.624
+  Bayesian (BIC)                             56569.370
+  Sample-size adjusted Bayesian (SABIC)      56496.332
 
 Root Mean Square Error of Approximation:
 
@@ -2553,39 +2348,39 @@ Parameter Estimates:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   Verbal =~                                                             
-    nvss              1.000                               7.506    0.743
-    wdss              0.928    0.049   19.010    0.000    6.965    0.726
-    vsss              1.097    0.053   20.784    0.000    8.237    0.808
+    nvss              1.000                               7.501    0.743
+    wdss              0.928    0.049   19.010    0.000    6.961    0.726
+    vsss              1.097    0.053   20.784    0.000    8.231    0.808
   Nonverbal =~                                                          
-    psss              1.000                               5.635    0.547
-    mass              1.277    0.091   14.001    0.000    7.198    0.702
-    sqss              1.394    0.093   15.001    0.000    7.857    0.810
+    psss              1.000                               5.631    0.547
+    mass              1.277    0.091   14.001    0.000    7.193    0.702
+    sqss              1.394    0.093   15.001    0.000    7.852    0.810
   Spatial =~                                                            
-    pcss              1.000                               7.528    0.817
-    rdss              0.979    0.047   20.818    0.000    7.369    0.737
-    rpss              0.787    0.049   16.184    0.000    5.923    0.586
+    pcss              1.000                               7.523    0.817
+    rdss              0.979    0.047   20.818    0.000    7.365    0.737
+    rpss              0.787    0.049   16.184    0.000    5.920    0.586
   G =~                                                                  
     Verbal            1.000                               0.850    0.850
     Nonverbal         0.843    0.066   12.848    0.000    0.954    0.954
     Spatial           1.077    0.063   17.075    0.000    0.913    0.913
-    dfss              1.041    0.072   14.514    0.000    6.643    0.601
+    dfss              1.041    0.072   14.514    0.000    6.639    0.601
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .nvss             45.661    2.950   15.477    0.000   45.661    0.448
-   .wdss             43.487    2.730   15.929    0.000   43.487    0.473
-   .vsss             36.158    2.766   13.071    0.000   36.158    0.348
-   .psss             74.247    4.008   18.523    0.000   74.247    0.700
-   .mass             53.191    3.222   16.507    0.000   53.191    0.507
-   .sqss             32.264    2.570   12.553    0.000   32.264    0.343
-   .pcss             28.326    2.275   12.450    0.000   28.326    0.333
-   .rdss             45.694    2.918   15.660    0.000   45.694    0.457
-   .rpss             66.915    3.687   18.150    0.000   66.915    0.656
-   .dfss             77.869    4.294   18.133    0.000   77.869    0.638
-   .Verbal           15.629    2.182    7.163    0.000    0.277    0.277
-   .Nonverbal         2.835    1.170    2.423    0.015    0.089    0.089
-   .Spatial           9.423    2.052    4.593    0.000    0.166    0.166
-    G                40.710    4.237    9.609    0.000    1.000    1.000
+   .nvss             45.604    2.946   15.477    0.000   45.604    0.448
+   .wdss             43.432    2.727   15.929    0.000   43.432    0.473
+   .vsss             36.113    2.763   13.071    0.000   36.113    0.348
+   .psss             74.154    4.003   18.523    0.000   74.154    0.700
+   .mass             53.124    3.218   16.507    0.000   53.124    0.507
+   .sqss             32.224    2.567   12.553    0.000   32.224    0.343
+   .pcss             28.291    2.272   12.450    0.000   28.291    0.333
+   .rdss             45.637    2.914   15.660    0.000   45.637    0.457
+   .rpss             66.831    3.682   18.150    0.000   66.831    0.656
+   .dfss             77.772    4.289   18.133    0.000   77.772    0.638
+   .Verbal           15.610    2.179    7.163    0.000    0.277    0.277
+   .Nonverbal         2.832    1.169    2.423    0.015    0.089    0.089
+   .Spatial           9.412    2.049    4.593    0.000    0.166    0.166
+    G                40.659    4.231    9.609    0.000    1.000    1.000
 </code></pre>
 </div>
 </div>

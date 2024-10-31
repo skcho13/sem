@@ -21,6 +21,7 @@ website:
   site-path: "/"
   open-graph: 
     site-name: CHA Statistics II in R
+  reader-mode: false
   # repo-url:
   # repo-actions: [edit, issue]
 
