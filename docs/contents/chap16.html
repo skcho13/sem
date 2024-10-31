@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-24">
+<meta name="dcterms.date" content="2024-11-01">
 
 <title>Chapter 15-16. Confirmatory Factor Analysis –  CHA Statistics II in R</title>
 <style>
@@ -436,7 +436,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2024</p>
+      <p class="date">November 1, 2024</p>
     </div>
   </div>
   
@@ -448,7 +448,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="157">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
@@ -504,7 +504,7 @@ window.Quarto = {
 <p><span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, density function: <span class="math inline">\(\displaystyle f(x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}\)</span></p>
 <p><span class="math inline">\(X \sim N(0, 1)\)</span>: <span class="math inline">\(\displaystyle f(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}x^2}\)</span>, (standard normal distribution)</p>
 <p>예를 들어, 1000명의 사람들이 각자 16번의 동전 던지기를 시행하면서 좌우로 움직인다면,</p>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="160">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,000 × 16
       V1    V2    V3    V4    V5    V6    V7    V8    V9   V10   V11   V12   V13   V14
@@ -523,7 +523,7 @@ window.Quarto = {
 # ℹ 2 more variables: V15 &lt;dbl&gt;, V16 &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -638,7 +638,7 @@ V(\delta_1) \\
 <li>Short-term memory (Memory)</li>
 </ul>
 <p><img src="images/fig16-1.png" class="img-fluid" width="600"></p>
-<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="162">
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <details class="code-fold">
 <summary>Load the data</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>das2 <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 16 CFA 1/das 2 cov.sav"</span>)</span>
@@ -685,7 +685,7 @@ V(\delta_1) \\
 </div>
 </div>
 <p>DAS-II 모형의 CFA:</p>
-<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="163">
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>das2_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
@@ -854,7 +854,7 @@ Composite Reliability
 </div>
 <section id="implied-covariancecorrelation-matrix" class="level3">
 <h3 class="anchored" data-anchor-id="implied-covariancecorrelation-matrix">Implied Covariance/Correlation Matrix</h3>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="165">
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied covariance matrix</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitted</span>(fit)<span class="sc">$</span>cov <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -873,7 +873,7 @@ dbss  47.00  44.27  51.68  36.45  47.59  51.24  46.42  45.60  36.90  56.46 102.8
 soss  50.82  47.87  55.88  39.41  51.46  55.41  50.20  49.31  39.90  61.05  63.16 112.86</code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="166">
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implied correlation matrix</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit, <span class="st">"cor.ov"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()  </span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># cor.ov: observed variables only</span></span>
@@ -937,7 +937,7 @@ Summary options
 </ul>
 </div>
 </div>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="168">
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -960,7 +960,7 @@ soss  1.112  2.070 -0.953 -2.460  3.471 -1.478 -1.262 -1.368  0.045  0.869 -0.24
 </code></pre>
 </div>
 </div>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="169">
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit, <span class="at">type=</span><span class="st">"standardized"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -996,7 +996,7 @@ soss        -0.990        -0.817         0.021         0.635        -0.275 18534
 </code></pre>
 </div>
 </div>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="170">
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">"cor.bollen"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -1019,7 +1019,7 @@ soss  0.010  0.020 -0.009 -0.023  0.032 -0.014 -0.013 -0.013  0.000  0.007 -0.00
 </code></pre>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="171">
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링: 절대값이 0.05보다 작은 값은 NA로 대체</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>resid_cor <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">"cor.bollen"</span>)<span class="sc">$</span>cov</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>resid_cor[<span class="fu">abs</span>(resid_cor) <span class="sc">&lt;</span> <span class="fl">0.05</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
@@ -1044,7 +1044,7 @@ soss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA     N
 <section id="modification-indices" class="level3">
 <h3 class="anchored" data-anchor-id="modification-indices">Modification Indices</h3>
 <p>파라미터를 추가로 추정하여 <span class="math inline">\(\chi^2\)</span> 값의 변화를 확인</p>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="172">
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit, <span class="at">sort =</span> <span class="cn">TRUE</span>, <span class="at">maximum.number =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          lhs op  rhs     mi    epc sepc.lv sepc.all sepc.nox
@@ -1058,7 +1058,7 @@ soss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA     N
 111      mass ~~ rdss 11.561 -7.250  -7.250   -0.149   -0.149</code></pre>
 </div>
 </div>
-<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="173">
+<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링: MI &gt; 10 이상인 것만 출력</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(mi <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1074,7 +1074,7 @@ soss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA     N
 87       wdss ~~ rdss 11.198 -6.360  -6.360   -0.144   -0.144</code></pre>
 </div>
 </div>
-<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="174">
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링: operator가 =~인 것, 즉 회귀계수만 출력</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit, <span class="at">sort =</span> <span class="cn">TRUE</span>, <span class="at">maximum.number =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"=~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1093,7 +1093,7 @@ soss     NA     NA     NA     NA     NA     NA     NA     NA     NA     NA     N
 <section id="cross-loadings" class="level3">
 <h3 class="anchored" data-anchor-id="cross-loadings">Cross-loadings</h3>
 <p><img src="images/fig16-7.png" class="img-fluid" width="600"></p>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="175">
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>das2_model_crossload <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
@@ -1224,7 +1224,7 @@ R-Square:
 </div>
 </div>
 <p>이전 모형과 비교하면,</p>
-<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="176">
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nested models</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit, fit_crossload) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1236,7 +1236,7 @@ fit_crossload 47 67479 67624 127.49
 fit           48 67477 67618 127.99    0.49144     0       1     0.4833</code></pre>
 </div>
 </div>
-<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="177">
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(fit, fit_crossload) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1262,7 +1262,7 @@ fit - fit_crossload  1 -0.001   0 0.001    0 -1.509 -6.193
 <section id="factor-model" class="level3">
 <h3 class="anchored" data-anchor-id="factor-model">3-factor model</h3>
 <p><img src="images/fig16-8.png" class="img-fluid" width="600"></p>
-<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="178">
+<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>das2_model_3f <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss + pcss + rdss + rpss</span></span>
@@ -1384,7 +1384,7 @@ R-Square:
 </code></pre>
 </div>
 </div>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="179">
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare models</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(fit, fit_3f) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1413,7 +1413,7 @@ fit_3f - fit  3 0.007 -0.008 -0.008 0.002 29.87 15.816
 <section id="transform-4-factor-to-3-factor-model-with-constraints-2-step" class="level3">
 <h3 class="anchored" data-anchor-id="transform-4-factor-to-3-factor-model-with-constraints-2-step">Transform 4-factor to 3-factor model with constraints (2-step)</h3>
 <p>3-factor 모델이 초기 모델에 내포되어 있음을 확인할 수 있음.</p>
-<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="180">
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>das2_model_constrain <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # free the first paraemters</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ NA*nvss + wdss + vsss</span></span>
@@ -1546,7 +1546,7 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="181">
+<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare models</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit_3f, fit_3f_2) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1561,7 +1561,7 @@ fit_3f_2 51 67507 67633 163.86  1.387e-09     0       0           </code></pre>
 </section>
 <section id="modification-indices-for-3-factor-model" class="level3">
 <h3 class="anchored" data-anchor-id="modification-indices-for-3-factor-model">Modification indices for 3-factor model</h3>
-<div id="cell-44" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="182">
+<div id="cell-44" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modindices</span>(fit_3f, <span class="at">sort =</span> <span class="cn">TRUE</span>, <span class="at">maximum.number =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op  rhs     mi     epc sepc.lv sepc.all sepc.nox
@@ -1577,7 +1577,7 @@ fit_3f_2 51 67507 67633 163.86  1.387e-09     0       0           </code></pre>
 </div>
 <p><img src="images/fig16-8.png" class="img-fluid" width="600"></p>
 <p>가령, mass와 rdss의 잔차/오차분산 간의 상관관계를 추정하면,</p>
-<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="183">
+<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>das2_model_3f_modi <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss + pcss + rdss + rpss</span></span>
@@ -1594,7 +1594,7 @@ fit_3f_2 51 67507 67633 163.86  1.387e-09     0       0           </code></pre>
 21 rdss ~~ rdss  48.374 2.864 16.889      0   42.760   53.987   0.484</code></pre>
 </div>
 </div>
-<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="184">
+<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_3f, fit_3f_modi) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1610,7 +1610,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </section>
 <section id="residuals-for-3-factor-model" class="level3">
 <h3 class="anchored" data-anchor-id="residuals-for-3-factor-model">Residuals for 3-factor model</h3>
-<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="185">
+<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -1633,7 +1633,7 @@ soss  0.009  0.022 -0.008 -0.026  0.045 -0.004 -0.022 -0.016 -0.015  0.007 -0.00
 </code></pre>
 </div>
 </div>
-<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="186">
+<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f_modi, <span class="st">"cor"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$type
@@ -1656,68 +1656,63 @@ soss  0.008  0.021 -0.008 -0.022  0.034  0.002 -0.017 -0.027 -0.013  0.007 -0.00
 </code></pre>
 </div>
 </div>
-<p>Word Definitions(wdss)와 Recall of Designs(rdss) 간의 공분산에 대한 논의: 양수 vs.&nbsp;음수</p>
-<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="187">
+<p><strong>Word Definitions(<code>wdss</code>)와 Recall of Designs(<code>rdss</code>) 간의 공분산에 대한 논의: 양수 vs.&nbsp;음수</strong></p>
+<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="123">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keith's Table 16.3: normalized? standardized?</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"pcss"</span>, <span class="st">"soss"</span>, <span class="st">"dbss"</span>, <span class="st">"dfss"</span>, <span class="st">"rpss"</span>, <span class="st">"rdss"</span>, <span class="st">"sqss"</span>, <span class="st">"mass"</span>, <span class="st">"psss"</span>, <span class="st">"vsss"</span>, <span class="st">"wdss"</span>, <span class="st">"nvss"</span>)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"normalized"</span>)<span class="sc">$</span>cov[vars, vars] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss   wdss   nvss
-pcss  0.000 -0.553  0.192 -0.458 -0.227  1.570 -0.197 -0.905 -0.289  0.418 -1.052  0.997
-soss -0.553  0.000 -0.040  0.173 -0.385 -0.413 -0.095  1.144 -0.686 -0.207  0.548  0.226
-dbss  0.192 -0.040  0.000 -0.130 -0.111  0.263  0.685  1.150  0.050 -0.166 -0.586 -1.069
-dfss -0.458  0.173 -0.130  0.000 -1.026  0.352 -0.413 -1.139  0.321  0.444  0.294  0.992
-rpss -0.227 -0.385 -0.111 -1.026  0.000  1.861 -0.125 -0.239  0.376 -0.661 -1.393 -0.317
-rdss  1.570 -0.413  0.263  0.352  1.861  0.000 -0.827 -2.040  0.530 -0.535 -2.365  0.486
-sqss -0.197 -0.095  0.685 -0.413 -0.125 -0.827  0.000  1.565 -0.948  0.643 -0.318 -0.547
-mass -0.905  1.144  1.150 -1.139 -0.239 -2.040  1.565  0.000 -0.052  0.385  0.605 -0.615
-psss -0.289 -0.686  0.050  0.321  0.376  0.530 -0.948 -0.052  0.000  1.271  1.456  1.346
-vsss  0.418 -0.207 -0.166  0.444 -0.661 -0.535  0.643  0.385  1.271  0.000  0.108 -0.351
-wdss -1.052  0.548 -0.586  0.294 -1.393 -2.365 -0.318  0.605  1.456  0.108  0.000  0.363
-nvss  0.997  0.226 -1.069  0.992 -0.317  0.486 -0.547 -0.615  1.346 -0.351  0.363  0.000</code></pre>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>resid_cor <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_3f, <span class="st">"normalized"</span>)<span class="sc">$</span>cov[vars, vars]</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(resid_cor, <span class="at">method =</span> <span class="st">'number'</span>, <span class="at">type =</span> <span class="st">'lower'</span>, <span class="at">is.corr =</span> <span class="cn">FALSE</span>, <span class="at">bg =</span> <span class="st">'grey50'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chap16_files/figure-html/cell-33-output-1.png" width="630" height="630" class="figure-img"></p>
+</figure>
 </div>
 </div>
-<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="188">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"standardized.mplus"</span>)<span class="sc">$</span>cov[vars, vars] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss   wdss   nvss
-pcss  0.000 -1.646  0.497 -1.055 -0.586  4.085 -0.894 -3.242 -0.710  1.062 -2.539  2.161
-soss -1.646  0.000 -0.204  0.581 -0.751 -0.983 -0.276  2.420 -1.291 -0.638  1.294  0.559
-dbss  0.497 -0.204  0.000 -0.412 -0.205  0.573  1.734  2.341  0.089 -0.472 -1.417 -2.747
-dfss -1.055  0.581 -0.412  0.007 -1.717  0.668 -0.970 -2.232  0.506  0.995  0.578  1.928
-rpss -0.586 -0.751 -0.205 -1.717  0.007  3.546 -0.330 -0.486  0.609 -1.243 -2.380 -0.539
-rdss  4.085 -0.983  0.573  0.668  3.546  0.004 -3.189 -6.045  1.024 -1.217 -5.017  0.943
-sqss -0.894 -0.276  1.734 -0.970 -0.330 -3.189  0.005  4.087 -2.523  1.636 -0.747 -1.337
-mass -3.242  2.420  2.341 -2.232 -0.486 -6.045  4.087  0.000 -0.100  0.814  1.129 -1.219
-psss -0.710 -1.291  0.089  0.506  0.609  1.024 -2.523 -0.100  0.005  2.182  2.277  2.134
-vsss  1.062 -0.638 -0.472  0.995 -1.243 -1.217  1.636  0.814  2.182  0.000  0.512 -2.247
-wdss -2.539  1.294 -1.417  0.578 -2.380 -5.017 -0.747  1.129  2.277  0.512  0.000  1.220
-nvss  2.161  0.559 -2.747  1.928 -0.539  0.943 -1.337 -1.219  2.134 -2.247  1.220     NA</code></pre>
+</div>
+<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>resid_cor <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_3f, <span class="st">"standardized.mplus"</span>)<span class="sc">$</span>cov[vars, vars]</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(resid_cor, <span class="at">method =</span> <span class="st">'number'</span>, <span class="at">type =</span> <span class="st">'lower'</span>, <span class="at">is.corr =</span> <span class="cn">FALSE</span>, <span class="at">bg =</span> <span class="st">'grey50'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chap16_files/figure-html/cell-34-output-1.png" width="630" height="630" class="figure-img"></p>
+</figure>
 </div>
 </div>
-<p>Word Definitions(wdss)와 Recall of Designs(rdss) 간의 상관에 대한 논의;</p>
+</div>
+<p><strong>Word Definitions(<code>wdss</code>)와 Recall of Designs(<code>rdss</code>) 간의 상관에 대한 논의;</strong></p>
 <ul>
 <li>모형이 추정하는 상관계수: <span class="math inline">\(r = 0.73*0.81*0.70 = 0.41\)</span></li>
 <li>실제 상관계수: <span class="math inline">\(r = 0.32\)</span></li>
 <li>그 차이는 대략 0.09</li>
 </ul>
-<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="189">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keith's Table 16.4</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit_3f, <span class="st">"cor"</span>)<span class="sc">$</span>cov[vars, vars] <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       pcss   soss   dbss   dfss   rpss   rdss   sqss   mass   psss   vsss   wdss   nvss
-pcss  0.000 -0.022  0.008 -0.018 -0.009  0.065 -0.008 -0.036 -0.011  0.017 -0.040  0.039
-soss -0.022  0.000 -0.002  0.007 -0.015 -0.016 -0.004  0.045 -0.026 -0.008  0.022  0.009
-dbss  0.008 -0.002  0.000 -0.005 -0.004  0.010  0.028  0.045  0.002 -0.007 -0.023 -0.041
-dfss -0.018  0.007 -0.005  0.000 -0.038  0.013 -0.016 -0.043  0.012  0.017  0.011  0.038
-rpss -0.009 -0.015 -0.004 -0.038  0.000  0.073 -0.005 -0.009  0.014 -0.025 -0.051 -0.012
-rdss  0.065 -0.016  0.010  0.013  0.073  0.000 -0.033 -0.078  0.020 -0.021 -0.088  0.019
-sqss -0.008 -0.004  0.028 -0.016 -0.005 -0.033  0.000  0.065 -0.036  0.026 -0.012 -0.021
-mass -0.036  0.045  0.045 -0.043 -0.009 -0.078  0.065  0.000 -0.002  0.015  0.023 -0.023
-psss -0.011 -0.026  0.002  0.012  0.014  0.020 -0.036 -0.002  0.000  0.048  0.055  0.051
-vsss  0.017 -0.008 -0.007  0.017 -0.025 -0.021  0.026  0.015  0.048  0.000  0.004 -0.014
-wdss -0.040  0.022 -0.023  0.011 -0.051 -0.088 -0.012  0.023  0.055  0.004  0.000  0.015
-nvss  0.039  0.009 -0.041  0.038 -0.012  0.019 -0.021 -0.023  0.051 -0.014  0.015  0.000</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled" title="Rules for Covariances">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rules for Covariances
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(COV(\xi_1, \xi_2) = COV(aX_1, bX_2) = ab~COV(X_1, X_2)\)</span></p>
+</div>
+</div>
+<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="127">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keith's Table 16.4</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>resid_cor <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_3f, <span class="st">"cor"</span>)<span class="sc">$</span>cov[vars, vars]</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(resid_cor, <span class="at">method =</span> <span class="st">'number'</span>, <span class="at">type =</span> <span class="st">'lower'</span>, <span class="at">is.corr =</span> <span class="cn">FALSE</span>, <span class="at">bg =</span> <span class="st">'grey50'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chap16_files/figure-html/cell-35-output-1.png" width="630" height="630" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1733,17 +1728,17 @@ Second-order factors에 대한 indicators들: first order factors</p>
 <li>Identified되려며 적어도 3개의 1st-order 요인이 존재해야 함</li>
 </ul>
 <p><img src="images/fig16-11.png" class="img-fluid" width="600"></p>
-<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="190">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>das2_model_higher <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ dfss + dbss + soss</span></span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ Verbal + Nonverbal + Spatial + Memory</span></span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>fit_higher <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_higher, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_higher, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="129">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>das2_model_higher <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ dfss + dbss + soss</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ Verbal + Nonverbal + Spatial + Memory</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>fit_higher <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_higher, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_higher, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 107 iterations
 
@@ -1862,8 +1857,10 @@ R-Square:
 </code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="191">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(fit, fit_higher) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1차 모형과 고차 모형이 내포된 관계라고 볼 수 있으나, 일반적으로 통계적 검증보다는 이론적/실증적 근거가 필요<br>
+고차모형이 더 간결할 모형이나 통계적으로는 더 좋지 못한 결과</p>
+<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="191">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(fit, fit_higher) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
 
@@ -1886,12 +1883,79 @@ fit_higher - fit  2 0.002 -0.003 -0.003 0.003 9.986 0.617
 </code></pre>
 </div>
 </div>
-<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="192">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fit_higher, <span class="at">what =</span> <span class="st">"est"</span>, <span class="at">edge.label.cex =</span> .<span class="dv">8</span>, <span class="at">fade =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Total effect</strong></p>
+<ul>
+<li>2차 요인(일반적인 지능)이 indicator(하위 검사)와 어떻게 관련되는지 확인</li>
+<li>직접 효과가 없으니 간접 효과가 총효과</li>
+</ul>
+<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="155">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standardizedSolution</span>(fit_higher) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"=~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         lhs op       rhs est.std    se      z pvalue ci.lower ci.upper
+1     Verbal =~      nvss   0.740 0.020 37.089      0    0.701    0.780
+2     Verbal =~      wdss   0.730 0.020 35.780      0    0.690    0.770
+3     Verbal =~      vsss   0.807 0.017 46.773      0    0.773    0.841
+4  Nonverbal =~      psss   0.540 0.028 19.326      0    0.485    0.595
+5  Nonverbal =~      mass   0.714 0.021 34.116      0    0.673    0.755
+6  Nonverbal =~      sqss   0.806 0.017 46.108      0    0.772    0.840
+7    Spatial =~      pcss   0.815 0.017 47.124      0    0.781    0.849
+8    Spatial =~      rdss   0.738 0.020 36.690      0    0.699    0.778
+9    Spatial =~      rpss   0.588 0.026 22.257      0    0.536    0.640
+10    Memory =~      dfss   0.665 0.023 28.727      0    0.620    0.711
+11    Memory =~      dbss   0.758 0.019 39.560      0    0.721    0.796
+12    Memory =~      soss   0.776 0.018 42.114      0    0.740    0.813
+13         G =~    Verbal   0.858 0.018 47.282      0    0.822    0.894
+14         G =~ Nonverbal   0.955 0.016 58.393      0    0.923    0.987
+15         G =~   Spatial   0.903 0.017 52.367      0    0.869    0.937
+16         G =~    Memory   0.913 0.017 54.992      0    0.881    0.946</code></pre>
+</div>
+</div>
+<p>가령, G &gt; Verbal &gt; nvss, wdss, vsss에 대해서 총효과를 계산하면,</p>
+<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="180">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">standardizedSolution</span>(fit_higher) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"=~"</span>)  <span class="co"># loadings only</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(est, lhs <span class="sc">==</span> <span class="st">"Verbal"</span> <span class="sc">|</span> rhs <span class="sc">==</span> <span class="st">"Verbal"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      lhs op    rhs est.std    se      z pvalue ci.lower ci.upper
+1  Verbal =~   nvss   0.740 0.020 37.089      0    0.701    0.780
+2  Verbal =~   wdss   0.730 0.020 35.780      0    0.690    0.770
+3  Verbal =~   vsss   0.807 0.017 46.773      0    0.773    0.841
+13      G =~ Verbal   0.858 0.018 47.282      0    0.822    0.894</code></pre>
+</div>
+</div>
+<div id="cell-66" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># G &gt; Verbal</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">subset</span>(est, lhs <span class="sc">==</span> <span class="st">"Verbal"</span>)[, <span class="st">"est.std"</span>] <span class="sc">*</span> <span class="fu">subset</span>(est, rhs <span class="sc">==</span> <span class="st">"Verbal"</span>)[, <span class="st">"est.std"</span>]) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.64 0.63 0.69</code></pre>
+</div>
+</div>
+<div id="cell-67" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># G &gt; Nonverbal</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">subset</span>(est, lhs <span class="sc">==</span> <span class="st">"Nonverbal"</span>)[, <span class="st">"est.std"</span>] <span class="sc">*</span> <span class="fu">subset</span>(est, rhs <span class="sc">==</span> <span class="st">"Nonverbal"</span>)[, <span class="st">"est.std"</span>]) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.52 0.68 0.77</code></pre>
+</div>
+</div>
+<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># G &gt; Spatial</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">subset</span>(est, lhs <span class="sc">==</span> <span class="st">"Spatial"</span>)[, <span class="st">"est.std"</span>] <span class="sc">*</span> <span class="fu">subset</span>(est, rhs <span class="sc">==</span> <span class="st">"Spatial"</span>)[, <span class="st">"est.std"</span>]) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.74 0.67 0.53</code></pre>
+</div>
+</div>
+<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># G &gt; Memory</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">subset</span>(est, lhs <span class="sc">==</span> <span class="st">"Memory"</span>)[, <span class="st">"est.std"</span>] <span class="sc">*</span> <span class="fu">subset</span>(est, rhs <span class="sc">==</span> <span class="st">"Memory"</span>)[, <span class="st">"est.std"</span>]) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.61 0.69 0.71</code></pre>
+</div>
+</div>
+<div id="cell-70" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="192">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>semPlot<span class="sc">::</span><span class="fu">semPaths</span>(fit_higher, <span class="at">what =</span> <span class="st">"est"</span>, <span class="at">edge.label.cex =</span> .<span class="dv">8</span>, <span class="at">fade =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chap16_files/figure-html/cell-37-output-1.png" width="560" height="400" class="figure-img"></p>
+<p><img src="chap16_files/figure-html/cell-44-output-1.png" width="560" height="400" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1902,47 +1966,64 @@ fit_higher - fit  2 0.002 -0.003 -0.003 0.003 9.986 0.617
 <p>또는 Nested-factor models, general-specific models</p>
 <ul>
 <li>보통, indicators들이 general factor로 이루어졌다고 보지만, 하위의 domain-specific factors에 대해 살펴보고자 하는 상황에서 발생</li>
-<li>General factor g: 모든 indicator들에 대한 직접적인 공통요인이나</li>
-<li>Domain-specific factors에 대해서는 인과적 효과가 없다고 가정</li>
+<li>General factor G: 모든 indicator들에 대한 직접적인 공통요인이나 G는 domain-specific factors에 대해서는 인과적 효과가 없다고 가정</li>
 <li>Indicators의 분산은 3개의 요인들로 분할됨: 1) general factor, 2) domain-specific factors, 3) errors</li>
-<li>보통, 요인들 간의 상관은 없는 것으로 가정: canonical</li>
+<li>보통, 요인들 간의 상관은 없는 것으로 가정: canonical
+<ul>
+<li>상관을 가정하면 과소추정되거나 추정이 불가능해지기 쉬움</li>
+</ul></li>
 <li>Hierchical 모형에 비해 더 해석 가능하며, 구조모형에 들어갈 때에도 보다 유리함; <a href="https://www.researchgate.net/profile/Karen-Sousa/publication/228369180_A_Comparison_of_Bifactor_and_Second-Order_Models_of_Quality_of_Life/links/09e4150aaad4e77775000000/A-Comparison-of-Bifactor-and-Second-Order-Models-of-Quality-of-Life.pdf">Chen et al., 2006</a>; <a href="https://www.researchgate.net/profile/Gilles-Gignac/publication/26514567_Higher-order_models_versus_direct_hierarchical_models_g_as_superordinate_or_breadth_factor/links/00b7d519d8f340d272000000/Higher-order-models-versus-direct-hierarchical-models-g-as-superordinate-or-breadth-factor.pdf">Gignac, 2008</a>; pp.&nbsp;256-257, Kline(2023)
 <ul>
-<li>Bifactor model: g와 domain-specific factors 모두 외생변수</li>
-<li>Hierarchical model: domain-specific factors는 g에 의해 설명되지 않는 부분</li>
+<li>Bifactor model
+<ul>
+<li>G와 domain-specific factors 모두 외생변수</li>
+<li>Factor loadings: domain-specific factor과 general factor의 loading은 서로의 요인이 통제된 상태</li>
+<li>고차 모형에 비해 제약이 더 적은 (복잡한) 모형으로 이해될 수 있음 (즉, 내포된 모형); 즉, 보통 더 나은 적합도를 보임</li>
 </ul></li>
+<li>Hierarchical model
+<ul>
+<li>Domain-specific는 외생변수; g에 의해 설명되지 않는 부분 disturbance가 존재</li>
+<li>Indicators의 error가 고려되면서 g와 disturbance가 추정됨</li>
+</ul></li>
+</ul></li>
+<li>두 가지 모형에 대한 선택은 이론적/실증적 근거에 결정!</li>
+<li>저자의 견해 참고; <em>위계적 모형 비교 (pp.&nbsp;424-427)</em></li>
 </ul>
+<blockquote class="blockquote">
+<p><em>이 두 모델은 또한 지능의 본질에 대해 상당히 다른 이론을 암시합니다. 고차 모형에 따르면 12가지 테스트가 서로 상관관계가 있는 주된 이유는 네 가지 기본 인지 능력을 측정하기 때문이며, g는 이러한 광범위한 인지 능력에 영향을 미치고 g는 특정 테스트에 간접적으로만 영향을 미친다고 합니다. 반면 이중 요인 모델에서는 이 12가지 검사 간의 상관 관계에는 두 가지 이유가 있다고 말합니다. 첫째, 이들 검사는 모두 G를 측정하고 둘째, 이들 검사는 모두 서로 독립적인 다른 광범위한 인지능력을 측정하기 때문입니다. 이중 요인 모델에서 G는 구체적인 테스트에 직접적인 영향을 미칩니다. 따라서 고차 모델에서 g는 그 기반이 되는 광범위한 인지 능력의 특성으로 이해할 수 있으며, 이러한 인지 능력은 g와 어느 정도 관련이 있는 것으로 이해할 수 있습니다. 이원 요인 모델에서는 G의 특성은 구체적인 테스트로 직접 레퍼런스 할 수 있습니다. (p.&nbsp;424)</em></p>
+</blockquote>
+<p>Translated with DeepL.com (free version)</p>
 <p><img src="images/fig16-15.png" class="img-fluid" width="650"></p>
-<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="193">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>das2_model_bifactor <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ dfss + dbss + soss</span></span>
-<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ nvss + wdss + vsss + psss + mass + sqss + pcss + rdss + rpss + dfss + dbss + soss</span></span>
-<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a><span class="st">  mass ~~ 0*mass</span></span>
-<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # orthogonal factors (uncorrelated factors)</span></span>
-<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Nonverbal</span></span>
-<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Spatial</span></span>
-<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Memory</span></span>
-<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Spatial</span></span>
-<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Memory</span></span>
-<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial ~~ 0*Memory</span></span>
-<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Verbal</span></span>
-<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Nonverbal</span></span>
-<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Spatial</span></span>
-<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Memory</span></span>
-<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
-<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 위에서처럼 orthogonal factor로 직접 설정하거나 다름와 같이 옵션으로 설정</span></span>
-<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>,</span>
-<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">auto.cov.lv.x =</span> <span class="cn">FALSE</span>) <span class="co"># uncorrelated factors</span></span>
-<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_bif, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-72" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="193">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>das2_model_bifactor <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ dfss + dbss + soss</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ nvss + wdss + vsss + psss + mass + sqss + pcss + rdss + rpss + dfss + dbss + soss</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="st">  mass ~~ 0*mass</span></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # orthogonal factors (uncorrelated factors)</span></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Nonverbal</span></span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Spatial</span></span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal ~~ 0*Memory</span></span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Spatial</span></span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal ~~ 0*Memory</span></span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial ~~ 0*Memory</span></span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Verbal</span></span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Nonverbal</span></span>
+<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Spatial</span></span>
+<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a><span class="st">  G ~~ 0*Memory</span></span>
+<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
+<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 위에서처럼 orthogonal factor로 직접 설정하거나 다름와 같이 옵션으로 설정</span></span>
+<span id="cb76-26"><a href="#cb76-26" aria-hidden="true" tabindex="-1"></a>fit_bif <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_bifactor, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>,</span>
+<span id="cb76-27"><a href="#cb76-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">auto.cov.lv.x =</span> <span class="cn">FALSE</span>) <span class="co"># uncorrelated factors</span></span>
+<span id="cb76-28"><a href="#cb76-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-29"><a href="#cb76-29" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_bif, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 769 iterations
 
@@ -2071,8 +2152,8 @@ Variances:
 </div>
 </div>
 <p>mass에 대한 variance가 음수가 되어 <code>mass ~~ 0*mass</code>으로 설정했음.</p>
-<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="194">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit_bif, <span class="at">what =</span> <span class="st">"est"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-74" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="194">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit_bif, <span class="at">what =</span> <span class="st">"est"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$lambda
      Verbal Nnvrbl Spatil Memory     G
@@ -2114,8 +2195,8 @@ G          0.000  0.000  0.000  0.000 41.999
 </code></pre>
 </div>
 </div>
-<div id="cell-66" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="196">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterTable</span>(fit_bif) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="196">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterTable</span>(fit_bif) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   id       lhs op       rhs user block group free ustart exo label plabel  start    est      se
 1   1    Verbal =~      nvss    1     1     1    0      1   0         .p1.  1.000  1.000   0.000
@@ -2174,19 +2255,45 @@ G          0.000  0.000  0.000  0.000 41.999
 </section>
 <section id="single-indicator-model" class="level2">
 <h2 class="anchored" data-anchor-id="single-indicator-model">Single-indicator model</h2>
-<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="197">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>das2_model_single <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ 1*dfss</span></span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ Verbal + Nonverbal + Spatial + Memory</span></span>
-<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a><span class="st">  dfss  ~~ 10.94*dfss</span></span>
-<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>fit_single <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_single, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
-<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_single, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>하나로만 측정된 잠재변수에 대한 모형</li>
+<li>신뢰도(reliabiliy)를 추정한 후 모형에 반영
+<ul>
+<li>이 경우, the estimated (internal consistency) reliability for the Digits Forward test, across ages 5–8, is .91 (Elliott, 2007),</li>
+<li><span class="math inline">\(\displaystyle V_{\text{Error}} = (1 - \rho) * V_{\text{Observed}} = (1-0.91)*121.523 = 10.937\)</span></li>
+<li>앞서 고차원 모형에서는 67.91로 추정되었음</li>
+</ul></li>
+<li>신뢰도를 1로 설정하여 완벽히 측정된다고 가정할 수도 있음; <span class="math inline">\(\displaystyle V_{\text{Error}} = 0\)</span></li>
+<li>잠재변수 없이 지표변수만으로 모형을 구성할 수도 있음</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Reliability">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reliability
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reliability (신뢰도): <span class="math inline">\(\displaystyle \rho = \frac{V_{\text{True}}}{V_{\text{Observed}}} = \frac{V_{\text{True}}}{V_{\text{True}} + V_{\text{Error}}}\)</span></p>
+</div>
+</div>
+<p><img src="images/fig16-17.png" class="img-fluid" width="650"></p>
+<p>위에서 계산한 신뢰도로 모형을 구성하면; <code>dfss  ~~ 10.94*dfss</code></p>
+<div id="cell-79" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>das2_model_single <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Memory =~ 1*dfss</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ Verbal + Nonverbal + Spatial + Memory</span></span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a><span class="st">  dfss ~~ 10.94*dfss</span></span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>fit_single <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_single, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_single, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 114 iterations
 
@@ -2282,16 +2389,18 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="198">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>das2_model_single2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
-<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ Verbal + Nonverbal + Spatial + dfss</span></span>
-<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>fit_single2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_single2, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
-<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_single2, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>잠재변수 없이 지표변수만으로 모형을 구성하면,</p>
+<p><img src="images/fig16-20.png" class="img-fluid" width="650"></p>
+<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="182">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>das2_model_single2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Verbal =~ nvss + wdss + vsss</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Nonverbal =~ psss + mass + sqss</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Spatial =~ pcss + rdss + rpss</span></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="st">  G =~ Verbal + Nonverbal + Spatial + dfss</span></span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>fit_single2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(das2_model_single2, <span class="at">sample.cov =</span> das2cov, <span class="at">sample.nobs =</span> <span class="dv">800</span>)</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_single2, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 99 iterations
 
