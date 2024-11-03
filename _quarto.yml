@@ -68,12 +68,18 @@ website:
             text: Path Analysis
           - href: contents/chap16.ipynb
             text: Factor Analysis
+          - href: contents/chap17.ipynb
+            text: Latent Variable SEM
           - href: contents/chap18.ipynb
             text: Multigroup Models
           - href: contents/chap19.ipynb
             text: Latent Means
           - href: contents/chap21.ipynb
             text: Latent Growth Models
+          - href: contents/chap22.ipynb
+            text: Latent Interactions
+          - href: contents/diagnostics.ipynb
+            text: Diagnostics
       - href: contents/ml.ipynb
         text: ML Estimation
       - href: contents/equations.ipynb

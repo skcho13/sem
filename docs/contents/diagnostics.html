@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sungkyun Cho">
+<meta name="dcterms.date" content="2024-11-03">
+
+<title>Diagnostics –  CHA Statistics II in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/ml.html" rel="next">
+<link href="../contents/chap22.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<meta property="og:title" content="Diagnostics –  CHA Statistics II in R">
+<meta property="og:description" content="mixed">
+<meta property="og:site_name" content="CHA Statistics II in R">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title">Diagnostics</h1>
+        </a>     
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../"><i class="fa-solid fa-chart-bar" aria-label="chart-bar"></i> CHA Statistics II in R</a> 
+    </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/notice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notice</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">R tutorial</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/baser.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Base R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cleaning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/setup2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Packages for SEM</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Keith’s</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Path Modeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/interaction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Path Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Factor Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Variable SEM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multigroup Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Means</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Growth Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/chap22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Interactions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/diagnostics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Diagnostics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ML Estimation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEM Equations</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Kline’s</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../contents/Kline/composite.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reflective</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: Formative</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: PLS-PM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap16-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composite: HO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../contents/Kline/kchap21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latent Growth Curve</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Communicate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://docs.google.com/document/d/1OQ1D7d4MxEfMZmo_FLj29rGWqvWADKmGc_QD9g5h_ho/edit?usp=sharing" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ask</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#non-normality" id="toc-non-normality" class="nav-link active" data-scroll-target="#non-normality">Non-normality</a>
+  <ul>
+  <li><a href="#multivariate-test" id="toc-multivariate-test" class="nav-link" data-scroll-target="#multivariate-test">Multivariate test</a></li>
+  <li><a href="#univariate-test" id="toc-univariate-test" class="nav-link" data-scroll-target="#univariate-test">Univariate test</a></li>
+  <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">Outliers</a></li>
+  <li><a href="#homework-dataset" id="toc-homework-dataset" class="nav-link" data-scroll-target="#homework-dataset">Homework Dataset</a></li>
+  <li><a href="#non-normality에-대한-대응" id="toc-non-normality에-대한-대응" class="nav-link" data-scroll-target="#non-normality에-대한-대응">Non-normality에 대한 대응</a></li>
+  </ul></li>
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing Data</a>
+  <ul>
+  <li><a href="#fiml" id="toc-fiml" class="nav-link" data-scroll-target="#fiml">FIML</a></li>
+  <li><a href="#imputation" id="toc-imputation" class="nav-link" data-scroll-target="#imputation">Imputation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Diagnostics</h1>
+<p class="subtitle lead">mixed</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sungkyun Cho </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 3, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="76">
+<details class="code-fold">
+<summary>Load libraries</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="non-normality" class="level1">
+<h1>Non-normality</h1>
+<p><a href="https://cran.r-project.org/web/packages/MVN/vignettes/MVN.html">MVN: An R Package for Assessing Multivariate Normality</a></p>
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="79">
+<details class="code-fold">
+<summary>Load data</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(covsim)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sigma.target <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="dv">1</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="dv">1</span>), <span class="dv">3</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ig.sample <span class="ot">&lt;-</span> <span class="fu">rIG</span>(<span class="at">N =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>, <span class="at">sigma.target =</span> sigma.target, <span class="at">reps =</span> <span class="dv">1</span>, <span class="at">skewness =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">8</span>), <span class="dv">0</span>), <span class="at">excesskurtosis =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> ig.sample <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="80">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,000 × 3
+       X1     X2      X3
+    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+ 1 -0.626 -0.609 -0.472 
+ 2  0.184 -0.125  0.799 
+ 3 -0.836 -0.749 -0.773 
+ 4  1.60   2.95   0.975 
+ 5  0.330 -0.268  0.693 
+ 6 -0.820  1.22   1.27  
+ 7  0.487 -0.219 -0.118 
+ 8  0.738 -0.119  2.21  
+ 9  0.576 -0.184  0.495 
+10 -0.305 -0.536 -0.0116
+# ℹ 990 more rows</code></pre>
+</div>
+</div>
+<section id="multivariate-test" class="level2">
+<h2 class="anchored" data-anchor-id="multivariate-test">Multivariate test</h2>
+<ul>
+<li>mardia for Mardia’s test,</li>
+<li>hz for Henze-Zirkler’s test, # default</li>
+<li>royston for Royston’s test,</li>
+<li>dh for Doornik-Hansen’s test,</li>
+<li>energy for E-statistic</li>
+</ul>
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="82">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MVN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="83">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multivariate normality</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">mvnTest =</span> <span class="st">"hz"</span>)<span class="sc">$</span>multivariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Test       HZ p value MVN
+1 Henze-Zirkler 26.31374       0  NO</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="84">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multivariate normality plot</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">multivariatePlot =</span> <span class="st">"qq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-10-output-1.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="univariate-test" class="level2">
+<h2 class="anchored" data-anchor-id="univariate-test">Univariate test</h2>
+<ul>
+<li>Shapiro-Wilk (SW),</li>
+<li>Cramer-von Mises (CVM),</li>
+<li>Lilliefors (Lillie),</li>
+<li>Shapiro-Francia (SF),</li>
+<li>Anderson-Darling (AD) # default</li>
+</ul>
+<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="85">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">univariateTest =</span> <span class="st">"AD"</span>)<span class="sc">$</span>univariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Test  Variable Statistic   p value Normality
+1 Anderson-Darling    X1        0.2219  0.8297      YES   
+2 Anderson-Darling    X2       62.9376  &lt;0.001      NO    
+3 Anderson-Darling    X3        4.1598  &lt;0.001      NO    </code></pre>
+</div>
+</div>
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="86">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># univariate normality histogram</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">univariatePlot =</span> <span class="st">"histogram"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-12-output-1.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="87">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># univariate normality scatterplot</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">univariatePlot =</span> <span class="st">"scatter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-13-output-1.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="outliers" class="level2">
+<h2 class="anchored" data-anchor-id="outliers">Outliers</h2>
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="88">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># outliers</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">mvnTest =</span> <span class="st">"hz"</span>, <span class="at">multivariateOutlierMethod =</span> <span class="st">"adj"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-14-output-1.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="homework-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="homework-dataset">Homework Dataset</h2>
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="89">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>ethnic, <span class="sc">-</span>Female, <span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2) <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 798 × 13
+   bytxrstd  bytxmstd  bytxsstd  bytxhstd  parocc hw10    hw12    eng92 math92 sci92 soc92
+   &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 44.2      52.6      44.5      53.9        27.4 1 [1 H… 2 [1-3…  8      4.4   8.5   5.37
+ 2 39.9      56.0      55.7      56.4        70.6 4 [7-9… 5 [10-…  5.5    4.62  5.5   4.83
+ 3 52.7      47.9      44.8      41.8        56.3 3 [4-6… 5 [10-…  8.37   3.5   8     6.29
+ 4 42.3      61.9      53.5      47.0        70.6 3 [4-6… 1 [LES…  8.33   5     7     7.67
+ 5 63.2      56.1      64.7      62.6        27.4 3 [4-6… 5 [10-…  6      4.92  3.11  7.5 
+ 6 59.0      40.7      42.1      50.4        70.6 2 [2-3… 5 [10-…  6.75   6.43  7.2   6.83
+ 7 52.6      60.9      62.4      54          61.3 2 [2-3… 2 [1-3…  8.67   3.25  5.85  9   
+ 8 59.9      67.7      51.2      39.1        66.1 3 [4-6… 5 [10-…  9.8    7.25  8     9   
+ 9 35.7      47.9      49.2      51.3        66.2 0 [NON… 3 [4-6…  1.6    2.7   3.5   4   
+10 41.8      53.8      55.5      50.4        49.7 1 [1 H… 2 [1-3…  8      5.14  7.1   7.33
+# ℹ 788 more rows
+# ℹ 2 more variables: byfaminc &lt;dbl&gt;, bypared &lt;dbl+lbl&gt;</code></pre>
+</div>
+</div>
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="90">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multivariate &amp; univariate normality</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> hw_mean)<span class="sc">$</span>multivariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> hw_mean)<span class="sc">$</span>univariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Test       HZ p value MVN
+1 Henze-Zirkler 1.057538       0  NO
+               Test  Variable Statistic   p value Normality
+1  Anderson-Darling bytxrstd     7.6118  &lt;0.001      NO    
+2  Anderson-Darling bytxmstd     5.7422  &lt;0.001      NO    
+3  Anderson-Darling bytxsstd     1.2679  0.0027      NO    
+4  Anderson-Darling bytxhstd     2.7309  &lt;0.001      NO    
+5  Anderson-Darling  parocc     53.6441  &lt;0.001      NO    
+6  Anderson-Darling   hw10      29.5673  &lt;0.001      NO    
+7  Anderson-Darling   hw12      16.6879  &lt;0.001      NO    
+8  Anderson-Darling   eng92      4.3695  &lt;0.001      NO    
+9  Anderson-Darling  math92      2.0612  &lt;0.001      NO    
+10 Anderson-Darling   sci92      2.2486  &lt;0.001      NO    
+11 Anderson-Darling   soc92      3.5983  &lt;0.001      NO    
+12 Anderson-Darling byfaminc    12.5805  &lt;0.001      NO    
+13 Anderson-Darling  bypared    31.9085  &lt;0.001      NO    </code></pre>
+</div>
+</div>
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="91">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multi-variate normality</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">multivariatePlot =</span> <span class="st">"qq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-17-output-1.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="93">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># univariate normality</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">univariatePlot =</span> <span class="st">"histogram"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-19-output-1.png" width="810" height="720" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="95">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">univariatePlot =</span> <span class="st">"box"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-21-output-1.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="96">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># outliers</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">mvnTest =</span> <span class="st">"hz"</span>, <span class="at">multivariateOutlierMethod =</span> <span class="st">"adj"</span>, <span class="at">showOutliers =</span> <span class="cn">TRUE</span>, <span class="at">showNewData =</span> <span class="cn">TRUE</span>)  <span class="co"># show options</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-22-output-1.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>이상치들</p>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="97">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>multivariateOutliers <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 214 × 3
+   Observation `Mahalanobis Distance` Outlier
+   &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;  
+ 1 1                             86.4 TRUE   
+ 2 2                             85.0 TRUE   
+ 3 3                             79.4 TRUE   
+ 4 4                             77.5 TRUE   
+ 5 5                             77.0 TRUE   
+ 6 6                             76.1 TRUE   
+ 7 7                             76.0 TRUE   
+ 8 8                             74.9 TRUE   
+ 9 9                             74.7 TRUE   
+10 10                            74.2 TRUE   
+# ℹ 204 more rows</code></pre>
+</div>
+</div>
+<p>이상치가 제거된 데이터셋</p>
+<div id="cell-31" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="98">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>newData <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 584 × 13
+   bytxrstd  bytxmstd  bytxsstd  bytxhstd  parocc hw10    hw12    eng92 math92 sci92 soc92
+   &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 46.2      37.3      55.7      60.9        66.2 5 [10-… 4 [7-9…  3.37   2     3     2.17
+ 2 40.2      38.5      40.8      40.0        20.3 4 [7-9… 2 [1-3…  8      6.5   4     6.5 
+ 3 33.7      39.7      45.5      50.5        15.6 4 [7-9… 5 [10-…  6.2    7     8     6.5 
+ 4 61.3      58.3      49.4      64.5        66.1 3 [4-6… 5 [10-…  9      8.25  6.5   8.8 
+ 5 54.6      50.5      60.0      54          58.0 4 [7-9… 3 [4-6…  6.5    5     8     6   
+ 6 54.6      36.8      40.1      43.6        27.4 4 [7-9… 3 [4-6…  4.25   4.33  5     3   
+ 7 54.6      44.5      42.7      50.5        20.3 1 [1 H… 1 [LES…  5      5     5     2.27
+ 8 43.0      50.2      46.7      52.0        49.7 2 [2-3… 3 [4-6…  7.82   7.18  8.55  6.85
+ 9 61.1      66.6      56.1      60.9        56.3 2 [2-3… 4 [7-9…  8.56   9     8.5   8.75
+10 65.5      68.9      62.7      67.9        66.2 1 [1 H… 7 [16-…  5      8     6     6   
+# ℹ 574 more rows
+# ℹ 2 more variables: byfaminc &lt;dbl&gt;, bypared &lt;dbl+lbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="non-normality에-대한-대응" class="level2">
+<h2 class="anchored" data-anchor-id="non-normality에-대한-대응">Non-normality에 대한 대응</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Non-normality에 대한 대응">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Non-normality에 대한 대응
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Robust ML</li>
+<li>Bootstrapping: Bollen-Stine bootstrap</li>
+<li>분포에 대한 가정이 없는 방법: WLS(fully weighted least squares)</li>
+</ul>
+<p>ML 파라미터 추정치는 일반적으로 robust하나, 표준오차는 문제가 될 수 있음.<br>
+다음과 같은 ML에 대한 robust estimation들은 표준오차에 대한 보정을 제공함.</p>
+<ol type="1">
+<li>Option “MLM” is for complete data sets only and generates the mean-adjusted Satorra-Bentler scaled chi-square.</li>
+<li>Option “MLR” can be applied in complete or incomplete data sets, and it generates a mean adjusted chi-square based on the Yuan-Bentler T2 statistic. Because this method accommodates missing data, it is the most flexible option listed here.</li>
+<li>Option “MLMV” is for complete data sets only and computes a mean- and variance-adjusted scaled chi-square.</li>
+<li>Option “MLMVS” generates a mean- and variance adjusted chi-square with a correction for heteroscedasticity by Satterthwaite (1941). Model degrees of freedom are estimated, and the method is for complete data sets.</li>
+</ol>
+<div style="line-height: 1.5em; font-size: .9em">
+<p>Source: p.&nbsp;137, 163, Klein, R. B. (2023). Principles and Practice of Structural Equation Modeling (5e)</p>
+</div>
+</div>
+</div>
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="99">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="100">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># missing data</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>VIM<span class="sc">::</span><span class="fu">aggr</span>(hw_mean, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Variables sorted by number of missings: 
+ Variable Count
+     hw12 0.096
+     hw10 0.046
+ byfaminc 0.042
+ bytxhstd 0.032
+ bytxsstd 0.031
+ bytxmstd 0.030
+ bytxrstd 0.029
+    eng92 0.020
+   math92 0.019
+    sci92 0.014
+    soc92 0.011
+   parocc 0.009
+   ethnic 0.009
+  bypared 0.001
+   Female 0.000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-26-output-2.png" width="560" height="560" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="101">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">estimator =</span> <span class="st">"MLR"</span>)  <span class="co"># listwise deletion</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 141 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        35
+
+                                                  Used       Total
+  Number of observations                           798        1000
+
+Model Test User Model:
+                                              Standard      Scaled
+  Test Statistic                                91.530      89.681
+  Degrees of freedom                                56          56
+  P-value (Chi-square)                           0.002       0.003
+  Scaling correction factor                                  1.021
+    Yuan-Bentler correction (Mplus variant)                       
+
+Model Test Baseline Model:
+
+  Test statistic                              5965.249    5618.146
+  Degrees of freedom                                78          78
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.062
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.994       0.994
+  Tucker-Lewis Index (TLI)                       0.992       0.992
+                                                                  
+  Robust Comparative Fit Index (CFI)                         0.994
+  Robust Tucker-Lewis Index (TLI)                            0.992
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)             -26118.080  -26118.080
+  Scaling correction factor                                  1.029
+      for the MLR correction                                      
+  Loglikelihood unrestricted model (H1)             NA          NA
+  Scaling correction factor                                  1.024
+      for the MLR correction                                      
+                                                                  
+  Akaike (AIC)                               52306.160   52306.160
+  Bayesian (BIC)                             52470.033   52470.033
+  Sample-size adjusted Bayesian (SABIC)      52358.889   52358.889
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.028       0.027
+  90 Percent confidence interval - lower         0.017       0.016
+  90 Percent confidence interval - upper         0.038       0.038
+  P-value H_0: RMSEA &lt;= 0.050                    1.000       1.000
+  P-value H_0: RMSEA &gt;= 0.080                    0.000       0.000
+                                                                  
+  Robust RMSEA                                               0.028
+  90 Percent confidence interval - lower                     0.016
+  90 Percent confidence interval - upper                     0.038
+  P-value H_0: Robust RMSEA &lt;= 0.050                         1.000
+  P-value H_0: Robust RMSEA &gt;= 0.080                         0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.023       0.023
+
+Parameter Estimates:
+
+  Standard errors                             Sandwich
+  Information bread                           Observed
+  Observed information based on                Hessian
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  famback =~                                                            
+    parocc            1.000                              14.926    0.720
+    byfaminc          0.116    0.006   18.977    0.000    1.731    0.714
+    bypared           0.071    0.003   20.360    0.000    1.060    0.846
+  prevach =~                                                            
+    bytxrstd          1.000                               8.047    0.840
+    bytxmstd          1.010    0.034   29.773    0.000    8.126    0.844
+    bytxsstd          0.972    0.035   27.545    0.000    7.822    0.806
+    bytxhstd          0.930    0.033   28.448    0.000    7.487    0.812
+  hw =~                                                                 
+    hw12              1.000                               1.117    0.579
+    hw10              1.061    0.123    8.638    0.000    1.185    0.705
+  grades =~                                                             
+    eng92             1.000                               2.190    0.901
+    math92            0.870    0.029   29.960    0.000    1.905    0.776
+    sci92             0.987    0.026   37.349    0.000    2.162    0.876
+    soc92             1.038    0.026   40.350    0.000    2.273    0.894
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  prevach ~                                                             
+    famback           0.289    0.022   13.027    0.000    0.536    0.536
+  grades ~                                                              
+    prevach           0.136    0.012   11.785    0.000    0.500    0.500
+    hw                0.524    0.105    5.000    0.000    0.267    0.267
+  hw ~                                                                  
+    prevach           0.048    0.008    5.615    0.000    0.342    0.342
+    famback           0.015    0.005    3.033    0.002    0.194    0.194
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+ .bytxrstd ~~                                                           
+   .eng92             0.357    0.273    1.306    0.191    0.357    0.065
+ .bytxmstd ~~                                                           
+   .math92            1.648    0.353    4.667    0.000    1.648    0.206
+ .bytxsstd ~~                                                           
+   .sci92             0.422    0.336    1.257    0.209    0.422    0.062
+ .bytxhstd ~~                                                           
+   .soc92             0.265    0.309    0.858    0.391    0.265    0.043
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .parocc          206.883   13.049   15.854    0.000  206.883    0.481
+   .byfaminc          2.888    0.243   11.881    0.000    2.888    0.491
+   .bypared           0.445    0.046    9.579    0.000    0.445    0.284
+   .bytxrstd         27.069    1.975   13.703    0.000   27.069    0.295
+   .bytxmstd         26.756    1.863   14.360    0.000   26.756    0.288
+   .bytxsstd         32.884    2.044   16.087    0.000   32.884    0.350
+   .bytxhstd         29.043    2.016   14.407    0.000   29.043    0.341
+   .hw12              2.468    0.190   12.975    0.000    2.468    0.664
+   .hw10              1.420    0.186    7.629    0.000    1.420    0.503
+   .eng92             1.111    0.092   12.135    0.000    1.111    0.188
+   .math92            2.393    0.133   18.028    0.000    2.393    0.397
+   .sci92             1.419    0.106   13.371    0.000    1.419    0.233
+   .soc92             1.295    0.110   11.820    0.000    1.295    0.200
+    famback         222.792   18.016   12.366    0.000    1.000    1.000
+   .prevach          46.180    3.332   13.858    0.000    0.713    0.713
+   .hw                0.965    0.158    6.123    0.000    0.774    0.774
+   .grades            2.683    0.203   13.235    0.000    0.559    0.559
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="missing-data" class="level1">
+<h1>Missing Data</h1>
+<p><strong>결측치 분류</strong></p>
+<ul>
+<li>MCAR: Missing Completely At Random; 거의 없다고 봄</li>
+<li>MAR: Missing At Random; 결측의 패턴이 다른 변수에 의해 설명될 수 있는 경우</li>
+<li>MNAR: Missing Not At Random; 우울 수준이 높은 사람들이 자신의 우울감을 보고하기를 꺼리는 경우, 수입이 낮은/높은 사람들이 자신의 수입을 보고하기를 꺼리는 경우 등</li>
+</ul>
+<p><strong>결측치에 대한 처리</strong></p>
+<ul>
+<li>Listwise deletion / Pairwise deletion</li>
+<li>Imputation (결측치 대체): 다양한 방법이 존재함;
+<ul>
+<li><code>mice</code> package <a href="https://stefvanbuuren.name/fimd/">참고 서적</a>,</li>
+<li><code>Amelia</code> package</li>
+<li><code>VIM</code> package의 <code>kNN</code> method</li>
+</ul></li>
+<li>Full Information Maximum Likelihood (FIML): 결측치를 포함한 데이터를 이용하여 모수를 추정함</li>
+</ul>
+<p><strong>결측치에 대한 시각화</strong>: <code>naniar</code> package; <a href="https://cran.r-project.org/web/packages/naniar/vignettes/naniar-visualisation.html">Missing Data Visualisations</a>, <a href="https://cran.r-project.org/web/packages/naniar/vignettes/getting-started-w-naniar.html">Getting Started with naniar</a></p>
+<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="123">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(hw_mean) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>── Data Summary ────────────────────────
+                           Values 
+Name                       hw_mean
+Number of rows             1000   
+Number of columns          15     
+_______________________           
+Column type frequency:            
+  numeric                  15     
+________________________          
+Group variables            None   
+
+── Variable type: numeric ────────────────────────────────────────────────────────────────
+   skim_variable n_missing complete_rate   mean     sd    p0   p25   p50   p75 p100 hist 
+ 1 bytxrstd             29         0.971 51.3   10.0   23.1  43.9  52.5  59.1  67.5 ▁▅▆▇▇
+ 2 bytxmstd             30         0.97  51.5    9.89  30.3  43.2  51.3  59.6  71.2 ▃▇▇▇▅
+ 3 bytxsstd             31         0.969 51.2   10.0   26.5  44.4  51.2  58.0  76.0 ▂▅▇▅▂
+ 4 bytxhstd             32         0.968 51.4    9.69  24.2  45.3  52.0  59.0  69.5 ▁▃▇▇▆
+ 5 parocc                9         0.991 51.6   21.4    7.32 27.4  58.0  66.2  81.9 ▃▂▁▇▂
+ 6 hw10                 46         0.954  2.53   1.68   0     1     2     3     7   ▇▇▆▂▂
+ 7 ethnic                9         0.991  0.793  0.405  0     1     1     1     1   ▂▁▁▁▇
+ 8 hw12                 96         0.904  3.37   1.96   0     2     3     5     8   ▂▇▂▃▂
+ 9 eng92                20         0.98   6.12   2.65   0     4.25  6.37  8.14 11.2 ▂▆▆▇▃
+10 math92               19         0.981  5.52   2.62   0     3.5   5.5   7.5  11.5 ▃▇▇▇▂
+11 sci92                14         0.986  5.79   2.63   0     3.75  6     8    11.5 ▃▆▇▇▃
+12 soc92                11         0.989  6.23   2.80   0     4.33  6.5   8.5  11.7 ▃▅▇▇▃
+13 Female                0         1      0.495  0.500  0     0     0     1     1   ▇▁▁▁▇
+14 byfaminc             42         0.958  9.85   2.59   1     8    10    11    15   ▁▁▃▇▂
+15 bypared               1         0.999  3.13   1.26   1     2     3     4     6   ▅▇▃▂▁</code></pre>
+</div>
+</div>
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="127">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결측치 요약 시각화</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_var</span>(hw_mean, <span class="at">facet =</span> ethnic)  <span class="co"># by ethnic group</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-31-output-1.png" width="630" height="360" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 개별 결측치, 군집화 패턴 확인</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(hw_mean, <span class="at">cluster =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-33-output-1.png" width="720" height="450" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-45" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 함께 누락된 변수들의 패턴 확인</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_upset</span>(hw_mean, <span class="at">nsets =</span> <span class="fu">n_var_miss</span>(hw_mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-35-output-1.png" width="800" height="600" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>결측치에 대한 패턴</strong></p>
+<p>학업 성취도가 낮은 아이들의 경우 숙제를 한 시간을 보고하지 않는 경향이 있을 수 있다는 의심하에,<br>
+다음과 같이 대략 세 변수에 대해 결측치 여부를 나타내는 변수를 추가하여, 다른 변수들과의 상관계수를 살펴보면,</p>
+<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a variable to the dataset that indicates the missingness</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_reading =</span> <span class="fu">is.na</span>(bytxrstd),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_hw12 =</span> <span class="fu">is.na</span>(hw12),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_hw10 =</span> <span class="fu">is.na</span>(hw10)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="109">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">lowerCor</span>(hw_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 bytxr bytxm bytxs bytxh parcc hw10  ethnc hw12  eng92 mth92 sci92 soc92
+bytxrstd          1.00                                                                  
+bytxmstd          0.71  1.00                                                            
+bytxsstd          0.69  0.71  1.00                                                      
+bytxhstd          0.72  0.69  0.69  1.00                                                
+parocc            0.33  0.35  0.28  0.30  1.00                                          
+hw10              0.27  0.27  0.23  0.23  0.17  1.00                                    
+ethnic            0.24  0.25  0.27  0.24  0.24  0.07  1.00                              
+hw12              0.24  0.26  0.21  0.19  0.13  0.40  0.04  1.00                        
+eng92             0.52  0.49  0.40  0.44  0.27  0.33  0.22  0.25  1.00                  
+math92            0.46  0.51  0.39  0.39  0.23  0.27  0.19  0.23  0.74  1.00            
+sci92             0.51  0.51  0.44  0.46  0.24  0.30  0.21  0.25  0.80  0.74  1.00      
+soc92             0.54  0.52  0.43  0.48  0.26  0.33  0.19  0.26  0.84  0.72  0.80  1.00
+Female           -0.16 -0.02  0.04  0.00 -0.01 -0.13 -0.02 -0.11 -0.23 -0.12 -0.15 -0.15
+byfaminc          0.37  0.38  0.31  0.36  0.52  0.18  0.29  0.18  0.31  0.24  0.29  0.32
+bypared           0.41  0.42  0.38  0.37  0.60  0.23  0.24  0.20  0.39  0.33  0.35  0.37
+missing_reading*    NA    NA    NA    NA -0.03 -0.03 -0.03  0.03 -0.02 -0.02 -0.02 -0.03
+missing_hw12*    -0.22 -0.18 -0.19 -0.19 -0.17 -0.11 -0.07    NA -0.39 -0.31 -0.36 -0.39
+missing_hw10*    -0.22 -0.16 -0.16 -0.18 -0.10    NA -0.10 -0.07 -0.28 -0.24 -0.24 -0.28
+                 Femal byfmn byprd mss_* m_12* m_10*
+Female            1.00                              
+byfaminc          0.05  1.00                        
+bypared           0.00  0.59  1.00                  
+missing_reading*  0.02 -0.05 -0.05  1.00            
+missing_hw12*     0.03 -0.20 -0.17  0.00  1.00      
+missing_hw10*     0.00 -0.17 -0.15 -0.01  0.40  1.00</code></pre>
+</div>
+</div>
+<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="111">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hw_mean, <span class="fu">aes</span>(<span class="at">x =</span> missing_hw12, <span class="at">y =</span> eng92)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-39-output-1.png" width="400" height="320" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="fiml" class="level3">
+<h3 class="anchored" data-anchor-id="fiml">FIML</h3>
+<p>Full Information Maximum Likelihood: 결측치를 제거하지 않고 모든 관측치를 이용</p>
+<div id="cell-52" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<details class="code-fold">
+<summary>Load data</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2) <span class="sc">|&gt;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  labelled<span class="sc">::</span><span class="fu">remove_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="124">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model,</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_mean,</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"MLR"</span>,  <span class="co"># robust ML for missing data</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="st">"FIML"</span>  <span class="co"># FIML for missing data</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 171 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        48
+
+  Number of observations                          1000
+  Number of missing patterns                        42
+
+Model Test User Model:
+                                              Standard      Scaled
+  Test Statistic                               113.358     109.613
+  Degrees of freedom                                56          56
+  P-value (Chi-square)                           0.000       0.000
+  Scaling correction factor                                  1.034
+    Yuan-Bentler correction (Mplus variant)                       
+
+Model Test Baseline Model:
+
+  Test statistic                              7792.886    7259.137
+  Degrees of freedom                                78          78
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.074
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.993       0.993
+  Tucker-Lewis Index (TLI)                       0.990       0.990
+                                                                  
+  Robust Comparative Fit Index (CFI)                         0.993
+  Robust Tucker-Lewis Index (TLI)                            0.990
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)             -32104.831  -32104.831
+  Scaling correction factor                                  1.015
+      for the MLR correction                                      
+  Loglikelihood unrestricted model (H1)     -32048.152  -32048.152
+  Scaling correction factor                                  1.025
+      for the MLR correction                                      
+                                                                  
+  Akaike (AIC)                               64305.662   64305.662
+  Bayesian (BIC)                             64541.235   64541.235
+  Sample-size adjusted Bayesian (SABIC)      64388.784   64388.784
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.032       0.031
+  90 Percent confidence interval - lower         0.023       0.022
+  90 Percent confidence interval - upper         0.040       0.039
+  P-value H_0: RMSEA &lt;= 0.050                    1.000       1.000
+  P-value H_0: RMSEA &gt;= 0.080                    0.000       0.000
+                                                                  
+  Robust RMSEA                                               0.032
+  90 Percent confidence interval - lower                     0.023
+  90 Percent confidence interval - upper                     0.041
+  P-value H_0: Robust RMSEA &lt;= 0.050                         1.000
+  P-value H_0: Robust RMSEA &gt;= 0.080                         0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.023       0.023
+
+Parameter Estimates:
+
+  Standard errors                             Sandwich
+  Information bread                           Observed
+  Observed information based on                Hessian
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  famback =~                                                            
+    parocc            1.000                              15.210    0.710
+    byfaminc          0.124    0.006   21.754    0.000    1.891    0.728
+    bypared           0.069    0.003   22.121    0.000    1.049    0.834
+  prevach =~                                                            
+    bytxrstd          1.000                               8.532    0.852
+    bytxmstd          0.988    0.028   35.823    0.000    8.432    0.853
+    bytxsstd          0.960    0.029   32.658    0.000    8.189    0.819
+    bytxhstd          0.942    0.028   34.160    0.000    8.039    0.830
+  hw =~                                                                 
+    hw12              1.000                               1.171    0.592
+    hw10              0.994    0.104    9.546    0.000    1.164    0.688
+  grades =~                                                             
+    eng92             1.000                               2.436    0.915
+    math92            0.876    0.023   37.674    0.000    2.135    0.812
+    sci92             0.961    0.022   44.129    0.000    2.341    0.884
+    soc92             1.049    0.021   50.586    0.000    2.555    0.908
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  prevach ~                                                             
+    famback           0.325    0.021   15.413    0.000    0.579    0.579
+  grades ~                                                              
+    prevach           0.140    0.012   11.905    0.000    0.490    0.490
+    hw                0.655    0.113    5.784    0.000    0.315    0.315
+  hw ~                                                                  
+    prevach           0.045    0.008    5.555    0.000    0.331    0.331
+    famback           0.018    0.005    3.774    0.000    0.235    0.235
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+ .bytxrstd ~~                                                           
+   .eng92             0.486    0.256    1.901    0.057    0.486    0.086
+ .bytxmstd ~~                                                           
+   .math92            1.573    0.317    4.954    0.000    1.573    0.199
+ .bytxsstd ~~                                                           
+   .sci92             0.459    0.319    1.441    0.150    0.459    0.064
+ .bytxhstd ~~                                                           
+   .soc92             0.266    0.305    0.870    0.384    0.266    0.042
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .parocc           51.388    0.682   75.396    0.000   51.388    2.400
+   .byfaminc          9.841    0.083  118.223    0.000    9.841    3.792
+   .bypared           3.128    0.040   78.544    0.000    3.128    2.485
+   .bytxrstd         51.257    0.319  160.600    0.000   51.257    5.120
+   .bytxmstd         51.493    0.316  163.103    0.000   51.493    5.206
+   .bytxsstd         51.179    0.320  160.003    0.000   51.179    5.117
+   .bytxhstd         51.373    0.310  165.655    0.000   51.373    5.302
+   .hw12              3.280    0.066   49.786    0.000    3.280    1.659
+   .hw10              2.481    0.054   45.860    0.000    2.481    1.465
+   .eng92             6.074    0.085   71.685    0.000    6.074    2.281
+   .math92            5.482    0.084   65.528    0.000    5.482    2.086
+   .sci92             5.770    0.084   68.784    0.000    5.770    2.177
+   .soc92             6.207    0.089   69.576    0.000    6.207    2.207
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .parocc          227.271   12.684   17.918    0.000  227.271    0.496
+   .byfaminc          3.161    0.237   13.350    0.000    3.161    0.469
+   .bypared           0.483    0.043   11.272    0.000    0.483    0.305
+   .bytxrstd         27.413    1.764   15.542    0.000   27.413    0.274
+   .bytxmstd         26.728    1.629   16.410    0.000   26.728    0.273
+   .bytxsstd         32.977    1.865   17.680    0.000   32.977    0.330
+   .bytxhstd         29.242    1.810   16.160    0.000   29.242    0.312
+   .hw12              2.537    0.185   13.713    0.000    2.537    0.649
+   .hw10              1.510    0.168    8.994    0.000    1.510    0.527
+   .eng92             1.155    0.086   13.415    0.000    1.155    0.163
+   .math92            2.349    0.124   18.993    0.000    2.349    0.340
+   .sci92             1.541    0.100   15.374    0.000    1.541    0.219
+   .soc92             1.383    0.111   12.409    0.000    1.383    0.175
+    famback         231.337   16.922   13.671    0.000    1.000    1.000
+   .prevach          48.379    3.148   15.367    0.000    0.665    0.665
+   .hw                1.021    0.155    6.570    0.000    0.745    0.745
+   .grades            3.063    0.204   14.992    0.000    0.516    0.516
+</code></pre>
+</div>
+</div>
+</section>
+<section id="imputation" class="level3">
+<h3 class="anchored" data-anchor-id="imputation">Imputation</h3>
+<p>semTools에서 제공하는 imputation이 통합된 lavaan 함수를 이용하면; <code>sem.mi()</code></p>
+<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>pred_mat <span class="ot">&lt;-</span> <span class="fu">quickpred</span>(hw_mean, <span class="at">mincor =</span> <span class="fl">0.25</span>)  <span class="co"># r &gt; 0.23인 변수만 사용</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem.mi</span>(hw_model,</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> hw_mean,</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimator =</span> <span class="st">"MLM"</span>,</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">miPackage =</span> <span class="st">"mice"</span>, <span class="at">m =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">123</span>,  <span class="co"># mice 패키지 사용</span></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>                  <span class="at">miArgs =</span> <span class="fu">list</span>(<span class="at">predictorMatrix =</span> pred_mat)</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="121">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan.mi object based on 10 imputed data sets. 
+See class?lavaan.mi help page for available methods. 
+
+Convergence information:
+The model converged on 10 imputed data sets 
+
+Rubin's (1987) rules were used to pool point and SE estimates across 10 imputed data sets, and to calculate degrees of freedom for each parameter's t test and CI.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model Test User Model:
+
+                                              Standard      Scaled
+  Test statistic                               112.725     109.033
+  Degrees of freedom                                56          56
+  P-value                                        0.000       0.000
+  Average scaling correction factor                          1.034
+
+Model Test Baseline Model:
+
+  Test statistic                              7537.897    7315.013
+  Degrees of freedom                                78          78
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.030
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.992       0.993
+  Tucker-Lewis Index (TLI)                       0.989       0.990
+                                                                  
+  Robust Comparative Fit Index (CFI)                         0.993
+  Robust Tucker-Lewis Index (TLI)                            1.000
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.032       0.031
+  Confidence interval - lower                    0.023       0.023
+  Confidence interval - upper                    0.040       0.040
+  P-value H_0: RMSEA &lt;= 0.05                     1.000       1.000
+                                                                  
+  Robust RMSEA                                               0.031
+  Confidence interval - lower                                0.022
+  Confidence interval - upper                                0.040
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.025       0.025</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>A lavaan.parameterEstimates: 39 x 12</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" scope="col">lhs</th>
+<th data-quarto-table-cell-role="th" scope="col">op</th>
+<th data-quarto-table-cell-role="th" scope="col">rhs</th>
+<th data-quarto-table-cell-role="th" scope="col">exo</th>
+<th data-quarto-table-cell-role="th" scope="col">est</th>
+<th data-quarto-table-cell-role="th" scope="col">se</th>
+<th data-quarto-table-cell-role="th" scope="col">t</th>
+<th data-quarto-table-cell-role="th" scope="col">df</th>
+<th data-quarto-table-cell-role="th" scope="col">pvalue</th>
+<th data-quarto-table-cell-role="th" scope="col">std.lv</th>
+<th data-quarto-table-cell-role="th" scope="col">std.all</th>
+<th data-quarto-table-cell-role="th" scope="col">label</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th" scope="col">&lt;chr&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;chr&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;chr&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;int&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;lvn.vctr&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;dbl&gt;</th>
+<th data-quarto-table-cell-role="th" scope="col">&lt;chr&gt;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>famback</td>
+<td>=~</td>
+<td>parocc</td>
+<td>0</td>
+<td>1.00000000</td>
+<td>0.000000000</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>15.2828997</td>
+<td>0.71301955</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>famback</td>
+<td>=~</td>
+<td>byfaminc</td>
+<td>0</td>
+<td>0.12370573</td>
+<td>0.005690005</td>
+<td>21.7408805</td>
+<td>1141.3640</td>
+<td>5.733876e-88</td>
+<td>1.8905822</td>
+<td>0.72729081</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>famback</td>
+<td>=~</td>
+<td>bypared</td>
+<td>0</td>
+<td>0.06849679</td>
+<td>0.003114310</td>
+<td>21.9942113</td>
+<td>1414.5960</td>
+<td>1.866205e-92</td>
+<td>1.0468296</td>
+<td>0.83150687</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>prevach</td>
+<td>=~</td>
+<td>bytxrstd</td>
+<td>0</td>
+<td>1.00000000</td>
+<td>0.000000000</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>8.5410873</td>
+<td>0.85321812</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>prevach</td>
+<td>=~</td>
+<td>bytxmstd</td>
+<td>0</td>
+<td>0.98690498</td>
+<td>0.027070282</td>
+<td>36.4571372</td>
+<td>3451.9446</td>
+<td>1.789247e-246</td>
+<td>8.4292415</td>
+<td>0.85221074</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>prevach</td>
+<td>=~</td>
+<td>bytxsstd</td>
+<td>0</td>
+<td>0.95931018</td>
+<td>0.029087838</td>
+<td>32.9797694</td>
+<td>Inf</td>
+<td>1.584160e-238</td>
+<td>8.1935520</td>
+<td>0.81824393</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>prevach</td>
+<td>=~</td>
+<td>bytxhstd</td>
+<td>0</td>
+<td>0.94325733</td>
+<td>0.027857877</td>
+<td>33.8596268</td>
+<td>Inf</td>
+<td>2.619044e-251</td>
+<td>8.0564432</td>
+<td>0.83058028</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>hw</td>
+<td>=~</td>
+<td>hw12</td>
+<td>0</td>
+<td>1.00000000</td>
+<td>0.000000000</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>1.1668693</td>
+<td>0.59547695</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>hw</td>
+<td>=~</td>
+<td>hw10</td>
+<td>0</td>
+<td>0.97841418</td>
+<td>0.103822250</td>
+<td>9.4239354</td>
+<td>544.9895</td>
+<td>1.229317e-19</td>
+<td>1.1416814</td>
+<td>0.67880611</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>grades</td>
+<td>=~</td>
+<td>eng92</td>
+<td>0</td>
+<td>1.00000000</td>
+<td>0.000000000</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>2.4370432</td>
+<td>0.91476868</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>grades</td>
+<td>=~</td>
+<td>math92</td>
+<td>0</td>
+<td>0.87295478</td>
+<td>0.023107399</td>
+<td>37.7781501</td>
+<td>2584.6564</td>
+<td>4.580967e-249</td>
+<td>2.1274285</td>
+<td>0.81162293</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>grades</td>
+<td>=~</td>
+<td>sci92</td>
+<td>0</td>
+<td>0.96113841</td>
+<td>0.021537726</td>
+<td>44.6258079</td>
+<td>8629.0701</td>
+<td>0.000000e+00</td>
+<td>2.3423358</td>
+<td>0.88359113</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>grades</td>
+<td>=~</td>
+<td>soc92</td>
+<td>0</td>
+<td>1.04828686</td>
+<td>0.021246466</td>
+<td>49.3393513</td>
+<td>3930.7034</td>
+<td>0.000000e+00</td>
+<td>2.5547204</td>
+<td>0.90866901</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>bytxrstd</td>
+<td>~~</td>
+<td>eng92</td>
+<td>0</td>
+<td>0.43990580</td>
+<td>0.258920475</td>
+<td>1.6989996</td>
+<td>Inf</td>
+<td>8.931925e-02</td>
+<td>0.4399058</td>
+<td>0.07828840</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>bytxmstd</td>
+<td>~~</td>
+<td>math92</td>
+<td>0</td>
+<td>1.57101400</td>
+<td>0.313645698</td>
+<td>5.0088811</td>
+<td>2646.6204</td>
+<td>5.835008e-07</td>
+<td>1.5710140</td>
+<td>0.19825462</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>bytxsstd</td>
+<td>~~</td>
+<td>sci92</td>
+<td>0</td>
+<td>0.48398794</td>
+<td>0.318167538</td>
+<td>1.5211732</td>
+<td>1290.1790</td>
+<td>1.284614e-01</td>
+<td>0.4839879</td>
+<td>0.06773146</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>bytxhstd</td>
+<td>~~</td>
+<td>soc92</td>
+<td>0</td>
+<td>0.27382853</td>
+<td>0.301121893</td>
+<td>0.9093611</td>
+<td>4732.3286</td>
+<td>3.632059e-01</td>
+<td>0.2738285</td>
+<td>0.04318456</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>prevach</td>
+<td>~</td>
+<td>famback</td>
+<td>0</td>
+<td>0.32329570</td>
+<td>0.020859303</td>
+<td>15.4988733</td>
+<td>6564.1314</td>
+<td>3.071651e-53</td>
+<td>0.5784856</td>
+<td>0.57848556</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>grades</td>
+<td>~</td>
+<td>prevach</td>
+<td>0</td>
+<td>0.14288887</td>
+<td>0.011142583</td>
+<td>12.8236748</td>
+<td>2913.1366</td>
+<td>1.162996e-36</td>
+<td>0.5007816</td>
+<td>0.50078155</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>grades</td>
+<td>~</td>
+<td>hw</td>
+<td>0</td>
+<td>0.62290066</td>
+<td>0.104437801</td>
+<td>5.9643219</td>
+<td>5117.2662</td>
+<td>2.621397e-09</td>
+<td>0.2982482</td>
+<td>0.29824815</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>hw</td>
+<td>~</td>
+<td>prevach</td>
+<td>0</td>
+<td>0.04377283</td>
+<td>0.008136173</td>
+<td>5.3800268</td>
+<td>1115.2214</td>
+<td>9.071459e-08</td>
+<td>0.3204022</td>
+<td>0.32040224</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>hw</td>
+<td>~</td>
+<td>famback</td>
+<td>0</td>
+<td>0.01736076</td>
+<td>0.004573766</td>
+<td>3.7957251</td>
+<td>936.6614</td>
+<td>1.566764e-04</td>
+<td>0.2273800</td>
+<td>0.22738002</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>parocc</td>
+<td>~~</td>
+<td>parocc</td>
+<td>0</td>
+<td>225.85165787</td>
+<td>12.964333604</td>
+<td>17.4210002</td>
+<td>5171.2952</td>
+<td>4.274349e-66</td>
+<td>225.8516579</td>
+<td>0.49160312</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>byfaminc</td>
+<td>~~</td>
+<td>byfaminc</td>
+<td>0</td>
+<td>3.18302601</td>
+<td>0.235004907</td>
+<td>13.5445087</td>
+<td>1718.3683</td>
+<td>8.702346e-40</td>
+<td>3.1830260</td>
+<td>0.47104808</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>bypared</td>
+<td>~~</td>
+<td>bypared</td>
+<td>0</td>
+<td>0.48911513</td>
+<td>0.042373889</td>
+<td>11.5428424</td>
+<td>2653.6052</td>
+<td>4.148007e-30</td>
+<td>0.4891151</td>
+<td>0.30859633</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>bytxrstd</td>
+<td>~~</td>
+<td>bytxrstd</td>
+<td>0</td>
+<td>27.25870165</td>
+<td>1.759913626</td>
+<td>15.4886588</td>
+<td>Inf</td>
+<td>4.138338e-54</td>
+<td>27.2587017</td>
+<td>0.27201884</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>bytxmstd</td>
+<td>~~</td>
+<td>bytxmstd</td>
+<td>0</td>
+<td>26.78035183</td>
+<td>1.625683349</td>
+<td>16.4732891</td>
+<td>Inf</td>
+<td>5.708065e-61</td>
+<td>26.7803518</td>
+<td>0.27373686</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>bytxsstd</td>
+<td>~~</td>
+<td>bytxsstd</td>
+<td>0</td>
+<td>33.13751227</td>
+<td>1.894505716</td>
+<td>17.4913762</td>
+<td>8018.7287</td>
+<td>2.924619e-67</td>
+<td>33.1375123</td>
+<td>0.33047687</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>bytxhstd</td>
+<td>~~</td>
+<td>bytxhstd</td>
+<td>0</td>
+<td>29.17939009</td>
+<td>1.817673741</td>
+<td>16.0531505</td>
+<td>3392.5225</td>
+<td>5.949782e-56</td>
+<td>29.1793901</td>
+<td>0.31013640</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>hw12</td>
+<td>~~</td>
+<td>hw12</td>
+<td>0</td>
+<td>2.47826812</td>
+<td>0.182481998</td>
+<td>13.5808910</td>
+<td>1089.4406</td>
+<td>6.312859e-39</td>
+<td>2.4782681</td>
+<td>0.64540720</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>hw10</td>
+<td>~~</td>
+<td>hw10</td>
+<td>0</td>
+<td>1.52533836</td>
+<td>0.163780121</td>
+<td>9.3133302</td>
+<td>452.8842</td>
+<td>5.406713e-19</td>
+<td>1.5253384</td>
+<td>0.53922226</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>eng92</td>
+<td>~~</td>
+<td>eng92</td>
+<td>0</td>
+<td>1.15829557</td>
+<td>0.087647693</td>
+<td>13.2153573</td>
+<td>5844.1262</td>
+<td>2.609609e-39</td>
+<td>1.1582956</td>
+<td>0.16319826</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>math92</td>
+<td>~~</td>
+<td>math92</td>
+<td>0</td>
+<td>2.34475350</td>
+<td>0.123578677</td>
+<td>18.9737708</td>
+<td>4056.8716</td>
+<td>5.536777e-77</td>
+<td>2.3447535</td>
+<td>0.34126822</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>sci92</td>
+<td>~~</td>
+<td>sci92</td>
+<td>0</td>
+<td>1.54087839</td>
+<td>0.099834790</td>
+<td>15.4342828</td>
+<td>6668.4623</td>
+<td>7.826780e-53</td>
+<td>1.5408784</td>
+<td>0.21926672</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>soc92</td>
+<td>~~</td>
+<td>soc92</td>
+<td>0</td>
+<td>1.37792033</td>
+<td>0.113646859</td>
+<td>12.1245791</td>
+<td>Inf</td>
+<td>7.826122e-34</td>
+<td>1.3779203</td>
+<td>0.17432063</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>famback</td>
+<td>~~</td>
+<td>famback</td>
+<td>0</td>
+<td>233.56702422</td>
+<td>17.122320313</td>
+<td>13.6410849</td>
+<td>3440.5422</td>
+<td>2.657208e-41</td>
+<td>1.0000000</td>
+<td>1.00000000</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>prevach</td>
+<td>~~</td>
+<td>prevach</td>
+<td>0</td>
+<td>48.53772177</td>
+<td>3.203338977</td>
+<td>15.1522278</td>
+<td>4139.1422</td>
+<td>1.621940e-50</td>
+<td>0.6653545</td>
+<td>0.66535445</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>hw</td>
+<td>~~</td>
+<td>hw</td>
+<td>0</td>
+<td>1.03664438</td>
+<td>0.154388571</td>
+<td>6.7145151</td>
+<td>525.8970</td>
+<td>4.903941e-11</td>
+<td>0.7613518</td>
+<td>0.76135184</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>grades</td>
+<td>~~</td>
+<td>grades</td>
+<td>0</td>
+<td>3.11964569</td>
+<td>0.200861301</td>
+<td>15.5313426</td>
+<td>7228.3724</td>
+<td>1.549836e-53</td>
+<td>0.5252654</td>
+<td>0.52526542</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>kNN(k-nearest neighbors) imputation을 이용해서 대체된 값으로 채워진 데이터셋을 사용하면,</p>
+<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="126">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>hw_mean_imp <span class="ot">&lt;-</span> VIM<span class="sc">::</span><span class="fu">kNN</span>(hw_mean, <span class="at">k =</span> <span class="dv">5</span>) <span class="co"># kNN imputation</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_mean_imp,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"MLM"</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 154 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        35
+
+  Number of observations                          1000
+
+Model Test User Model:
+                                              Standard      Scaled
+  Test Statistic                               106.164     102.742
+  Degrees of freedom                                56          56
+  P-value (Chi-square)                           0.000       0.000
+  Scaling correction factor                                  1.033
+    Satorra-Bentler correction                                    
+
+Model Test Baseline Model:
+
+  Test statistic                              7999.046    7841.386
+  Degrees of freedom                                78          78
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.020
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.994       0.994
+  Tucker-Lewis Index (TLI)                       0.991       0.992
+                                                                  
+  Robust Comparative Fit Index (CFI)                         0.994
+  Robust Tucker-Lewis Index (TLI)                            0.992
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)             -32980.843  -32980.843
+  Loglikelihood unrestricted model (H1)     -32927.762  -32927.762
+                                                                  
+  Akaike (AIC)                               66031.687   66031.687
+  Bayesian (BIC)                             66203.458   66203.458
+  Sample-size adjusted Bayesian (SABIC)      66092.296   66092.296
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.030       0.029
+  90 Percent confidence interval - lower         0.021       0.020
+  90 Percent confidence interval - upper         0.039       0.037
+  P-value H_0: RMSEA &lt;= 0.050                    1.000       1.000
+  P-value H_0: RMSEA &gt;= 0.080                    0.000       0.000
+                                                                  
+  Robust RMSEA                                               0.029
+  90 Percent confidence interval - lower                     0.020
+  90 Percent confidence interval - upper                     0.038
+  P-value H_0: Robust RMSEA &lt;= 0.050                         1.000
+  P-value H_0: Robust RMSEA &gt;= 0.080                         0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.024       0.024
+
+Parameter Estimates:
+
+  Standard errors                           Robust.sem
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  famback =~                                                            
+    parocc            1.000                              15.091    0.707
+    byfaminc          0.123    0.006   22.010    0.000    1.857    0.725
+    bypared           0.070    0.003   22.471    0.000    1.050    0.835
+  prevach =~                                                            
+    bytxrstd          1.000                               8.496    0.848
+    bytxmstd          0.994    0.027   37.252    0.000    8.446    0.854
+    bytxsstd          0.968    0.029   33.856    0.000    8.222    0.823
+    bytxhstd          0.945    0.027   34.509    0.000    8.025    0.831
+  hw =~                                                                 
+    hw12              1.000                               1.124    0.588
+    hw10              0.987    0.096   10.264    0.000    1.109    0.669
+  grades =~                                                             
+    eng92             1.000                               2.405    0.908
+    math92            0.882    0.023   37.852    0.000    2.120    0.812
+    sci92             0.970    0.022   44.939    0.000    2.333    0.885
+    soc92             1.052    0.022   47.768    0.000    2.530    0.905
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  prevach ~                                                             
+    famback           0.318    0.020   15.651    0.000    0.566    0.566
+  grades ~                                                              
+    prevach           0.136    0.011   12.585    0.000    0.480    0.480
+    hw                0.687    0.106    6.468    0.000    0.321    0.321
+  hw ~                                                                  
+    prevach           0.044    0.008    5.866    0.000    0.334    0.334
+    famback           0.018    0.004    4.156    0.000    0.242    0.242
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+ .bytxrstd ~~                                                           
+   .eng92             0.425    0.256    1.662    0.097    0.425    0.072
+ .bytxmstd ~~                                                           
+   .math92            1.511    0.303    4.983    0.000    1.511    0.193
+ .bytxsstd ~~                                                           
+   .sci92             0.476    0.305    1.561    0.118    0.476    0.068
+ .bytxhstd ~~                                                           
+   .soc92             0.281    0.291    0.966    0.334    0.281    0.044
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .parocc          227.581   12.584   18.084    0.000  227.581    0.500
+   .byfaminc          3.119    0.226   13.782    0.000    3.119    0.475
+   .bypared           0.480    0.041   11.676    0.000    0.480    0.304
+   .bytxrstd         28.117    1.757   16.007    0.000   28.117    0.280
+   .bytxmstd         26.520    1.581   16.772    0.000   26.520    0.271
+   .bytxsstd         32.127    1.817   17.680    0.000   32.127    0.322
+   .bytxhstd         28.755    1.746   16.470    0.000   28.755    0.309
+   .hw12              2.397    0.163   14.665    0.000    2.397    0.655
+   .hw10              1.519    0.151   10.054    0.000    1.519    0.552
+   .eng92             1.224    0.090   13.617    0.000    1.224    0.175
+   .math92            2.319    0.120   19.286    0.000    2.319    0.340
+   .sci92             1.501    0.096   15.591    0.000    1.501    0.216
+   .soc92             1.421    0.111   12.801    0.000    1.421    0.182
+    famback         227.746   16.422   13.868    0.000    1.000    1.000
+   .prevach          49.096    3.112   15.774    0.000    0.680    0.680
+   .hw                0.933    0.133    7.018    0.000    0.738    0.738
+   .grades            3.011    0.192   15.646    0.000    0.521    0.521
+</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/sem\.modellings\.art");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../contents/chap22.html" class="pagination-link" aria-label="Latent Interactions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Latent Interactions</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../contents/ml.html" class="pagination-link" aria-label="ML Estimation">
+        <span class="nav-page-text">ML Estimation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>This work © 2024 by Sungkyun Cho is licensed under CC BY-NC-SA 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
