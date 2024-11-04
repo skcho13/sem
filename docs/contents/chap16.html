@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-11-03">
+<meta name="dcterms.date" content="2024-11-04">
 
 <title>Chapter 15-16. Confirmatory Factor Analysis –  CHA Statistics II in R</title>
 <style>
@@ -454,7 +454,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 3, 2024</p>
+      <p class="date">November 4, 2024</p>
     </div>
   </div>
   
@@ -694,7 +694,7 @@ V(\delta_1) \\
 <li><code>std.lv</code>: latent variable만 표준화, 즉 위와 같이 factor의 분산을 1로 설정</li>
 <li><code>std.all</code>: latent와 indicator 모두 표준화</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model, <span class="at">standardized=</span><span class="st">"TRUE"</span>)  <span class="co"># 또는 type을 지정</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model, <span class="at">standardized=</span><span class="cn">TRUE</span>)  <span class="co"># 또는 type을 지정</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">standardizedSolution</span>(fit, <span class="at">type=</span><span class="st">"..."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 <p><strong>Effect codings</strong></p>

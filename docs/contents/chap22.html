@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-11-03">
+<meta name="dcterms.date" content="2024-11-04">
 
 <title>Chapter 22. Latent Interactions –  CHA Statistics II in R</title>
 <style>
@@ -406,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 3, 2024</p>
+      <p class="date">November 4, 2024</p>
     </div>
   </div>
   
@@ -437,13 +437,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Product Indicator Approach: 관찰 변수들의 곱으로 이루어진 새로운 잠재변수를 구성
 <ul>
-<li>여러 방식 중에 double mean centering이 이점을 두루 갖춤</li>
+<li>여러 방식 중에 <strong>double mean centering</strong>이 여러 이점을 갖춤</li>
 </ul></li>
 <li>Distribution Analytic (DA) Approaches
 <ul>
-<li>The Latent Moderated Structural equations (LMS): ML estimation maximizing the log-likelihood of the joint distribution of indicators.</li>
-<li>The Quasi Maximum Likelihood approach (QML): LMS에 비해 계산이 간단하며, non-normal 데이터에 대해 robust.</li>
-<li>Markov chain Monte Carlo (MCMC) estimation: 베이지안 접근방식으로 posterior distribution로부터 직접 샘플링하여 곱의 항을 계산</li>
+<li>The Latent Moderated Structural equations (<strong>LMS</strong>): ML estimation maximizing the log-likelihood of the joint distribution of indicators.</li>
+<li>The Quasi Maximum Likelihood approach (<strong>QML</strong>): LMS에 비해 계산이 간단하며, non-normal 데이터에 대해 robust.</li>
+<li>Markov chain Monte Carlo (<strong>MCMC</strong>) estimation: 베이지안 접근방식으로 posterior distribution로부터 직접 샘플링하여 곱의 항을 계산</li>
 <li>Mplus는 기본적으로 LMS로 추정, MCMC도 가능; <code>XWITH</code> 명령어로 간단히 구현 가능</li>
 <li>R에서는 <code>modsem</code> package의 <a href="https://modsem.org/articles/methods.html">methods 참고</a></li>
 </ul></li>
