@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-24">
+<meta name="dcterms.date" content="2024-11-10">
 
 <title>Chapter 13-14. Path Analysis –  CHA Statistics II in R</title>
 <style>
@@ -461,7 +461,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2024</p>
+      <p class="date">November 10, 2024</p>
     </div>
   </div>
   
@@ -486,7 +486,7 @@ window.Quarto = {
 </div>
 <section id="데이터-준비" class="level2">
 <h2 class="anchored" data-anchor-id="데이터-준비">데이터 준비</h2>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="196">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nels <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/n=1000,stud &amp; par shorter all miss blank.csv"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>nels <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -509,7 +509,7 @@ window.Quarto = {
 #   bypared &lt;dbl&gt;, bytests &lt;dbl&gt;, par_inv &lt;dbl&gt;, f1s36a1 &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="197">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SPSS data: labelled data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven) <span class="co"># install.packages("haven")</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>nels_sav <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/n=1000,stud &amp; par shorter.sav"</span>)</span>
@@ -1075,7 +1075,7 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.022 0.012 0.034 Sig
 <p>자유도가 높을수록 모형이 데이터와 잘 맞지 않은지에 대한 판별을 더 신뢰할 수 있음.</p>
 <p><img src="images/fig14-7.png" class="img-fluid" width="800"></p>
 <p><strong>공분산 기반 모형</strong></p>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="199">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>nels_cov <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM/homework overid 2018.sav"</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>nels_cov <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1092,7 +1092,7 @@ ses -&gt; prev -&gt; par -&gt; gpa 0.022 0.012 0.034 Sig
 8 mean     ""            0.272     0.0025   52.0      2.56      5.75 </code></pre>
 </div>
 </div>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="200">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>nels_cov2 <span class="ot">&lt;-</span> nels_cov[<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>)] <span class="sc">|&gt;</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lav_matrix_vechr</span>(<span class="at">diagonal =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
@@ -1108,7 +1108,7 @@ Homework -0.02808143  0.1763745  2.069067  0.65011969  0.33545523
 Grades   -0.08141289  0.3381521  6.435165  0.33545523  2.18744100</code></pre>
 </div>
 </div>
-<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="201">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>nels_cov2 <span class="sc">|&gt;</span> <span class="fu">cov2cor</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Minority FamBack  PreAch Homework  Grades
@@ -1120,7 +1120,7 @@ Grades    -0.1315  0.2751  0.4890   0.2813  1.0000</code></pre>
 </div>
 </div>
 <p><strong>이제 모형 적합도(model fit)에 대한 정보를 얻을 수 있음!</strong></p>
-<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
+<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="205">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>mod_hw <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades ~ PreAch + Homework</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Homework ~ PreAch + FamBack + Minority</span></span>
@@ -1689,7 +1689,7 @@ Important
 <span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="st">  PreAch ~ Homework + FamBack + Minority</span></span>
 <span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>hw_fit_reversed <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_hw_reversed, <span class="at">sample.cov =</span> nels_cov2, <span class="at">sample.nobs =</span> <span class="dv">1000</span>, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cell-75" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="48" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-75" class="cell quarto-layout-panel" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48" data-layout-ncol="2">
 
 </div>
 <div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
@@ -1714,39 +1714,62 @@ hw_fit_reversed - hw_fit     0    0   0   0
 </code></pre>
 </div>
 </div>
+<p><strong>Directionality Revisited</strong></p>
+<p>중요한 경로 지정의 오류에 대해 모형 적합도 지표는 도움이 되는가?<br>
+<code>Grades</code> → <code>Homework</code>의 경로가 바뀌면, 비동등 모형이 되는데, 적합도 지표의 차이를 보면,</p>
+<p><img src="images/fig14-16.png" class="img-fluid" width="650"></p>
+<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>mod_hw_reversed2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades ~ PreAch</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Homework ~ PreAch + FamBack + Minority + Grades</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="st">  PreAch ~ FamBack + Minority</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>hw_fit_reversed2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_hw_reversed2, <span class="at">sample.cov =</span> nels_cov2, <span class="at">sample.nobs =</span> <span class="dv">1000</span>, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-79" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="210">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>fit_stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"srmr"</span>, <span class="st">"cfi"</span>, <span class="st">"tli"</span>, <span class="st">"aic"</span>, <span class="st">"bic"</span>)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(hw_fit_reversed2, fit_stats) <span class="sc">|&gt;</span> <span class="fu">print</span>(<span class="at">nd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    rmsea      srmr       cfi       tli       aic       bic 
+    0.009     0.008     1.000     0.999 16005.917 16069.718 
+    rmsea      srmr       cfi       tli       aic       bic 
+    0.036     0.013     0.996     0.983 16008.367 16072.167 </code></pre>
+</div>
+</div>
 </section>
 <section id="nonrecursive-models" class="level3">
 <h3 class="anchored" data-anchor-id="nonrecursive-models">Nonrecursive Models</h3>
 <p><img src="images/fig14-18.png" class="img-fluid" width="750"></p>
-<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
 <details class="code-fold">
 <summary>Get the covariance matrix</summary>
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="st">  1</span></span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.181 1</span></span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="st">  0.09 0.05 1</span></span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.05 0.09 -0.181 1</span></span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.2 0.32 -0.115 0.09 1</span></span>
-<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.076 0.087 -0.34 0.2 0.598 1</span></span>
-<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="st">"8.7 8.1 10.4 7.3 9.7 8"</span></span>
-<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">sd =</span> sd, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">'mper_con'</span>, <span class="st">'man_self'</span>, <span class="st">'wper_con'</span>, <span class="st">'wom_self'</span>, <span class="st">'m_trust'</span>, <span class="st">'w_trust'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="st">  1</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.181 1</span></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="st">  0.09 0.05 1</span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.05 0.09 -0.181 1</span></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.2 0.32 -0.115 0.09 1</span></span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.076 0.087 -0.34 0.2 0.598 1</span></span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="st">"8.7 8.1 10.4 7.3 9.7 8"</span></span>
+<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">sd =</span> sd, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">'mper_con'</span>, <span class="st">'man_self'</span>, <span class="st">'wper_con'</span>, <span class="st">'wom_self'</span>, <span class="st">'m_trust'</span>, <span class="st">'w_trust'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-79" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>mod_trust <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="st">  m_trust ~ w_trust + mper_con + man_self</span></span>
-<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="st">  w_trust ~ m_trust + wper_con + wom_self</span></span>
-<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # covariance</span></span>
-<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a><span class="st">  wper_con ~~ 0*man_self + wom_self + mper_con</span></span>
-<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="st">  mper_con ~~ 0*wom_self + man_self</span></span>
-<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a><span class="st">  wom_self ~~ man_self</span></span>
-<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a><span class="st">  m_trust ~~ w_trust</span></span>
-<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>trust_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_trust, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">300</span>)</span>
-<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(trust_fit, <span class="at">fit.measures =</span> T, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-82" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>mod_trust <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="st">  m_trust ~ w_trust + mper_con + man_self</span></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="st">  w_trust ~ m_trust + wper_con + wom_self</span></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # covariance</span></span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a><span class="st">  wper_con ~~ 0*man_self + wom_self + mper_con</span></span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a><span class="st">  mper_con ~~ 0*wom_self + man_self</span></span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a><span class="st">  wom_self ~~ man_self</span></span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a><span class="st">  m_trust ~~ w_trust</span></span>
+<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a>trust_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_trust, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">300</span>)</span>
+<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(trust_fit, <span class="at">fit.measures =</span> T, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 90 iterations
 
@@ -1856,32 +1879,32 @@ Estimated via longitudinal data.</p>
 </div>
 </div>
 <p><img src="images/fig14-19.png" class="img-fluid" width="700"></p>
-<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
+<div id="cell-84" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
 <details class="code-fold">
 <summary>Get the covariance matrix</summary>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="st">  21.623                            </span></span>
-<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="st">  2.052 9.797                       </span></span>
-<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="st">  10.98 4.548 19.625                    </span></span>
-<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.186 -0.027 0.76 8.18                </span></span>
-<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="st">  10.614 2.773 8.911 -0.789 20.43           </span></span>
-<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a><span class="st">  0.808 6.377 2.756 -0.131 3.46 9.302       </span></span>
-<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a><span class="st">  7.301 3.795 11.361 -0.024 9.939 4.889 16.892  </span></span>
-<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.374 -0.772 0.037 4.737 -2.729 -0.777 -1.059 7.673</span></span>
-<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Stress_2"</span>, <span class="st">"Depersonal_2"</span>, <span class="st">"EExhaust_2"</span>, <span class="st">"PAcomplish_2"</span>,  <span class="st">"Stress_1"</span>, <span class="st">"Depersonal_1"</span>, <span class="st">"EExhaust_1"</span>, <span class="st">"PAcomplish_1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="st">  21.623                            </span></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="st">  2.052 9.797                       </span></span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a><span class="st">  10.98 4.548 19.625                    </span></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a><span class="st">  0.186 -0.027 0.76 8.18                </span></span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a><span class="st">  10.614 2.773 8.911 -0.789 20.43           </span></span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a><span class="st">  0.808 6.377 2.756 -0.131 3.46 9.302       </span></span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a><span class="st">  7.301 3.795 11.361 -0.024 9.939 4.889 16.892  </span></span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.374 -0.772 0.037 4.737 -2.729 -0.777 -1.059 7.673</span></span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Stress_2"</span>, <span class="st">"Depersonal_2"</span>, <span class="st">"EExhaust_2"</span>, <span class="st">"PAcomplish_2"</span>,  <span class="st">"Stress_1"</span>, <span class="st">"Depersonal_1"</span>, <span class="st">"EExhaust_1"</span>, <span class="st">"PAcomplish_1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-82" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>mod_stress <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Stress_2 ~ Depersonal_1 + Stress_1 + EExhaust_2</span></span>
-<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="st">  EExhaust_2 ~ Depersonal_1 + Stress_1 + PAcomplish_1</span></span>
-<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # covariance</span></span>
-<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>stress_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_stress, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">331</span>, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(stress_fit, <span class="at">fit.measures =</span> T, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-85" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>mod_stress <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Stress_2 ~ Depersonal_1 + Stress_1 + EExhaust_2</span></span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="st">  EExhaust_2 ~ Depersonal_1 + Stress_1 + PAcomplish_1</span></span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # covariance</span></span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>stress_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_stress, <span class="at">sample.cov =</span> cov, <span class="at">sample.nobs =</span> <span class="dv">331</span>, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(stress_fit, <span class="at">fit.measures =</span> T, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 1 iteration
 
@@ -1979,9 +2002,9 @@ Family가 미치는 간접효과는 어떠한가?<br>
 Fully vs.&nbsp;partially mediated model 비교</p>
 <p><img src="images/fig14-21.png" class="img-fluid" width="600"></p>
 <p><img src="images/fig14-21-1.png" class="img-fluid" width="610"></p>
-<div id="cell-84" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>henri <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM/henry et al.sav"</span>)</span>
-<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>henri <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-87" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="213">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>henri <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 14 path via SEM/henry et al.sav"</span>)</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>henri <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 246 × 5
   i_delin i_violen p_delin p_violen family
@@ -1993,6 +2016,398 @@ Fully vs.&nbsp;partially mediated model 비교</p>
 5  0.969   -0.0923  -0.884  -0.502   4.61 
 6 -0.0740   0.321   -0.755  -0.978  -0.844
 # ℹ 240 more rows</code></pre>
+</div>
+</div>
+<div id="cell-88" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="214">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">lowerCor</span>(henri)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         i_dln i_vln p_dln p_vln famly
+i_delin   1.00                        
+i_violen  0.43  1.00                  
+p_delin   0.28  0.27  1.00            
+p_violen  0.32  0.30  0.68  1.00      
+family   -0.02 -0.17 -0.15 -0.14  1.00</code></pre>
+</div>
+</div>
+<div id="cell-89" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="215">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fully mediated model</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>mod_henri <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a><span class="st">  i_violen ~ dv*p_delin + vv*p_violen</span></span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a><span class="st">  i_delin ~ dd*p_delin + vd*p_violen</span></span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a><span class="st">  p_violen ~ fv*family</span></span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a><span class="st">  p_delin ~ fd*family</span></span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a><span class="st">  # covariance</span></span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a><span class="st">  p_delin ~~ p_violen</span></span>
+<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a><span class="st">  i_delin ~~ i_violen</span></span>
+<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a><span class="st">  # indirect effect</span></span>
+<span id="cb98-14"><a href="#cb98-14" aria-hidden="true" tabindex="-1"></a><span class="st">  i_violen_ind := dv*fd + vv*fv</span></span>
+<span id="cb98-15"><a href="#cb98-15" aria-hidden="true" tabindex="-1"></a><span class="st">  i_delin_ind := vd*fv + dd*fd</span></span>
+<span id="cb98-16"><a href="#cb98-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb98-17"><a href="#cb98-17" aria-hidden="true" tabindex="-1"></a>henri_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_henri, <span class="at">data =</span> henri, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb98-18"><a href="#cb98-18" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(henri_fit, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 24 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        13
+
+  Number of observations                           246
+
+Model Test User Model:
+                                                      
+  Test statistic                                 5.713
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.057
+
+Model Test Baseline Model:
+
+  Test statistic                               253.063
+  Degrees of freedom                                10
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.985
+  Tucker-Lewis Index (TLI)                       0.924
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)              -1576.587
+  Loglikelihood unrestricted model (H1)      -1573.731
+                                                      
+  Akaike (AIC)                                3179.175
+  Bayesian (BIC)                              3224.744
+  Sample-size adjusted Bayesian (SABIC)       3183.535
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.087
+  90 Percent confidence interval - lower         0.000
+  90 Percent confidence interval - upper         0.174
+  P-value H_0: RMSEA &lt;= 0.050                    0.169
+  P-value H_0: RMSEA &gt;= 0.080                    0.642
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.032
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+  i_violen ~                                                   
+    p_delin   (dv)    0.228    0.139    1.640    0.101    0.135
+    p_violen  (vv)    0.359    0.145    2.472    0.013    0.204
+  i_delin ~                                                    
+    p_delin   (dd)    0.378    0.267    1.418    0.156    0.116
+    p_violen  (vd)    0.812    0.279    2.914    0.004    0.239
+  p_violen ~                                                   
+    family    (fv)   -0.026    0.012   -2.137    0.033   -0.135
+  p_delin ~                                                    
+    family    (fd)   -0.029    0.012   -2.341    0.019   -0.148
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+ .p_violen ~~                                                  
+   .p_delin           0.158    0.018    8.759    0.000    0.673
+ .i_violen ~~                                                  
+   .i_delin           0.450    0.083    5.389    0.000    0.366
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+   .i_violen          0.641    0.058   11.091    0.000    0.902
+   .i_delin           2.357    0.213   11.091    0.000    0.891
+   .p_violen          0.225    0.020   11.091    0.000    0.982
+   .p_delin           0.245    0.022   11.091    0.000    0.978
+    family            6.426    0.579   11.091    0.000    1.000
+
+Defined Parameters:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+    i_violen_ind     -0.016    0.007   -2.180    0.029   -0.048
+    i_delin_ind      -0.032    0.015   -2.172    0.030   -0.049
+</code></pre>
+</div>
+</div>
+<div id="cell-90" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="216">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Partially mediated model with a direct effect</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>mod_henri_partial <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="st">  i_violen ~ 0*p_delin + vv*p_violen + fvd*family</span></span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="st">  i_delin ~ dd*p_delin + vd*p_violen + fdd*family</span></span>
+<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="st">  p_violen ~ fv*family</span></span>
+<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a><span class="st">  p_delin ~ fd*family</span></span>
+<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a><span class="st">  # covariance</span></span>
+<span id="cb100-10"><a href="#cb100-10" aria-hidden="true" tabindex="-1"></a><span class="st">  p_delin ~~ p_violen</span></span>
+<span id="cb100-11"><a href="#cb100-11" aria-hidden="true" tabindex="-1"></a><span class="st">  i_delin ~~ i_violen</span></span>
+<span id="cb100-12"><a href="#cb100-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-13"><a href="#cb100-13" aria-hidden="true" tabindex="-1"></a><span class="st">  # indirect effect</span></span>
+<span id="cb100-14"><a href="#cb100-14" aria-hidden="true" tabindex="-1"></a><span class="st">  i_violen_ind := 0*fd + vv*fv</span></span>
+<span id="cb100-15"><a href="#cb100-15" aria-hidden="true" tabindex="-1"></a><span class="st">  i_delin_ind := vd*fv + dd*fd</span></span>
+<span id="cb100-16"><a href="#cb100-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-17"><a href="#cb100-17" aria-hidden="true" tabindex="-1"></a><span class="st">  # total effect</span></span>
+<span id="cb100-18"><a href="#cb100-18" aria-hidden="true" tabindex="-1"></a><span class="st">  i_violen_total := 0*fd + vv*fv + fvd</span></span>
+<span id="cb100-19"><a href="#cb100-19" aria-hidden="true" tabindex="-1"></a><span class="st">  i_delin_total := vd*fv + dd*fd + fdd</span></span>
+<span id="cb100-20"><a href="#cb100-20" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb100-21"><a href="#cb100-21" aria-hidden="true" tabindex="-1"></a>henri_fit_partial <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="at">model =</span> mod_henri_partial, <span class="at">data =</span> henri, <span class="at">fixed.x =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb100-22"><a href="#cb100-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(henri_fit_partial, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 33 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        14
+
+  Number of observations                           246
+
+Model Test User Model:
+                                                      
+  Test statistic                                 2.225
+  Degrees of freedom                                 1
+  P-value (Chi-square)                           0.136
+
+Model Test Baseline Model:
+
+  Test statistic                               253.063
+  Degrees of freedom                                10
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.995
+  Tucker-Lewis Index (TLI)                       0.950
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)              -1574.843
+  Loglikelihood unrestricted model (H1)      -1573.731
+                                                      
+  Akaike (AIC)                                3177.686
+  Bayesian (BIC)                              3226.761
+  Sample-size adjusted Bayesian (SABIC)       3182.381
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.071
+  90 Percent confidence interval - lower         0.000
+  90 Percent confidence interval - upper         0.200
+  P-value H_0: RMSEA &lt;= 0.050                    0.251
+  P-value H_0: RMSEA &gt;= 0.080                    0.591
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.018
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+  i_violen ~                                                   
+    p_delin           0.000                               0.000
+    p_violen  (vv)    0.491    0.107    4.578    0.000    0.279
+    family   (fvd)   -0.043    0.020   -2.104    0.035   -0.128
+  i_delin ~                                                    
+    p_delin   (dd)    0.240    0.248    0.966    0.334    0.074
+    p_violen  (vd)    0.923    0.270    3.421    0.001    0.272
+    family   (fdd)    0.018    0.039    0.463    0.644    0.028
+  p_violen ~                                                   
+    family    (fv)   -0.026    0.012   -2.137    0.033   -0.135
+  p_delin ~                                                    
+    family    (fd)   -0.029    0.012   -2.341    0.019   -0.148
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+ .p_violen ~~                                                  
+   .p_delin           0.158    0.018    8.759    0.000    0.673
+ .i_violen ~~                                                  
+   .i_delin           0.459    0.083    5.501    0.000    0.375
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+   .i_violen          0.636    0.057   11.091    0.000    0.896
+   .i_delin           2.358    0.213   11.091    0.000    0.895
+   .p_violen          0.225    0.020   11.091    0.000    0.982
+   .p_delin           0.245    0.022   11.091    0.000    0.978
+    family            6.426    0.579   11.091    0.000    1.000
+
+Defined Parameters:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)  Std.all
+    i_violen_ind     -0.013    0.006   -1.936    0.053   -0.038
+    i_delin_ind      -0.031    0.014   -2.107    0.035   -0.048
+    i_violen_total   -0.055    0.021   -2.637    0.008   -0.166
+    i_delin_total    -0.012    0.041   -0.305    0.760   -0.019
+</code></pre>
+</div>
+</div>
+<div id="cell-91" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="217">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">compareFit</span>(henri_fit, henri_fit_partial) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>################### Nested Model Comparison #########################
+
+Chi-Squared Difference Test
+
+                  Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)
+henri_fit_partial  1 3177.7 3226.8 2.2247                                      
+henri_fit          2 3179.2 3224.7 5.7134     3.4887 0.10058       1    0.06179
+                   
+henri_fit_partial  
+henri_fit         .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####################### Model Fit Indices ###########################
+                   chisq df pvalue rmsea   cfi   tli  srmr       aic       bic
+henri_fit_partial 2.225†  1   .136 .071† .995† .950† .018† 3177.686† 3226.761 
+henri_fit         5.713   2   .057 .087  .985  .924  .032  3179.175  3224.744†
+
+################## Differences in Fit Indices #######################
+                              df rmsea   cfi    tli  srmr   aic    bic
+henri_fit - henri_fit_partial  1 0.016 -0.01 -0.026 0.013 1.489 -2.017
+</code></pre>
+</div>
+</div>
+<p>Bootstrap으로 표준오차를 추정하려면, <code>se ="bootstrap"</code></p>
+<div id="cell-93" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="218">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>henri_fit_partial_boot <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> mod_henri_partial,</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> henri,</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed.x =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">"bootstrap"</span>,</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">iseed =</span> <span class="dv">123</span> <span class="co"># seed for reproducibility</span></span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-94" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="219">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>  henri_fit_partial_boot, </span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot.ci.type =</span> <span class="st">"bca.simple"</span>, <span class="co"># bias-corrected</span></span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="st">"std.all"</span> <span class="co"># standardized estimates</span></span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(label <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              lhs op             rhs          label    est    se      z pvalue
+1        i_violen  ~        p_violen             vv  0.491 0.103  4.747  0.000
+2        i_violen  ~          family            fvd -0.043 0.021 -1.988  0.047
+3         i_delin  ~         p_delin             dd  0.240 0.231  1.039  0.299
+4         i_delin  ~        p_violen             vd  0.923 0.247  3.741  0.000
+5         i_delin  ~          family            fdd  0.018 0.038  0.477  0.633
+6        p_violen  ~          family             fv -0.026 0.013 -1.906  0.057
+7         p_delin  ~          family             fd -0.029 0.014 -2.152  0.031
+8    i_violen_ind :=      0*fd+vv*fv   i_violen_ind -0.013 0.007 -1.744  0.081
+9     i_delin_ind :=     vd*fv+dd*fd    i_delin_ind -0.031 0.016 -1.919  0.055
+10 i_violen_total :=  0*fd+vv*fv+fvd i_violen_total -0.055 0.022 -2.452  0.014
+11  i_delin_total := vd*fv+dd*fd+fdd  i_delin_total -0.012 0.039 -0.322  0.747
+   ci.lower ci.upper std.all
+1     0.281    0.693   0.279
+2    -0.085    0.004  -0.128
+3    -0.213    0.686   0.074
+4     0.407    1.388   0.272
+5    -0.056    0.093   0.028
+6    -0.051    0.002  -0.135
+7    -0.055   -0.002  -0.148
+8    -0.029   -0.001  -0.038
+9    -0.065    0.000  -0.048
+10   -0.098   -0.006  -0.166
+11   -0.082    0.066  -0.019</code></pre>
+</div>
+</div>
+<p>manymome 패키지를 사용하면,<br>
+간접효과 <code>family</code> → <code>i_delin</code>의 경우</p>
+<div id="cell-96" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="220">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="co"># All indirect paths from x to y</span></span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">all_indirect_paths</span>(henri_fit_partial,</span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"family"</span>,</span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"i_delin"</span>,</span>
+<span id="cb107-6"><a href="#cb107-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb107-7"><a href="#cb107-7" aria-hidden="true" tabindex="-1"></a>paths <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: 
+all_indirect_paths(fit = henri_fit_partial, x = "family", y = "i_delin")
+Path(s): 
+  path                         
+1 family -&gt; p_violen -&gt; i_delin
+2 family -&gt; p_delin -&gt; i_delin </code></pre>
+</div>
+</div>
+<div id="cell-97" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="221">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indirect effect estimates</span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>ind_est <span class="ot">&lt;-</span> <span class="fu">many_indirect_effects</span>(paths,</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit =</span> henri_fit_partial, <span class="at">R =</span> <span class="dv">1000</span>,</span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">boot_ci =</span> <span class="cn">TRUE</span>, <span class="at">boot_type =</span> <span class="st">"bc"</span>,</span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_x =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized_y =</span> <span class="cn">TRUE</span></span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a>ind_est <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=06s  
+
+==  Indirect Effect(s) (Both x-variable(s) and y-variable(s) Standardized)  ==
+                                 std  CI.lo  CI.hi Sig
+family -&gt; p_violen -&gt; i_delin -0.037 -0.097 -0.002 Sig
+family -&gt; p_delin -&gt; i_delin  -0.011 -0.045  0.007    
+
+ - [CI.lo to CI.hi] are 95.0% bias-corrected confidence intervals by
+   nonparametric bootstrapping with 1000 samples.
+ - std: The standardized indirect effects.
+ </code></pre>
+</div>
+</div>
+<div id="cell-98" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="222">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total indirect effect</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>ind_est[[<span class="dv">1</span>]] <span class="sc">+</span> ind_est[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>
+== Indirect Effect (Both ‘family’ and ‘i_delin’ Standardized) ==
+                                                   
+ Path:                family -&gt; p_violen -&gt; i_delin
+ Path:                family -&gt; p_delin -&gt; i_delin 
+ Function of Effects: -0.048                       
+ 95.0% Bootstrap CI:  [-0.101 to 0.001]            
+
+Computation of the Function of Effects:
+ (family-&gt;p_violen-&gt;i_delin)
++(family-&gt;p_delin-&gt;i_delin) 
+
+
+Bias-corrected confidence interval formed by nonparametric
+bootstrapping with 1000 bootstrap samples.</code></pre>
+</div>
+</div>
+<p>플롯</p>
+<div id="cell-100" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="223">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>semPaths2 <span class="ot">&lt;-</span> <span class="cf">function</span>(model, <span class="at">what =</span> <span class="st">'std'</span>, <span class="at">layout =</span> <span class="st">"tree"</span>, <span class="at">rotation =</span> <span class="dv">1</span>) {</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  semPlot<span class="sc">::</span><span class="fu">semPaths</span>(model, <span class="at">what =</span> what, <span class="at">edge.label.cex =</span> <span class="dv">1</span>, <span class="at">edge.color =</span> <span class="st">"black"</span>, <span class="at">layout =</span> layout, <span class="at">rotation =</span> rotation, <span class="at">weighted =</span> <span class="cn">FALSE</span>, <span class="at">asize =</span> <span class="dv">2</span>, <span class="at">label.cex =</span> <span class="dv">1</span>, <span class="at">node.width =</span> <span class="fl">1.5</span>)</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-102" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="225">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semPaths2</span>(henri_fit, <span class="at">layout =</span> <span class="st">"tree"</span>, <span class="at">rotation =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chap13_files/figure-html/cell-69-output-1.png" width="630" height="450" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-104" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="227">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semPaths2</span>(henri_fit_parital, <span class="at">layout =</span> <span class="st">"tree"</span>, <span class="at">rotation =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chap13_files/figure-html/cell-71-output-1.png" width="630" height="450" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -2451,7 +2866,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","loop":false,"selector":".lightbox","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
