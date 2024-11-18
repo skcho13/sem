@@ -407,8 +407,11 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#estimation-of-means-and-intercepts-in-single-group-sem-models" id="toc-estimation-of-means-and-intercepts-in-single-group-sem-models" class="nav-link active" data-scroll-target="#estimation-of-means-and-intercepts-in-single-group-sem-models">Estimation of Means and Intercepts in Single Group SEM Models</a></li>
+  <li><a href="#sem의-평균-구조-mean-structure" id="toc-sem의-평균-구조-mean-structure" class="nav-link active" data-scroll-target="#sem의-평균-구조-mean-structure">SEM의 평균 구조 (Mean Structure)</a>
+  <ul>
+  <li><a href="#single-group-sem-models" id="toc-single-group-sem-models" class="nav-link" data-scroll-target="#single-group-sem-models">Single Group SEM Models</a></li>
   <li><a href="#잠재-평균-간의-차이를-검정하는-두-가지-방법" id="toc-잠재-평균-간의-차이를-검정하는-두-가지-방법" class="nav-link" data-scroll-target="#잠재-평균-간의-차이를-검정하는-두-가지-방법">잠재 평균 간의 차이를 검정하는 두 가지 방법</a></li>
+  </ul></li>
   <li><a href="#예제-최면과-열감" id="toc-예제-최면과-열감" class="nav-link" data-scroll-target="#예제-최면과-열감">예제: 최면과 열감</a>
   <ul>
   <li><a href="#single-groupdummy-variable-approach" id="toc-single-groupdummy-variable-approach" class="nav-link" data-scroll-target="#single-groupdummy-variable-approach">Single Group/Dummy Variable Approach</a>
@@ -480,6 +483,8 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(manymome)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<section id="sem의-평균-구조-mean-structure" class="level1">
+<h1>SEM의 평균 구조 (Mean Structure)</h1>
 <p>예를 들어, 잠재변수 <span class="math inline">\(\xi_1\)</span>이 잠재변수 <span class="math inline">\(\eta_1\)</span>에 영향을 주는 모형에 대해,</p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -492,7 +497,7 @@ window.Quarto = {
 <span class="math inline">\(Y_2 = \nu_{Y_2} + \lambda_{4}* \eta + \epsilon_2\)</span></p>
 <p>(회귀계수 <span class="math inline">\(\lambda\)</span>: factor loading, 요인부하량, <span class="math inline">\(\alpha, \nu\)</span>: 절편)</p>
 </div><div class="column" style="width:50%;">
-<p><img src="images/mean-structure.png" class="img-fluid" width="500"></p>
+<p><img src="images/mean-structure.png" class="img-fluid" width="400"></p>
 </div>
 </div>
 <p>각 변수의 평균들은 <span class="math inline">\(\xi\)</span>의 평균 <span class="math inline">\(E(\xi) = m\)</span>이라 하면,<br>
@@ -509,7 +514,7 @@ window.Quarto = {
 <li><span class="math inline">\(\nu_{Y_1} = 0\)</span>; 이때 <span class="math inline">\(E(Y_1) = E(\eta)\)</span>이 됨, 즉 잠재변수 <span class="math inline">\(\eta\)</span>의 평균이 <span class="math inline">\(Y_1\)</span>의 평균과 동일하게 됨</li>
 </ul></li>
 </ul>
-<p>만약, 잠재변수의 평균을 추정할 수 있는 경우</p>
+<p>Multi-group SEM에서 그룹 간에 절편에 대한 동일성을 가정하면, identified 될 수 있음.</p>
 <div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -546,7 +551,7 @@ Latent의 평균은 보통 0으로 설정하므로, factor(latent)의 절편은 
 <li>Indicator에 대한 절편을 0으로 고정하고, 잠재변수의 평균을 추정하려면 직접 지정해야 함</li>
 </ul>
 <p><img src="images/hw-mean-structure.png" class="img-fluid" width="500"></p>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="33">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>intercept_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades =~ eng92 + math92 + sci92 + soc92</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">  HW =~ f2s25f2 + f1s36a2</span></span>
@@ -599,7 +604,7 @@ HW          0
 </code></pre>
 </div>
 </div>
-<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(intercept_fit) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op rhs   est    se      z pvalue ci.lower ci.upper
@@ -613,7 +618,7 @@ HW          0
 23      HW ~1     0.000 0.000     NA     NA    0.000    0.000</code></pre>
 </div>
 </div>
-<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
+<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(intercept_fit, </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>,</span>
@@ -682,7 +687,7 @@ Variances:
 </div>
 </div>
 <p><strong>Indicator의 대한 절편을 0으로 고정하고, 잠재변수의 평균을 추정하려면 직접 지정!</strong></p>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>intercept_model2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades =~ eng92 + math92 + sci92 + soc92</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">  HW =~ f2s25f2 + f1s36a2</span></span>
@@ -741,7 +746,7 @@ HW      3.410
 </code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(intercept_fit2, </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>,</span>
@@ -809,10 +814,11 @@ Variances:
 </code></pre>
 </div>
 </div>
-<section id="estimation-of-means-and-intercepts-in-single-group-sem-models" class="level2">
-<h2 class="anchored" data-anchor-id="estimation-of-means-and-intercepts-in-single-group-sem-models">Estimation of Means and Intercepts in Single Group SEM Models</h2>
-<p><img src="images/fig19-8.png" class="img-fluid" width="700"></p>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<section id="single-group-sem-models" class="level2">
+<h2 class="anchored" data-anchor-id="single-group-sem-models">Single Group SEM Models</h2>
+<p>Estimation of Means and Intercepts in Single Group SEM Models<br>
+<img src="images/fig19-8.png" class="img-fluid" width="700"></p>
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Famback =~ parocc + byfaminc + bypared</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
@@ -991,6 +997,7 @@ Variances:
 <img src="images/fig19-13.png" class="img-fluid"></li>
 </ul>
 </section>
+</section>
 <section id="예제-최면과-열감" class="level1">
 <h1>예제: 최면과 열감</h1>
 <p><em><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2652097/">Elkins et. al.&nbsp;(2008).</a> Randomized trial of a hypnosis intervention for treatment of hot flashes among breast cancer survivors. Journal of Clinical Oncology, 26(31), 5022-5026.</em></p>
@@ -998,15 +1005,19 @@ Variances:
 <li>화학요법의 일반적인 부작용으로 폐경과 화끈거림이 발생</li>
 <li>최면을 사용해 유방암 생존자의 화끈거림(hot flash)을 조절하려는 치료</li>
 <li>60명 여성을 무작위 배정: 최면 치료 그룹(5주) vs.&nbsp;통제 그룹</li>
-<li>사전-사후 검사</li>
-<li>측정
+<li>사전-사후 검사
 <ul>
 <li>HF: 열감의 빈도와 강도의 조합</li>
 <li>int: 열감이 일상에 지장을 주는 정도</li>
 </ul></li>
 </ul>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="214">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hotflash <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the dataset</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hotflash <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/hot flash simulated.sav"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># make a grouping variable as a factor</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>hotflash <span class="ot">&lt;-</span> hotflash <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">g =</span> <span class="fu">factor</span>(Group, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"control"</span>, <span class="st">"treatment"</span>)))</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>hotflash <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 96 × 6
   Group                       HF1   HF2  int1  int2 g        
@@ -1041,40 +1052,20 @@ Variances:
 <p><img src="images/fig19-16.png" class="img-fluid" width="700"></p>
 <section id="single-groupdummy-variable-approach" class="level2">
 <h2 class="anchored" data-anchor-id="single-groupdummy-variable-approach">Single Group/Dummy Variable Approach</h2>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the dataset</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>hotflash <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/hot flash simulated.sav"</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># make a grouping variable as a factor</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>hotflash <span class="ot">&lt;-</span> hotflash <span class="sc">|&gt;</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">g =</span> <span class="fu">factor</span>(Group, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"control"</span>, <span class="st">"treatment"</span>)))</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>hotflash <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 96 × 6
-  Group                       HF1   HF2  int1  int2 g        
-  &lt;dbl+lbl&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;    
-1 0 [Control]               33.4  32.7     64    38 control  
-2 1 [Hypnosis Intervention] 25.5  12.7     52     5 treatment
-3 1 [Hypnosis Intervention] 11.0   7.60     9     2 treatment
-4 1 [Hypnosis Intervention]  8.05  4.05    13     6 treatment
-5 0 [Control]               13.2   4.34    61    36 control  
-6 0 [Control]                9.89  8.89    15    34 control  
-# ℹ 90 more rows</code></pre>
-</div>
-</div>
-<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>hotflash_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre + Group  # Group: numeric variable!</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>hotflash_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model, <span class="at">data =</span> hotflash)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hotflash_fit, </span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="st">"std.nox"</span>, <span class="co"># dummy 변수에 대해서는 표준화하지 않기 위함</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hotflash_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre + Group  # Group: numeric variable!</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>hotflash_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model, <span class="at">data =</span> hotflash)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hotflash_fit, </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="st">"std.nox"</span>, <span class="co"># dummy 변수에 대해서는 표준화하지 않기 위함</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 161 iterations
 
@@ -1168,22 +1159,22 @@ Variances:
 <li>최면 치료의 효과가 유의한지 확인</li>
 </ul>
 <p><img src="images/table19-1.png" class="img-fluid" width="700"></p>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># free covariance between pretest and group</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>hotflash_model2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre + Group</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ Group  # free the parameter</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # 또는 hf_pre ~~ Group</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>hotflash_fit2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model2, <span class="at">data =</span> hotflash)</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit2, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(rhs <span class="sc">==</span> <span class="st">"Group"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># free covariance between pretest and group</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>hotflash_model2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre + Group</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ Group  # free the parameter</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # 또는 hf_pre ~~ Group</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>hotflash_fit2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model2, <span class="at">data =</span> hotflash)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit2, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(rhs <span class="sc">==</span> <span class="st">"Group"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op   rhs     est    se      z pvalue ci.lower ci.upper std.lv std.all std.nox
 6  hf_post  ~ Group -27.460 3.413 -8.047   0.00  -34.149  -20.771 -1.286  -0.643  -1.286
@@ -1191,8 +1182,8 @@ Variances:
 16   Group ~~ Group   0.250 0.000     NA     NA    0.250    0.250  0.250   1.000   0.250</code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(hotflash_fit2, hotflash_fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(hotflash_fit2, hotflash_fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Chi-Squared Difference Test
@@ -1204,22 +1195,22 @@ hotflash_fit   2 2956.5 2987.2 3.5007     3.4126 0.15853       1     0.0647 .
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
 </div>
 </div>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no effect of group on post-test</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>hotflash_model3 <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre + 0*Group  # fix the parameter to 0</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ Group  # free the parameter</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>hotflash_fit3 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model3, <span class="at">data =</span> hotflash)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no effect of group on post-test</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>hotflash_model3 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre + 0*Group  # fix the parameter to 0</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ Group  # free the parameter</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>hotflash_fit3 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model3, <span class="at">data =</span> hotflash)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-30" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="183">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit3, hotflash_fit2) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="183">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit3, hotflash_fit2) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
 
@@ -1268,34 +1259,34 @@ To view results, assign the compareFit() output to an object and  use the summar
 </ul></li>
 </ul>
 <p><img src="images/fig19-19-2.png" class="img-fluid" width="800"></p>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="91">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initial model</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ 0*1  # default로 group2에서 intercept를 0으로 고정하지 않음!</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="st">  ### Defaults</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="st">  # hf_post ~ c(a1, a2)*1  # 첫번째 집단의 intercept:0, 두번째 집단 intercept는 추정</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="st">  # a1 == 0</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>hotflash_fit_mg <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model_mg,</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hotflash,</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="co"># mean structure</span></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"g"</span>, <span class="co"># factor type</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hotflash_fit_mg, </span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initial model</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ hf_pre</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ int2</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ 0*1  # default로 group2에서 intercept를 0으로 고정하지 않음!</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="st">  ### Defaults</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="st">  # hf_post ~ c(a1, a2)*1  # 첫번째 집단의 intercept:0, 두번째 집단 intercept는 추정</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="st">  # a1 == 0</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>hotflash_fit_mg <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model_mg,</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hotflash,</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="co"># mean structure</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"g"</span>, <span class="co"># factor type</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hotflash_fit_mg, </span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 326 iterations
 
@@ -1441,8 +1432,8 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="92">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="92">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op rhs block group label     est    se      z pvalue ci.lower ci.upper
 8   hf_pre ~1         1     1         0.000 0.000     NA     NA    0.000    0.000
@@ -1457,6 +1448,102 @@ Variances:
 36    int2 ~1         2     2 .p17.  39.131 2.690 14.548      0   33.859   44.403
 37     HF2 ~1         2     2 .p18.  14.044 1.248 11.256      0   11.598   16.489
 38 hf_post ~1         2     2       -28.439 3.135 -9.071      0  -34.584  -22.295</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Free parameters 확인</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">parTable</span>(hotflash_fit_mg) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   id     lhs op     rhs user block group free ustart exo label plabel   start     est
+1   1  hf_pre =~    int1    1     1     1    0      1   0         .p1.   1.000   1.000
+2   2  hf_pre =~     HF1    1     1     1    1     NA   0  .p2.   .p2.   0.388   0.388
+3   3 hf_post =~    int2    1     1     1    0      1   0         .p3.   1.000   1.000
+4   4 hf_post =~     HF2    1     1     1    2     NA   0  .p4.   .p4.   0.448   0.312
+5   5 hf_post  ~  hf_pre    1     1     1    3     NA   0         .p5.   0.000   1.139
+6   6     HF1 ~~     HF2    1     1     1    4     NA   0         .p6.   0.000  67.058
+7   7    int1 ~~    int2    1     1     1    5     NA   0         .p7.   0.000 -28.916
+8   8  hf_pre ~1            1     1     1    0      0   0         .p8.   0.000   0.000
+9   9    int1 ~~    int1    0     1     1    6     NA   0         .p9. 224.087 170.287
+10 10     HF1 ~~     HF1    0     1     1    7     NA   0        .p10.  57.344  74.107
+11 11    int2 ~~    int2    0     1     1    8     NA   0        .p11. 233.573  39.030
+12 12     HF2 ~~     HF2    0     1     1    9     NA   0        .p12.  61.474  81.674
+13 13  hf_pre ~~  hf_pre    0     1     1   10     NA   0        .p13.   0.050 287.136
+14 14 hf_post ~~ hf_post    0     1     1   11     NA   0        .p14.   0.050  68.950
+15 15    int1 ~1            0     1     1   12     NA   0 .p15.  .p15.  46.312  42.049
+16 16     HF1 ~1            0     1     1   13     NA   0 .p16.  .p16.  17.077  15.473
+17 17    int2 ~1            0     1     1   14     NA   0 .p17.  .p17.  42.250  39.131
+18 18     HF2 ~1            0     1     1   15     NA   0 .p18.  .p18.  15.508  14.044
+19 19 hf_post ~1            0     1     1    0      0   0        .p19.   0.000   0.000
+20 20  hf_pre =~    int1    1     2     2    0      1   0        .p20.   1.000   1.000
+21 21  hf_pre =~     HF1    1     2     2   16     NA   0  .p2.  .p21.   0.275   0.388
+22 22 hf_post =~    int2    1     2     2    0      1   0        .p22.   1.000   1.000
+23 23 hf_post =~     HF2    1     2     2   17     NA   0  .p4.  .p23.   0.044   0.312
+24 24 hf_post  ~  hf_pre    1     2     2   18     NA   0        .p24.   0.000  -0.456
+25 25     HF1 ~~     HF2    1     2     2   19     NA   0        .p25.   0.000  47.191
+26 26    int1 ~~    int2    1     2     2   20     NA   0        .p26.   0.000  44.760
+27 27  hf_pre ~1            1     2     2    0      0   0        .p27.   0.000   0.000
+28 28    int1 ~~    int1    0     2     2   21     NA   0        .p28. 165.271 241.229
+29 29     HF1 ~~     HF1    0     2     2   22     NA   0        .p29.  63.038  99.551
+30 30    int2 ~~    int2    0     2     2   23     NA   0        .p30.  56.430  81.492
+31 31     HF2 ~~     HF2    0     2     2   24     NA   0        .p31.  12.662  24.780
+32 32  hf_pre ~~  hf_pre    0     2     2   25     NA   0        .p32.   0.050 114.255
+33 33 hf_post ~~ hf_post    0     2     2   26     NA   0        .p33.   0.050   2.901
+34 34    int1 ~1            0     2     2   27     NA   0 .p15.  .p34.  39.000  42.049
+35 35     HF1 ~1            0     2     2   28     NA   0 .p16.  .p35.  14.396  15.473
+36 36    int2 ~1            0     2     2   29     NA   0 .p17.  .p36.  10.875  39.131
+37 37     HF2 ~1            0     2     2   30     NA   0 .p18.  .p37.   5.036  14.044
+38 38 hf_post ~1            0     2     2   31     NA   0        .p38.   0.000 -28.439
+39 39    .p2. ==   .p21.    2     0     0    0     NA   0                0.000   0.000
+40 40    .p4. ==   .p23.    2     0     0    0     NA   0                0.000   0.000
+41 41   .p15. ==   .p34.    2     0     0    0     NA   0                0.000   0.000
+42 42   .p16. ==   .p35.    2     0     0    0     NA   0                0.000   0.000
+43 43   .p17. ==   .p36.    2     0     0    0     NA   0                0.000   0.000
+44 44   .p18. ==   .p37.    2     0     0    0     NA   0                0.000   0.000
+        se
+1    0.000
+2    0.115
+3    0.000
+4    0.037
+5    0.274
+6   18.003
+7   98.630
+8    0.000
+9  124.805
+10  19.536
+11 107.473
+12  19.666
+13 148.917
+14  49.956
+15   2.027
+16   1.089
+17   2.690
+18   1.248
+19   0.000
+20   0.000
+21   0.115
+22   0.000
+23   0.037
+24   0.459
+25  10.578
+26  37.540
+27   0.000
+28  74.588
+29  23.596
+30  25.448
+31   5.610
+32  70.087
+33  52.283
+34   2.027
+35   1.089
+36   2.690
+37   1.248
+38   3.135
+39   0.000
+40   0.000
+41   0.000
+42   0.000
+43   0.000
+44   0.000</code></pre>
 </div>
 </div>
 <p>실제 평균과 비교해보면,</p>
