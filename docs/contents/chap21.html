@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-12-09">
+<meta name="dcterms.date" content="2024-12-10">
 
 <title>Chapter 21. Latent Growth Models –  CHA Statistics II in R</title>
 <style>
@@ -407,7 +407,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#unconditional-growth-model" id="toc-unconditional-growth-model" class="nav-link active" data-scroll-target="#unconditional-growth-model">Unconditional growth model</a>
+  <li><a href="#the-early-childhood-longitudinal-study-kindergarten-class-of-1998-99-ecls-k" id="toc-the-early-childhood-longitudinal-study-kindergarten-class-of-1998-99-ecls-k" class="nav-link active" data-scroll-target="#the-early-childhood-longitudinal-study-kindergarten-class-of-1998-99-ecls-k">The Early Childhood Longitudinal Study, Kindergarten Class of 1998-99 (ECLS-K)</a></li>
+  <li><a href="#unconditional-growth-model" id="toc-unconditional-growth-model" class="nav-link" data-scroll-target="#unconditional-growth-model">Unconditional growth model</a>
   <ul>
   <li><a href="#no-equal-residual-variances" id="toc-no-equal-residual-variances" class="nav-link" data-scroll-target="#no-equal-residual-variances">No equal residual variances</a></li>
   </ul></li>
@@ -446,7 +447,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 9, 2024</p>
+      <p class="date">December 10, 2024</p>
     </div>
   </div>
   
@@ -458,7 +459,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -466,11 +467,16 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><img src="images/fig21-1.png" class="img-fluid" width="650"></p>
-<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>math_growth <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 21 latent growth models/math growth final.sav"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>math_growth <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-early-childhood-longitudinal-study-kindergarten-class-of-1998-99-ecls-k" class="level2">
+<h2 class="anchored" data-anchor-id="the-early-childhood-longitudinal-study-kindergarten-class-of-1998-99-ecls-k">The Early Childhood Longitudinal Study, Kindergarten Class of 1998-99 (ECLS-K)</h2>
+<p><a href="https://nces.ed.gov/ecls/kindergarten.asp">NCES website</a></p>
+<blockquote class="blockquote">
+<p><em>The test is designed to measure “conceptual knowledge, procedural knowledge, and problem solving” with math items ranging from simple (number knowledge) to advanced (algebra) (DiPerna, Lei, &amp; Reid, 2007, p.&nbsp;372)</em></p>
+</blockquote>
+<p><img src="images/fig21-1.png" class="img-fluid" width="620"></p>
+<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>math_growth <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 21 latent growth models/math growth final.sav"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>math_growth <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,000 × 9
   math1 math2 math3 math4 math5   sex   age ParEd Cognitive
@@ -484,6 +490,18 @@ window.Quarto = {
 # ℹ 994 more rows</code></pre>
 </div>
 </div>
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 분포 확인: 특히 age</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> MVN<span class="sc">::</span><span class="fu">mvn</span>(<span class="at">data =</span> math_growth, <span class="at">univariatePlot =</span> <span class="st">"histogram"</span>) <span class="co"># normality histogram</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chap21_files/figure-html/cell-6-output-1.png" width="630" height="540" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 <section id="unconditional-growth-model" class="level2">
 <h2 class="anchored" data-anchor-id="unconditional-growth-model">Unconditional growth model</h2>
 <div class="columns">
@@ -493,48 +511,60 @@ window.Quarto = {
 <p><img src="images/fig21-6.png" class="img-fluid"></p>
 </div>
 </div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>각 indicator들이 두 잠재변수(<span class="math inline">\(\xi_1, ~\xi_2\)</span>)에 의해 예측되는 모형</p>
+<ul>
+<li>Factor loading에 대한 설정</li>
+<li>Indicator에 대한 intercept는 0으로 설정</li>
+</ul>
 <p><span class="math inline">\(math1 = 0\cdot Slope + 1\cdot Intercept + 0\)</span><br>
 <span class="math inline">\(math2 = 1\cdot Slope + 1\cdot Intercept + 0\)</span><br>
 <span class="math inline">\(math3 = 2\cdot Slope + 1\cdot Intercept + 0\)</span><br>
 <span class="math inline">\(math4 = 3\cdot Slope + 1\cdot Intercept + 0\)</span><br>
 <span class="math inline">\(math5 = 4\cdot Slope + 1\cdot Intercept + 0\)</span></p>
 <p><span class="math inline">\(math = Slope\cdot X + Intercept\cdot 1\)</span>, &nbsp; <span class="math inline">\(X = 0, 1, 2, 3, 4\)</span></p>
-<p><img src="images/fig21-7.png" class="img-fluid" width="600"></p>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ 1</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ 1</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="st">  # not neeed when using growth() function instead sem()</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~ 0*1</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~ 0*1</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~ 0*1</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~ 0*1</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~ 0*1</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="st">  # same as "math1 + math2 + math3 + math4 + math5 ~ 0*1"</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>lgm_math <span class="ot">&lt;-</span> <span class="fu">sem</span>(lgm_math_model, <span class="at">data =</span> math_growth)</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math, </span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p><img src="images/fig21-7.png" class="img-fluid" width="650"></p>
+<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ 1</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ 1</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="st">  # not neeed when using growth() function instead sem()</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~ 0*1</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~ 0*1</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~ 0*1</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~ 0*1</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~ 0*1</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="st">  # same as "math1 + math2 + math3 + math4 + math5 ~ 0*1"</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>lgm_math <span class="ot">&lt;-</span> <span class="fu">sem</span>(lgm_math_model, <span class="at">data =</span> math_growth)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math, </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 62 iterations
 
@@ -632,33 +662,31 @@ Variances:
 </div>
 </div>
 <p><code>sem()</code> 대신 <code>growth()</code>를 이용하면,</p>
-<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ 1</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ 1</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>lgm_math <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_model, <span class="at">data =</span> math_growth)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math, </span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ 1</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ 1</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>lgm_math <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_model, <span class="at">data =</span> math_growth)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math, </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 62 iterations
 
@@ -755,31 +783,29 @@ Variances:
 </code></pre>
 </div>
 </div>
+<p>math1, math2, math3, math4, math5에 대해 모형이 예측하는 평균은?</p>
 <section id="no-equal-residual-variances" class="level3">
 <h3 class="anchored" data-anchor-id="no-equal-residual-variances">No equal residual variances</h3>
 <p><img src="images/fig21-8.png" class="img-fluid" width="650"></p>
-<p>math1, math2, math3, math4, math5에 대해 모형이 예측하는 평균은?</p>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model_unequal <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ 1</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ 1</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>lgm_math_unequal <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_model_unequal, <span class="at">data =</span> math_growth)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_unequal, </span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model_unequal <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ 1</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ 1</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>lgm_math_unequal <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_model_unequal, <span class="at">data =</span> math_growth)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_unequal, </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 160 iterations
 
@@ -875,8 +901,8 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math, lgm_math_unequal) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math, lgm_math_unequal) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
 
@@ -907,44 +933,55 @@ To view results, assign the compareFit() output to an object and  use the summar
 </section>
 <section id="conditional-growth-model" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-growth-model">Conditional growth model</h2>
-<p><img src="images/fig21-13-1.png" class="img-fluid" width="700"><br>
-<img src="images/fig21-13.png" class="img-fluid" width="700"></p>
-<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial + Growth ~ 1</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">  sex + ParEd + Cognitive + age ~ 1</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # an alterative syntax for the intercepts</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="st">  # Initial ~ 1</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="st">  # Growth ~ 1</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="st">  # sex ~ 1</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">  # ParEd ~ 1</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">  # Cognitive ~ 1</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="st">  # age ~ 1</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="st">  ParEd ~~ Cognitive</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ sex +  ParEd + Cognitive + age</span></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ sex + ParEd + Cognitive + age</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>lgm_math_cond <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_cond_model, <span class="at">data =</span> math_growth)</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_cond, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong><em>Unstandardized Estimates</em></strong><br>
+<img src="images/fig21-13.png" class="img-fluid" width="700"> <strong><em>Standardized Estimates</em></strong><br>
+<img src="images/fig21-13-1.png" class="img-fluid" width="700"></p>
+<p>두드러진 점들</p>
+<ul>
+<li>Female: Initial, Growth에 모두 유의한 차이가 없음 (각각, 0.04, 0.05)</li>
+<li>Cognitive: 모두에서 큰 효과가 있음 (각각, 0.43, 0.41)</li>
+<li>Age: Initial로는 효과가 없는 반면, Growth에서 반대로(음수) 효과가 나타남; 유치원 입학을 늦춘 이유는?</li>
+<li>Initial ~ Growth의 상관관계가 예측변수들에 의해 다 설명되었음; <em>r=0.21</em>에서 <em>(residual) r=0.007</em></li>
+<li>한편, Initial과 Growth의 residual variance(<span class="math inline">\(1-R^2\)</span>)는 각각 0.782, 0.779로 Initial과 Growth의 변량을 많이 설명하지는 못함.</li>
+</ul>
+<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + 3*math4 + 4*math5</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial + Growth ~ 1</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">  sex + ParEd + Cognitive + age ~ 1</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # an alterative syntax for the intercepts</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # Initial ~ 1</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="st">  # Growth ~ 1</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="st">  # sex ~ 1</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="st">  # ParEd ~ 1</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="st">  # Cognitive ~ 1</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="st">  # age ~ 1</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ Initial</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="st">  ParEd ~~ Cognitive</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ sex +  ParEd + Cognitive + age</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ sex + ParEd + Cognitive + age</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>lgm_math_cond <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_cond_model, <span class="at">data =</span> math_growth)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_cond, </span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 138 iterations
 
@@ -1042,6 +1079,11 @@ Intercepts:
     ParEd            16.133    0.044  366.346    0.000   16.133   11.585
     Cognitive       101.001    0.474  213.113    0.000  101.001    6.739
     age              68.518    0.064 1068.229    0.000   68.518   33.780
+   .math1             0.000                               0.000    0.000
+   .math2             0.000                               0.000    0.000
+   .math3             0.000                               0.000    0.000
+   .math4             0.000                               0.000    0.000
+   .math5             0.000                               0.000    0.000
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -1062,34 +1104,36 @@ Variances:
 </section>
 <section id="conditional-growth-model---revised" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-growth-model---revised">Conditional growth model - revised</h2>
-<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model - revised</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + math4 + math5</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial + Growth ~ 1</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="st">  sex + ParEd + Cognitive + age ~ 1</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ 0*Initial # removed covariance</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="st">  ParEd ~~ Cognitive</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ ParEd + Cognitive  # remove sex, age</span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ ParEd + Cognitive + age  # remove sex</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>lgm_math_cond2 <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_cond_model2, <span class="at">data =</span> math_growth)</span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_cond2, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model - revised</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + math4 + math5</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial + Growth ~ 1</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="st">  sex + ParEd + Cognitive + age ~ 1</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ 0*Initial # removed covariance</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="st">  ParEd ~~ Cognitive</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ ParEd + Cognitive  # remove sex, age</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ ParEd + Cognitive + age  # remove sex</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>lgm_math_cond2 <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_cond_model2, <span class="at">data =</span> math_growth)</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_cond2, </span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 127 iterations
 
@@ -1184,6 +1228,11 @@ Intercepts:
     ParEd            16.133    0.044  366.346    0.000   16.133   11.585
     Cognitive       101.001    0.474  213.113    0.000  101.001    6.739
     age              68.518    0.064 1068.229    0.000   68.518   33.780
+   .math1             0.000                               0.000    0.000
+   .math2             0.000                               0.000    0.000
+   .math3             0.000                               0.000    0.000
+   .math4             0.000                               0.000    0.000
+   .math5             0.000                               0.000    0.000
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -1203,26 +1252,14 @@ Variances:
 </div>
 <section id="compare-the-two-models" class="level3">
 <h3 class="anchored" data-anchor-id="compare-the-two-models">Compare the two models</h3>
-<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the two models</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math_cond, lgm_math_cond2) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the two models</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math_cond, lgm_math_cond2, <span class="at">nested =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>################### Nested Model Comparison #########################
-
-Chi-Squared Difference Test
-
-               Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)
-lgm_math_cond  31 46367 46480 92.768                                    
-lgm_math_cond2 33 46313 46416 43.024    -49.744     0       2          1
-
-####################### Model Fit Indices ###########################
+<pre><code>####################### Model Fit Indices ###########################
                  chisq df pvalue rmsea    cfi    tli  srmr        aic        bic
 lgm_math_cond  92.768  31   .000 .045   .994   .993  .012† 46366.859  46479.738 
 lgm_math_cond2 43.024† 33   .114 .017† 0.999† 0.999† .017  46313.115† 46416.178†
-
-################## Differences in Fit Indices #######################
-                               df  rmsea   cfi   tli  srmr     aic     bic
-lgm_math_cond2 - lgm_math_cond  2 -0.027 0.005 0.006 0.005 -53.744 -63.559
 
 The following lavaan models were compared:
     lgm_math_cond
@@ -1234,41 +1271,36 @@ To view results, assign the compareFit() output to an object and  use the summar
 </section>
 <section id="conditional-growth-model---free-slopes" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-growth-model---free-slopes">Conditional growth model - free slopes</h2>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model - free slopes</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model3 <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + NA*math4 + NA*math5</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial + Growth ~ 1</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="st">  sex + ParEd + Cognitive + age ~ 1</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~ 0*1</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~ 0*1</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~ 0*1</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~ 0*1</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~ 0*1</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="st">  # same as "math1 + math2 + math3 + math4 + math5 ~ 0*1"</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ 0*Initial # removed covariance</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="st">  ParEd ~~ Cognitive</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ ParEd + Cognitive  # remove sex, age</span></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ ParEd + Cognitive + age  # remove sex</span></span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>lgm_math_cond3 <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_cond_model3, <span class="at">data =</span> math_growth)</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_cond3, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model - free slopes</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model3 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial =~ 1*math1 + 1*math2 + 1*math3 + 1*math4 + 1*math5</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth =~ 0*math1 + 1*math2 + 2*math3 + NA*math4 + NA*math5  # free slopes of math4 and math5</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # intercepts</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial + Growth ~ 1</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">  sex + ParEd + Cognitive + age ~ 1</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">  # residual (co)variances</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~~ 0*Initial # removed covariance</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="st">  ParEd ~~ Cognitive</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="st">  math1 ~~ a*math1</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="st">  math2 ~~ a*math2</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="st">  math3 ~~ a*math3</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="st">  math4 ~~ a*math4</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="st">  math5 ~~ a*math5</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="st">  Initial ~ ParEd + Cognitive  # remove sex, age</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="st">  Growth ~ ParEd + Cognitive + age  # remove sex</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>lgm_math_cond3 <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_math_cond_model3, <span class="at">data =</span> math_growth)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lgm_math_cond3, </span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 127 iterations
 
@@ -1387,26 +1419,14 @@ Variances:
 </div>
 <section id="compare-the-two-models-1" class="level3">
 <h3 class="anchored" data-anchor-id="compare-the-two-models-1">Compare the two models</h3>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the two models</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math_cond, lgm_math_cond3) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the two models</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math_cond, lgm_math_cond3, <span class="at">nested =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>################### Nested Model Comparison #########################
-
-Chi-Squared Difference Test
-
-               Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)
-lgm_math_cond  31 46367 46480 92.768                                    
-lgm_math_cond3 33 46313 46416 43.024    -49.744     0       2          1
-
-####################### Model Fit Indices ###########################
+<pre><code>####################### Model Fit Indices ###########################
                  chisq df pvalue rmsea    cfi    tli  srmr        aic        bic
 lgm_math_cond  92.768  31   .000 .045   .994   .993  .012† 46366.859  46479.738 
 lgm_math_cond3 43.024† 33   .114 .017† 0.999† 0.999† .017  46313.115† 46416.178†
-
-################## Differences in Fit Indices #######################
-                               df  rmsea   cfi   tli  srmr     aic     bic
-lgm_math_cond3 - lgm_math_cond  2 -0.027 0.005 0.006 0.005 -53.744 -63.559
 
 The following lavaan models were compared:
     lgm_math_cond
