@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-10-22">
+<meta name="dcterms.date" content="2024-12-10">
 
 <title>Structural Equations –  CHA Statistics II in R</title>
 <style>
@@ -406,7 +406,7 @@ window.Quarto = {
   <li><a href="#structural-equation-model-sem-matrix-representation" id="toc-structural-equation-model-sem-matrix-representation" class="nav-link active" data-scroll-target="#structural-equation-model-sem-matrix-representation">Structural Equation Model (SEM) Matrix Representation</a></li>
   <li><a href="#parameter-estimation" id="toc-parameter-estimation" class="nav-link" data-scroll-target="#parameter-estimation">Parameter Estimation</a>
   <ul>
-  <li><a href="#데이터로부터-최선의-파라미터를-추정" id="toc-데이터로부터-최선의-파라미터를-추정" class="nav-link" data-scroll-target="#데이터로부터-최선의-파라미터를-추정">데이터로부터 최선의 파라미터를 추정</a></li>
+  <li><a href="#데이터로부터-최적의-파라미터를-추정" id="toc-데이터로부터-최적의-파라미터를-추정" class="nav-link" data-scroll-target="#데이터로부터-최적의-파라미터를-추정">데이터로부터 최적의 파라미터를 추정</a></li>
   <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation">Estimation</a></li>
   <li><a href="#model-indentification" id="toc-model-indentification" class="nav-link" data-scroll-target="#model-indentification">Model Indentification</a></li>
   </ul></li>
@@ -463,7 +463,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 22, 2024</p>
+      <p class="date">December 10, 2024</p>
     </div>
   </div>
   
@@ -701,17 +701,17 @@ x_1
 <li>추정은 가능하나 non-recursive한 피드백 루프가 있는 모형이 됨.</li>
 </ul></li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled" title="Coveriance에 대한 성질">
+<div class="callout callout-style-default callout-note callout-titled" title="Covariance에 대한 성질">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Coveriance에 대한 성질
+Covariance에 대한 성질
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(Cov(aX+bY,~ cU+dV) = ac~Cov(X, U) + ad~Cov(X, V) + bc~Cov(Y, U) + bd~Cov(Y, V)\)</span></p>
+<p><span class="math inline">\(COV(aX+bY,~ cU+dV) = ac~COV(X, U) + ad~COV(X, V) + bc~COV(Y, U) + bd~COV(Y, V)\)</span></p>
 </div>
 </div>
 <p><span class="math inline">\(\begin{align}
@@ -738,8 +738,8 @@ Coveriance에 대한 성질
 \end{bmatrix}
 \end{equation}\]</span></p>
 <p><br></p>
-<section id="데이터로부터-최선의-파라미터를-추정" class="level3">
-<h3 class="anchored" data-anchor-id="데이터로부터-최선의-파라미터를-추정">데이터로부터 최선의 파라미터를 추정</h3>
+<section id="데이터로부터-최적의-파라미터를-추정" class="level3">
+<h3 class="anchored" data-anchor-id="데이터로부터-최적의-파라미터를-추정">데이터로부터 최적의 파라미터를 추정</h3>
 <div class="callout callout-style-simple callout-important">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
