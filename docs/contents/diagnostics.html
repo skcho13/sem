@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-11-05">
+<meta name="dcterms.date" content="2024-12-10">
 
 <title>Diagnostics –  CHA Statistics II in R</title>
 <style>
@@ -423,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 5, 2024</p>
+      <p class="date">December 10, 2024</p>
     </div>
   </div>
   
@@ -435,7 +435,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="249">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
@@ -449,7 +449,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="non-normality" class="level1">
 <h1>Non-normality</h1>
 <p><a href="https://cran.r-project.org/web/packages/MVN/vignettes/MVN.html">MVN: An R Package for Assessing Multivariate Normality</a></p>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
+<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
 <details class="code-fold">
 <summary>Load data</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(covsim)</span>
@@ -461,23 +461,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> ig.sample <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="56">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,000 × 3
-       X1     X2      X3
-    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
- 1 -0.626 -0.609 -0.472 
- 2  0.184 -0.125  0.799 
- 3 -0.836 -0.749 -0.773 
- 4  1.60   2.95   0.975 
- 5  0.330 -0.268  0.693 
- 6 -0.820  1.22   1.27  
- 7  0.487 -0.219 -0.118 
- 8  0.738 -0.119  2.21  
- 9  0.576 -0.184  0.495 
-10 -0.305 -0.536 -0.0116
-# ℹ 990 more rows</code></pre>
+      X1     X2     X3
+   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 -0.626 -0.609 -0.472
+2  0.184 -0.125  0.799
+3 -0.836 -0.749 -0.773
+4  1.60   2.95   0.975
+5  0.330 -0.268  0.693
+6 -0.820  1.22   1.27 
+# ℹ 994 more rows</code></pre>
 </div>
 </div>
 <section id="multivariate-test" class="level2">
@@ -489,10 +485,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>dh for Doornik-Hansen’s test,</li>
 <li>energy for E-statistic</li>
 </ul>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="58">
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MVN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="59">
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multivariate normality</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">mvnTest =</span> <span class="st">"hz"</span>)<span class="sc">$</span>multivariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -500,14 +496,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 1 Henze-Zirkler 26.31374       0  NO</code></pre>
 </div>
 </div>
-<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="60">
+<div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multivariate normality plot</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">multivariatePlot =</span> <span class="st">"qq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">multivariatePlot =</span> <span class="st">"qq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-10-output-1.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-10-output-1.png" width="480" height="480" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -522,7 +517,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Shapiro-Francia (SF),</li>
 <li>Anderson-Darling (AD) # default</li>
 </ul>
-<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
+<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">univariateTest =</span> <span class="st">"AD"</span>)<span class="sc">$</span>univariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Test  Variable Statistic   p value Normality
@@ -531,24 +526,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3 Anderson-Darling    X3        4.1598  &lt;0.001      NO    </code></pre>
 </div>
 </div>
-<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="62">
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># univariate normality histogram</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">univariatePlot =</span> <span class="st">"histogram"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-12-output-1.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-12-output-1.png" width="480" height="480" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="63">
+<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># univariate normality scatterplot</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">univariatePlot =</span> <span class="st">"scatter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-13-output-1.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-13-output-1.png" width="480" height="480" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -556,13 +551,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="outliers" class="level2">
 <h2 class="anchored" data-anchor-id="outliers">Outliers</h2>
-<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="64">
+<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># outliers</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> df, <span class="at">mvnTest =</span> <span class="st">"hz"</span>, <span class="at">multivariateOutlierMethod =</span> <span class="st">"adj"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-14-output-1.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-14-output-1.png" width="480" height="480" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -570,7 +565,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="homework-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="homework-dataset">Homework Dataset</h2>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>ethnic, <span class="sc">-</span>Female, <span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2) <span class="sc">|&gt;</span> </span>
@@ -578,23 +573,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 798 × 13
-   bytxrstd  bytxmstd  bytxsstd  bytxhstd  parocc hw10    hw12    eng92 math92 sci92 soc92
-   &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1 44.2      52.6      44.5      53.9        27.4 1 [1 H… 2 [1-3…  8      4.4   8.5   5.37
- 2 39.9      56.0      55.7      56.4        70.6 4 [7-9… 5 [10-…  5.5    4.62  5.5   4.83
- 3 52.7      47.9      44.8      41.8        56.3 3 [4-6… 5 [10-…  8.37   3.5   8     6.29
- 4 42.3      61.9      53.5      47.0        70.6 3 [4-6… 1 [LES…  8.33   5     7     7.67
- 5 63.2      56.1      64.7      62.6        27.4 3 [4-6… 5 [10-…  6      4.92  3.11  7.5 
- 6 59.0      40.7      42.1      50.4        70.6 2 [2-3… 5 [10-…  6.75   6.43  7.2   6.83
- 7 52.6      60.9      62.4      54          61.3 2 [2-3… 2 [1-3…  8.67   3.25  5.85  9   
- 8 59.9      67.7      51.2      39.1        66.1 3 [4-6… 5 [10-…  9.8    7.25  8     9   
- 9 35.7      47.9      49.2      51.3        66.2 0 [NON… 3 [4-6…  1.6    2.7   3.5   4   
-10 41.8      53.8      55.5      50.4        49.7 1 [1 H… 2 [1-3…  8      5.14  7.1   7.33
-# ℹ 788 more rows
+  bytxrstd  bytxmstd  bytxsstd  bytxhstd  parocc hw10     hw12    eng92 math92 sci92 soc92
+  &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 44.2      52.6      44.5      53.9        27.4 1 [1 HO… 2 [1-3…  8      4.4   8.5   5.37
+2 39.9      56.0      55.7      56.4        70.6 4 [7-9 … 5 [10-…  5.5    4.62  5.5   4.83
+3 52.7      47.9      44.8      41.8        56.3 3 [4-6 … 5 [10-…  8.37   3.5   8     6.29
+4 42.3      61.9      53.5      47.0        70.6 3 [4-6 … 1 [LES…  8.33   5     7     7.67
+5 63.2      56.1      64.7      62.6        27.4 3 [4-6 … 5 [10-…  6      4.92  3.11  7.5 
+6 59.0      40.7      42.1      50.4        70.6 2 [2-3 … 5 [10-…  6.75   6.43  7.2   6.83
+# ℹ 792 more rows
 # ℹ 2 more variables: byfaminc &lt;dbl&gt;, bypared &lt;dbl+lbl&gt;</code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="66">
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multivariate &amp; univariate normality</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> hw_mean)<span class="sc">$</span>multivariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mvn</span>(<span class="at">data =</span> hw_mean)<span class="sc">$</span>univariateNormality <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -617,71 +608,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 13 Anderson-Darling  bypared    31.9085  &lt;0.001      NO    </code></pre>
 </div>
 </div>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="67">
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="71">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multi-variate normality</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">multivariatePlot =</span> <span class="st">"qq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-17-output-1.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-17-output-1.png" width="480" height="480" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="69">
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># univariate normality</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">univariatePlot =</span> <span class="st">"histogram"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-19-output-1.png" width="810" height="720" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-19-output-1.png" width="720" height="720" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="71">
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">univariatePlot =</span> <span class="st">"box"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning message in uniPlot(data, type = univariatePlot):
+“Box-Plots are based on standardized values (centered and scaled).”</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-21-output-1.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-21-output-2.png" width="480" height="480" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="72">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># outliers</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">mvnTest =</span> <span class="st">"hz"</span>, <span class="at">multivariateOutlierMethod =</span> <span class="st">"adj"</span>, <span class="at">showOutliers =</span> <span class="cn">TRUE</span>, <span class="at">showNewData =</span> <span class="cn">TRUE</span>)  <span class="co"># show options</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># outliers</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mvn</span>(<span class="at">data =</span> hw_mean, <span class="at">mvnTest =</span> <span class="st">"hz"</span>, <span class="at">multivariateOutlierMethod =</span> <span class="st">"adj"</span>, <span class="at">showOutliers =</span> <span class="cn">TRUE</span>, <span class="at">showNewData =</span> <span class="cn">TRUE</span>)  <span class="co"># show options</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-22-output-1.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-22-output-1.png" width="480" height="480" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>이상치들</p>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="73">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>multivariateOutliers <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="77">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>multivariateOutliers <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 214 × 3
-   Observation `Mahalanobis Distance` Outlier
-   &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;  
- 1 1                             86.4 TRUE   
- 2 2                             85.0 TRUE   
- 3 3                             79.4 TRUE   
- 4 4                             77.5 TRUE   
- 5 5                             77.0 TRUE   
- 6 6                             76.1 TRUE   
- 7 7                             76.0 TRUE   
- 8 8                             74.9 TRUE   
- 9 9                             74.7 TRUE   
-10 10                            74.2 TRUE   
-# ℹ 204 more rows</code></pre>
+  Observation `Mahalanobis Distance` Outlier
+  &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;  
+1 1                             86.4 TRUE   
+2 2                             85.0 TRUE   
+3 3                             79.4 TRUE   
+4 4                             77.5 TRUE   
+5 5                             77.0 TRUE   
+6 6                             76.1 TRUE   
+# ℹ 208 more rows</code></pre>
 </div>
 </div>
 <p>이상치가 제거된 데이터셋</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>newData</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>newData</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="non-normality에-대한-대응" class="level2">
 <h2 class="anchored" data-anchor-id="non-normality에-대한-대응">Non-normality에 대한 대응</h2>
@@ -713,17 +704,17 @@ Non-normality에 대한 대응
 </div>
 </div>
 </div>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="78">
 <details class="code-fold">
 <summary>Load data</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="76">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># missing data</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>VIM<span class="sc">::</span><span class="fu">aggr</span>(hw_mean, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># missing data</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>VIM<span class="sc">::</span><span class="fu">aggr</span>(hw_mean, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">sortVars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Variables sorted by number of missings: 
@@ -747,7 +738,7 @@ Non-normality에 대한 대응
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-25-output-2.png" width="560" height="560" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-26-output-2.png" width="560" height="560" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -764,24 +755,24 @@ Non-normality에 대한 대응
 <li>결측치가 있다면 listwise deletion</li>
 <li>classic robust standard errors</li>
 </ul>
-<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="185">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>sem_fit_robust <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_robust, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-37" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>sem_fit_robust <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_robust, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 141 iterations
 
@@ -926,10 +917,10 @@ Variances:
 <li>standard errer: <code>se = "bootstrap"</code></li>
 <li>chi-square test: <code>test = "bootstrap"</code></li>
 </ul>
-<div id="cell-38" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="189">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># set seed for reproducibility</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sem_fit_boot <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">test =</span> <span class="st">"bootstrap"</span>, <span class="at">se =</span> <span class="st">"bootstrap"</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_boot, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># set seed for reproducibility</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sem_fit_boot <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">test =</span> <span class="st">"bootstrap"</span>, <span class="at">se =</span> <span class="st">"bootstrap"</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit_boot, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 141 iterations
 
@@ -1057,9 +1048,9 @@ Variances:
 <h3 class="anchored" data-anchor-id="분포에-대한-가정이-없는-방법">분포에 대한 가정이 없는 방법</h3>
 <p>WLS (fully weighted least squares); <code>estimator = "WLS"</code><br>
 also called ADF (Asymptotically Distribution-Free) estimator</p>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="128">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">estimator =</span> <span class="st">"WLS"</span>)  <span class="co"># listwise deletion</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">estimator =</span> <span class="st">"WLS"</span>)  <span class="co"># listwise deletion</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 203 iterations
 
@@ -1198,8 +1189,8 @@ Variances:
 <li>Machine learning 기반 방법도 있음: random forest, k-nearest neighbors, …</li>
 </ul>
 <p><strong>결측치에 대한 시각화</strong>: <code>naniar</code> package; <a href="https://cran.r-project.org/web/packages/naniar/vignettes/naniar-visualisation.html">Missing Data Visualisations</a>, <a href="https://cran.r-project.org/web/packages/naniar/vignettes/getting-started-w-naniar.html">Getting Started with naniar</a></p>
-<div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="78">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(hw_mean) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(hw_mean) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>── Data Summary ────────────────────────
                            Values 
@@ -1231,38 +1222,38 @@ Group variables            None
 15 bypared               1         0.999  3.13   1.26   1     2     3     4     6   ▅▇▃▂▁</code></pre>
 </div>
 </div>
-<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="79">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-44" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-45" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="81">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결측치 요약 시각화</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_var</span>(hw_mean, <span class="at">facet =</span> ethnic)  <span class="co"># by ethnic group</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-46" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결측치 요약 시각화</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_var</span>(hw_mean, <span class="at">facet =</span> ethnic)  <span class="co"># by ethnic group</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-32-output-1.png" width="630" height="360" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-33-output-1.png" width="630" height="360" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="83">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 개별 결측치, 군집화 패턴 확인</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(hw_mean, <span class="at">cluster =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 개별 결측치, 군집화 패턴 확인</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vis_miss</span>(hw_mean, <span class="at">cluster =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-34-output-1.png" width="720" height="450" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-35-output-1.png" width="720" height="450" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-49" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="85">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 함께 누락된 변수들의 패턴 확인</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_upset</span>(hw_mean, <span class="at">nsets =</span> <span class="fu">n_var_miss</span>(hw_mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 함께 누락된 변수들의 패턴 확인</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_miss_upset</span>(hw_mean, <span class="at">nsets =</span> <span class="fu">n_var_miss</span>(hw_mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-36-output-1.png" width="800" height="600" class="figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-37-output-1.png" width="800" height="600" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1270,17 +1261,17 @@ Group variables            None
 <p><strong>결측치에 대한 패턴</strong></p>
 <p>학업 성취도가 낮은 아이들의 경우 숙제를 한 시간을 보고하지 않는 경향이 있을 수 있다는 의심하에,<br>
 다음과 같이 대략 세 변수에 대해 결측치 여부를 나타내는 변수를 추가하여, 다른 변수들과의 상관계수를 살펴보면,</p>
-<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="86">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a variable to the dataset that indicates the missingness</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_reading =</span> <span class="fu">is.na</span>(bytxrstd),</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_hw12 =</span> <span class="fu">is.na</span>(hw12),</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_hw10 =</span> <span class="fu">is.na</span>(hw10)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-52" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a variable to the dataset that indicates the missingness</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_reading =</span> <span class="fu">is.na</span>(bytxrstd),</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_hw12 =</span> <span class="fu">is.na</span>(hw12),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_hw10 =</span> <span class="fu">is.na</span>(hw10)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-52" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="87">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">lowerCor</span>(hw_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">lowerCor</span>(hw_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 bytxr bytxm bytxs bytxh parcc hw10  ethnc hw12  eng92 mth92 sci92 soc92
 bytxrstd          1.00                                                                  
@@ -1310,25 +1301,25 @@ missing_hw12*     0.03 -0.20 -0.17  0.00  1.00
 missing_hw10*     0.00 -0.17 -0.15 -0.01  0.40  1.00</code></pre>
 </div>
 </div>
-<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="118">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hw_mean, <span class="fu">aes</span>(<span class="at">x =</span> missing_hw12, <span class="at">y =</span> eng92)) <span class="sc">+</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha=</span>.<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-40-output-1.png" width="400" height="320" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="125">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hw_mean, <span class="fu">aes</span>(<span class="at">x =</span> hw12, <span class="at">y =</span> eng92)) <span class="sc">+</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_miss_point</span>(<span class="at">jitter =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-55" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hw_mean, <span class="fu">aes</span>(<span class="at">x =</span> missing_hw12, <span class="at">y =</span> eng92)) <span class="sc">+</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha=</span>.<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="diagnostics_files/figure-html/cell-41-output-1.png" width="400" height="320" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hw_mean, <span class="fu">aes</span>(<span class="at">x =</span> hw12, <span class="at">y =</span> eng92)) <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_miss_point</span>(<span class="at">jitter =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-42-output-1.png" width="400" height="320" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1341,59 +1332,55 @@ missing_hw10*     0.00 -0.17 -0.15 -0.01  0.40  1.00</code></pre>
 <li>각 관측치(case) 별로 결측치가 없는 변수들로만 이루어진 공분산 행렬로 log-likelihood를 계산하여 합산하는 방식</li>
 <li>MNAR(missing not at random)에 대해서는 부적절할 수 있음.</li>
 </ul>
-<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="252">
+<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="51">
 <details class="code-fold">
 <summary>Load data</summary>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2) <span class="sc">|&gt;</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  labelled<span class="sc">::</span><span class="fu">remove_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2) <span class="sc">|&gt;</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  labelled<span class="sc">::</span><span class="fu">remove_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="256">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NA가 하나라도 포함된 행들만 추출</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="sc">|&gt;</span> </span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">rowSums</span>(<span class="fu">is.na</span>(hw_mean)) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NA가 하나라도 포함된 행들만 추출</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">rowSums</span>(<span class="fu">is.na</span>(hw_mean)) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 206 × 15
-   bytxrstd bytxmstd bytxsstd bytxhstd parocc  hw10 ethnic  hw12 eng92 math92 sci92 soc92
-      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1     39.9     40.8     33.4     41.9  56.3      0      1    NA  4.4    2.5   3     0   
- 2     46.4     40.2     40.9     54    56.3      3      1    NA  3.25   5     3.5   3.5 
- 3     44.6     36.2     40.5     29.1  15.6      2      1     4  2     NA     4     1.67
- 4     48.4     45.4     62.4     48.8  66.2      1      1     6  1.8    1.5   3.25  3.78
- 5     46.4     42.0     45.1     32.0  32.4     NA      0    NA  0     NA    NA    NA   
- 6     67.5     50.2     51.0     64.7  61.3      1      1    NA  4.25   1.75  1.67  6.43
- 7     45.2     50.3     55.8     47.0  70.6      1      1     1  3.5    4     5    NA   
- 8     NA       NA       NA       NA    58.0      2      1     2  4.25   3     6     3   
- 9     58.8     60.7     69.3     69.5   7.32     1      0    NA  2.5    1.33  3.4   1   
-10     46.4     49.0     55.8     53.8  70.6     NA      1     6  4.78   3.12  4     5.83
-# ℹ 196 more rows
+  bytxrstd bytxmstd bytxsstd bytxhstd parocc  hw10 ethnic  hw12 eng92 math92 sci92 soc92
+     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     39.9     40.8     33.4     41.9   56.3     0      1    NA  4.4    2.5   3     0   
+2     46.4     40.2     40.9     54     56.3     3      1    NA  3.25   5     3.5   3.5 
+3     44.6     36.2     40.5     29.1   15.6     2      1     4  2     NA     4     1.67
+4     48.4     45.4     62.4     48.8   66.2     1      1     6  1.8    1.5   3.25  3.78
+5     46.4     42.0     45.1     32.0   32.4    NA      0    NA  0     NA    NA    NA   
+6     67.5     50.2     51.0     64.7   61.3     1      1    NA  4.25   1.75  1.67  6.43
+# ℹ 200 more rows
 # ℹ 3 more variables: Female &lt;dbl&gt;, byfaminc &lt;dbl&gt;, bypared &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model,</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_mean,</span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"MLR"</span>,  <span class="co"># robust ML for non-normal data</span></span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="st">"FIML"</span>  <span class="co"># FIML for missing data</span></span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model,</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_mean,</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"MLR"</span>,  <span class="co"># robust ML for non-normal data</span></span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="st">"FIML"</span>  <span class="co"># FIML for missing data</span></span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 171 iterations
 
@@ -1548,41 +1535,41 @@ Variances:
 <section id="imputation" class="level3">
 <h3 class="anchored" data-anchor-id="imputation">Imputation</h3>
 <p>semTools에서 제공하는 imputation이 통합된 lavaan 함수를 이용하면; <code>sem.mi()</code></p>
-<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="54">
 <details class="code-fold">
 <summary>Load data</summary>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2) <span class="sc">|&gt;</span> </span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  labelled<span class="sc">::</span><span class="fu">remove_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> hw_mean <span class="sc">|&gt;</span> </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">hw10 =</span> f1s36a2, <span class="at">hw12 =</span> f2s25f2) <span class="sc">|&gt;</span> </span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  labelled<span class="sc">::</span><span class="fu">remove_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="211">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
-<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
-<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
-<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
-<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>pred_mat <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">quickpred</span>(hw_mean, <span class="at">mincor =</span> <span class="fl">0.25</span>)  <span class="co"># r &gt; 0.23인 변수만 사용</span></span>
-<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem.mi</span>(hw_model,</span>
-<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> hw_mean,</span>
-<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimator =</span> <span class="st">"MLM"</span>,</span>
-<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">miPackage =</span> <span class="st">"mice"</span>, <span class="at">m =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">123</span>,  <span class="co"># mice 패키지 사용</span></span>
-<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>                  <span class="at">miArgs =</span> <span class="fu">list</span>(<span class="at">predictorMatrix =</span> pred_mat)</span>
-<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="st">  famback =~ parocc + byfaminc + bypared</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hw =~ hw12 + hw10</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="st">  grades =~ eng92 + math92 + sci92 + soc92</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxrstd ~~ eng92</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxmstd ~~ math92</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxsstd ~~ sci92</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="st">  bytxhstd ~~ soc92</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a><span class="st">  prevach ~ famback</span></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="st">  grades ~ prevach + hw</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="st">  hw ~ prevach + famback</span></span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>pred_mat <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">quickpred</span>(hw_mean, <span class="at">mincor =</span> <span class="fl">0.25</span>)  <span class="co"># r &gt; 0.23인 변수만 사용</span></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem.mi</span>(hw_model,</span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> hw_mean,</span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimator =</span> <span class="st">"MLM"</span>,</span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">miPackage =</span> <span class="st">"mice"</span>, <span class="at">m =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">123</span>,  <span class="co"># mice 패키지 사용</span></span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>                  <span class="at">miArgs =</span> <span class="fu">list</span>(<span class="at">predictorMatrix =</span> pred_mat)</span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-63" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="212">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan.mi object based on 10 imputed data sets. 
 See class?lavaan.mi help page for available methods. 
@@ -2218,13 +2205,13 @@ Standardized Root Mean Square Residual:
 </div>
 <p><br></p>
 <p>kNN(k-nearest neighbors) imputation을 이용해서 대체된 값으로 채워진 데이터셋을 사용하면,</p>
-<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="213">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>hw_mean_imp <span class="ot">&lt;-</span> VIM<span class="sc">::</span><span class="fu">kNN</span>(hw_mean, <span class="at">k =</span> <span class="dv">5</span>) <span class="co"># kNN imputation</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model,</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_mean_imp,</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"MLM"</span></span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-66" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>hw_mean_imp <span class="ot">&lt;-</span> VIM<span class="sc">::</span><span class="fu">kNN</span>(hw_mean, <span class="at">k =</span> <span class="dv">5</span>) <span class="co"># kNN imputation</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model,</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hw_mean_imp,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"MLM"</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 154 iterations
 
@@ -2358,40 +2345,40 @@ Variances:
 </section>
 <section id="linearity" class="level1">
 <h1>Linearity</h1>
-<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>trendlines <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mapping, ...){</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="at">mapping =</span> mapping) <span class="sc">+</span> </span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"orange"</span>, ...)</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Female, <span class="sc">-</span>ethnic) <span class="sc">|&gt;</span> </span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  GGally<span class="sc">::</span><span class="fu">ggpairs</span>(<span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> trendlines))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>trendlines <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mapping, ...){</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="at">mapping =</span> mapping) <span class="sc">+</span> </span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"orange"</span>, ...)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Female, <span class="sc">-</span>ethnic) <span class="sc">|&gt;</span> </span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  GGally<span class="sc">::</span><span class="fu">ggpairs</span>(<span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> trendlines))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-50-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="diagnostics_files/figure-html/cell-51-output-1.png" width="810" height="810" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-70" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="246">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(eng92 <span class="sc">~</span> hw10, <span class="at">data=</span>hw_mean)</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="diagnostics_files/figure-html/cell-52-output-1.png" width="480" height="400" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-71" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="247">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(eng92 <span class="sc">~</span> parocc, <span class="at">data=</span>hw_mean)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-71" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(eng92 <span class="sc">~</span> hw10, <span class="at">data=</span>hw_mean)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="diagnostics_files/figure-html/cell-53-output-1.png" width="480" height="400" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-72" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(eng92 <span class="sc">~</span> parocc, <span class="at">data=</span>hw_mean)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="diagnostics_files/figure-html/cell-54-output-1.png" width="480" height="400" class="figure-img"></p>
 </figure>
 </div>
 </div>
