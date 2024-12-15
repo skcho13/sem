@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-12-10">
+<meta name="dcterms.date" content="2024-12-16">
 
 <title>Chapter 21. Latent Growth Models –  CHA Statistics II in R</title>
 <style>
@@ -316,6 +316,12 @@ window.Quarto = {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../contents/exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">ML Estimation</span></a>
   </div>
@@ -447,7 +453,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 10, 2024</p>
+      <p class="date">December 16, 2024</p>
     </div>
   </div>
   
@@ -459,7 +465,7 @@ window.Quarto = {
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -470,11 +476,23 @@ window.Quarto = {
 <section id="the-early-childhood-longitudinal-study-kindergarten-class-of-1998-99-ecls-k" class="level2">
 <h2 class="anchored" data-anchor-id="the-early-childhood-longitudinal-study-kindergarten-class-of-1998-99-ecls-k">The Early Childhood Longitudinal Study, Kindergarten Class of 1998-99 (ECLS-K)</h2>
 <p><a href="https://nces.ed.gov/ecls/kindergarten.asp">NCES website</a></p>
+<p><img src="images/fig21-1.png" class="img-fluid" width="620"></p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>데이터는 다음 연구를 기반으로 생성<br>
+DiPerna, J. C., Lei, P. W., &amp; Reid, E. E. (2007). Kindergarten predictors of mathematical growth in the primary grades: An investigation using the Early Childhood Longitudinal Study–Kindergarten cohort. Journal of Educational psychology, 99(2), 369.</p>
+<p>math1 ~ math5: 유치원, 1, 2, 3, 4학년까지의 수학 성적</p>
 <blockquote class="blockquote">
 <p><em>The test is designed to measure “conceptual knowledge, procedural knowledge, and problem solving” with math items ranging from simple (number knowledge) to advanced (algebra) (DiPerna, Lei, &amp; Reid, 2007, p.&nbsp;372)</em></p>
 </blockquote>
-<p><img src="images/fig21-1.png" class="img-fluid" width="620"></p>
-<div id="cell-4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
+</div>
+</div>
+</div>
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>math_growth <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 21 latent growth models/math growth final.sav"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>math_growth <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -490,7 +508,7 @@ window.Quarto = {
 # ℹ 994 more rows</code></pre>
 </div>
 </div>
-<div id="cell-6" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 분포 확인: 특히 age</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> MVN<span class="sc">::</span><span class="fu">mvn</span>(<span class="at">data =</span> math_growth, <span class="at">univariatePlot =</span> <span class="st">"histogram"</span>) <span class="co"># normality histogram</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -532,7 +550,7 @@ window.Quarto = {
 </div>
 </div>
 <p><img src="images/fig21-7.png" class="img-fluid" width="650"></p>
-<div id="cell-8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
@@ -662,7 +680,7 @@ Variances:
 </div>
 </div>
 <p><code>sem()</code> 대신 <code>growth()</code>를 이용하면,</p>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
@@ -787,7 +805,7 @@ Variances:
 <section id="no-equal-residual-variances" class="level3">
 <h3 class="anchored" data-anchor-id="no-equal-residual-variances">No equal residual variances</h3>
 <p><img src="images/fig21-8.png" class="img-fluid" width="650"></p>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconditional growth model</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lgm_math_model_unequal <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
@@ -901,7 +919,7 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
+<div id="cell-15" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math, lgm_math_unequal) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -944,7 +962,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 <li>Initial ~ Growth의 상관관계가 예측변수들에 의해 다 설명되었음; <em>r=0.21</em>에서 <em>(residual) r=0.007</em></li>
 <li>한편, Initial과 Growth의 residual variance(<span class="math inline">\(1-R^2\)</span>)는 각각 0.782, 0.779로 Initial과 Growth의 변량을 많이 설명하지는 못함.</li>
 </ul>
-<div id="cell-16" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
+<div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
@@ -1104,7 +1122,7 @@ Variances:
 </section>
 <section id="conditional-growth-model---revised" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-growth-model---revised">Conditional growth model - revised</h2>
-<div id="cell-18" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-19" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model - revised</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
@@ -1252,7 +1270,7 @@ Variances:
 </div>
 <section id="compare-the-two-models" class="level3">
 <h3 class="anchored" data-anchor-id="compare-the-two-models">Compare the two models</h3>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the two models</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math_cond, lgm_math_cond2, <span class="at">nested =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1271,7 +1289,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 </section>
 <section id="conditional-growth-model---free-slopes" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-growth-model---free-slopes">Conditional growth model - free slopes</h2>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional growth model - free slopes</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lgm_math_cond_model3 <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  # latents</span></span>
@@ -1419,7 +1437,7 @@ Variances:
 </div>
 <section id="compare-the-two-models-1" class="level3">
 <h3 class="anchored" data-anchor-id="compare-the-two-models-1">Compare the two models</h3>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
+<div id="cell-25" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the two models</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(lgm_math_cond, lgm_math_cond3, <span class="at">nested =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

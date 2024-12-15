@@ -80,6 +80,7 @@ website:
             text: Latent Interactions
           - href: contents/diagnostics.ipynb
             text: Diagnostics
+      - href: contents/exercises.ipynb
       - href: contents/ml.ipynb
         text: ML Estimation
       - href: contents/equations.ipynb

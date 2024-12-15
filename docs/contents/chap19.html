@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-12-10">
+<meta name="dcterms.date" content="2024-12-16">
 
 <title>Chapter 19. Latent Means in SEM –  CHA Statistics II in R</title>
 <style>
@@ -316,6 +316,12 @@ window.Quarto = {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../contents/exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">ML Estimation</span></a>
   </div>
@@ -460,7 +466,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 10, 2024</p>
+      <p class="date">December 16, 2024</p>
     </div>
   </div>
   
@@ -687,7 +693,7 @@ Variances:
 </div>
 </div>
 <p><strong>Indicator의 대한 절편을 0으로 고정하고, 잠재변수의 평균을 추정하려면 직접 지정!</strong></p>
-<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>intercept_model2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Grades =~ eng92 + math92 + sci92 + soc92</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">  HW =~ f2s25f2 + f1s36a2</span></span>
@@ -746,7 +752,7 @@ HW      3.410
 </code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
+<div id="cell-11" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(intercept_fit2, </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>,</span>
@@ -818,7 +824,7 @@ Variances:
 <h2 class="anchored" data-anchor-id="single-group-sem-models">Single Group SEM Models</h2>
 <p>Estimation of Means and Intercepts in Single Group SEM Models<br>
 <img src="images/fig19-8.png" class="img-fluid" width="700"></p>
-<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
+<div id="cell-13" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Famback =~ parocc + byfaminc + bypared</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Prevach =~ bytxrstd + bytxmstd + bytxsstd + bytxhstd</span></span>
@@ -1011,7 +1017,7 @@ Variances:
 <li>int: 열감이 일상에 지장을 주는 정도</li>
 </ul></li>
 </ul>
-<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
+<div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the dataset</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hotflash <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/hot flash simulated.sav"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># make a grouping variable as a factor</span></span>
@@ -1032,7 +1038,7 @@ Variances:
 </div>
 </div>
 <p><code>ggstatsplot</code>을 이용해 시각화</p>
-<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
+<div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1052,7 +1058,7 @@ Variances:
 <h2 class="anchored" data-anchor-id="single-groupdummy-variable-approach">Single Group/Dummy Variable Approach</h2>
 <p>모형에 대한 가정 검토</p>
 <p><img src="images/fig19-16.png" class="img-fluid" width="700"></p>
-<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
+<div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hotflash_model <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
@@ -1159,7 +1165,7 @@ Variances:
 <li>최면 치료의 효과가 유의한지 확인</li>
 </ul>
 <p><img src="images/table19-1.png" class="img-fluid" width="700"></p>
-<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
+<div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># free covariance between pretest and group</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>hotflash_model2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1182,7 +1188,7 @@ Variances:
 16   Group ~~ Group   0.250 0.000     NA     NA    0.250    0.250  0.250   1.000   0.250</code></pre>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
+<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(hotflash_fit2, hotflash_fit) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1195,7 +1201,7 @@ hotflash_fit   2 2956.5 2987.2 3.5007     3.4126 0.15853       1     0.0647 .
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
+<div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no effect of group on post-test</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>hotflash_model3 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1209,7 +1215,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>hotflash_fit3 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model3, <span class="at">data =</span> hotflash)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
+<div id="cell-29" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit3, hotflash_fit2) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1259,7 +1265,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 </ul></li>
 </ul>
 <p><img src="images/fig19-19-2.png" class="img-fluid" width="800"></p>
-<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
+<div id="cell-32" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initial model</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1432,7 +1438,7 @@ Variances:
 </code></pre>
 </div>
 </div>
-<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
+<div id="cell-33" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op rhs block group label     est    se      z pvalue ci.lower ci.upper
@@ -1450,7 +1456,7 @@ Variances:
 38 hf_post ~1         2     2       -28.439 3.135 -9.071      0  -34.584  -22.295</code></pre>
 </div>
 </div>
-<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
+<div id="cell-34" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Free parameters 확인</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">parTable</span>(hotflash_fit_mg) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1552,7 +1558,7 @@ Variances:
 </li>
 <li>위에서는 두 집단 간에 pre-test 잠재변수의 값이 동일하게 0이라고 가정했음.</li>
 </ul>
-<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
+<div id="cell-36" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>hotflash <span class="sc">|&gt;</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(g) <span class="sc">|&gt;</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(HF1<span class="sc">:</span>int2, mean)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1582,7 +1588,7 @@ Variances:
 <h3 class="anchored" data-anchor-id="무선-할당의-적절성-pretests-differ">무선 할당의 적절성 (Pretests Differ)</h3>
 <p>사전 검사에서 두 집단 간의 평균(intercept)이 같다는 가정을 하지 않았을 때,<br>
 즉, free the estimate of the intercepts for the pretest latent variables</p>
-<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
+<div id="cell-39" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># free pretest intercepts</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1602,7 +1608,7 @@ Variances:
 <span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
 <span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
+<div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hotflash_fit_mg2, <span class="at">estimates =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>lavaan 0.6-19 ended normally after 316 iterations
@@ -1626,7 +1632,7 @@ Model Test User Model:
     treatment                                    1.758</code></pre>
 </div>
 </div>
-<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
+<div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg2) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op rhs block group label     est    se      z pvalue ci.lower ci.upper
@@ -1645,7 +1651,7 @@ Model Test User Model:
 </div>
 </div>
 <p><img src="images/pretest-differ.png" class="img-fluid" width="600"></p>
-<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
+<div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit_mg, hotflash_fit_mg2) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1684,7 +1690,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 </ul>
 <p>이전 더미 변수 방식의 경우:<br>
 <img src="images/fig19-16.png" class="img-fluid" width="600"></p>
-<div id="cell-45" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
+<div id="cell-45" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test assumptions</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg3 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1708,7 +1714,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 <span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-46" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
+<div id="cell-46" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg3) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op    rhs block group label   est    se   z pvalue ci.lower ci.upper
@@ -1716,7 +1722,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 24 hf_post  ~ hf_pre     2     2     a 0.487 0.195 2.5  0.012    0.105    0.868</code></pre>
 </div>
 </div>
-<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
+<div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg3) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op     rhs block group label     est      se      z pvalue ci.lower ci.upper
@@ -1738,7 +1744,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 33 hf_post ~~ hf_post     2     2 .p14. 138.752  35.569  3.901  0.000   69.039  208.465</code></pre>
 </div>
 </div>
-<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
+<div id="cell-48" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg3) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op rhs block group label     est    se      z pvalue ci.lower ci.upper
@@ -1762,7 +1768,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 </li>
 <li>즉, 여기서는 더미 변수 방식의 가정들이 매우 맞지 않음을 확인할 수 있음.</li>
 </ul>
-<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
+<div id="cell-50" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummy 방식과의 비교</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit, hotflash_fit_mg3, <span class="at">nested =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1777,7 +1783,7 @@ The following lavaan models were compared:
 To view results, assign the compareFit() output to an object and  use the summary() method; see the class?FitDiff help page.</code></pre>
 </div>
 </div>
-<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
+<div id="cell-51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial model과의 비교</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit_mg, hotflash_fit_mg3) <span class="sc">|&gt;</span> <span class="fu">summary</span>()<span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1810,7 +1816,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 <h4 class="anchored" data-anchor-id="slopes-vary">Slopes Vary</h4>
 <p>앞의 모형에서 ANCOVA의 가정인 두 집단 간에 pre-test와 post-test의 관계가 동일하다는 가정을 검증함.<br>
 즉, 앞의 모든 가정을 포함한 모형에서, 집단 별로 기울기만 다르게 추정하면,</p>
-<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
+<div id="cell-53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Slopes Vary</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg4 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1834,7 +1840,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 <span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
+<div id="cell-54" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit_mg3, hotflash_fit_mg4) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1869,7 +1875,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 <p>Initial 모형의 적합도가 낮은 이유로 인해 더 나은 모형으로 개선<br>
 두 집단에서 모두 Cov(int1, int2)가 통계적으로 유의하지 않으므로 0으로 제약<br>
 Chi-square가 약간 증가하나 추가 자유도 2 확보</p>
-<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
+<div id="cell-56" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op     rhs block group label     est      se      z pvalue ci.lower ci.upper
@@ -1891,7 +1897,7 @@ Chi-square가 약간 증가하나 추가 자유도 2 확보</p>
 33 hf_post ~~ hf_post     2     2         2.901  52.283  0.055  0.956  -99.571  105.373</code></pre>
 </div>
 </div>
-<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
+<div id="cell-57" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial 2: remove covariances between int1, int2</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg5 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1911,7 +1917,7 @@ Chi-square가 약간 증가하나 추가 자유도 2 확보</p>
 <span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
 <span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
+<div id="cell-58" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit_mg, hotflash_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1944,7 +1950,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 <h4 class="anchored" data-anchor-id="no-main-effect">No Main Effect</h4>
 <p>치료의 효과가 없다는 가정: post-test 잠재변수의 intercept를 0으로 제약<br>
 (pre-test 잠재변수의 intercept는 0으로 제약되어 있음)</p>
-<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
+<div id="cell-60" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No main effect</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg6 <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
@@ -1966,7 +1972,7 @@ To view results, assign the compareFit() output to an object and  use the summar
 <span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"means"</span>) <span class="co"># fix the means to 0</span></span>
 <span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="33">
+<div id="cell-61" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit_mg5, hotflash_fit_mg6) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
@@ -1994,7 +2000,7 @@ The following lavaan models were compared:
 To view results, assign the compareFit() output to an object and  use the summary() method; see the class?FitDiff help page.</code></pre>
 </div>
 </div>
-<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="34">
+<div id="cell-62" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg5, <span class="at">standardized =</span> <span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span> <span class="sc">&amp;</span> lhs <span class="sc">==</span> <span class="st">"hf_post"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op rhs block group label     est    se      z pvalue ci.lower ci.upper std.all
@@ -2136,6 +2142,9 @@ Note
 <p>즉, 사전검사와 어느 집단에 속하는지가 서로 상호작용하여 사후검사에 효과가 나타났음; interaction effect</p>
 </div>
 </div>
+<!-- ## Latent Change Score Model
+
+![](images/latent-change-model.png){width=700} -->
 
 
 </section>

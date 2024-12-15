@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-09-22">
+<meta name="dcterms.date" content="2024-12-16">
 
-<title>Chapter 13. Multiple-Indicator Measurement –  CHA Statistics II in R</title>
+<title>Exercises –  CHA Statistics II in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,25 +59,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../contents/Kline/kchap16-1.html" rel="next">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../contents/ml.html" rel="next">
+<link href="../contents/diagnostics.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -105,10 +106,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta property="og:title" content="Chapter 13. Multiple-Indicator Measurement –  CHA Statistics II in R">
-<meta property="og:description" content="Principles and Practice of Structural Equation Modeling (5e) by Rex B. Kline">
+<meta property="og:title" content="Exercises –  CHA Statistics II in R">
+<meta property="og:description" content="Multiple Regression and Beyond (3e) by Timothy Z. Keith">
 <meta property="og:site_name" content="CHA Statistics II in R">
 </head>
 
@@ -122,7 +126,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">Chapter 13. Multiple-Indicator Measurement</h1>
+          <h1 class="quarto-secondary-nav-title">Exercises</h1>
         </a>     
     </div>
   </nav>
@@ -133,20 +137,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../"><i class="fa-solid fa-chart-bar" aria-label="chart-bar"></i> CHA Statistics II in R</a> 
+      <a href="../"><i class="fa-solid fa-chart-bar" aria-label="chart-bar"></i> CHA Statistics II in R</a> 
     </div>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/notice.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/notice.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Notice</span></a>
   </div>
 </li>
@@ -162,37 +166,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Setup</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/baser.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/baser.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Base R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/tidyverse.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/tidyverse.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tidyverse</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/import.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/import.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Import</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/cleaning.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/cleaning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Cleaning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/visualize.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/visualize.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Visualize</span></a>
   </div>
 </li>
@@ -200,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/setup2.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/setup2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Packages for SEM</span></a>
   </div>
 </li>
@@ -216,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../contents/chap12.html" class="sidebar-item-text sidebar-link">
+            <a href="../contents/chap12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Path Modeling</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -225,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/interaction.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/interaction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interactions</span></a>
   </div>
 </li>
@@ -233,49 +237,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/chap13.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/chap13.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Path Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/chap16.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/chap16.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Factor Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/chap17.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/chap17.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Latent Variable SEM</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/chap18.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/chap18.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multigroup Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/chap19.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/chap19.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Latent Means</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/chap21.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/chap21.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Latent Growth Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/chap22.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/chap22.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Latent Interactions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/diagnostics.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/diagnostics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Diagnostics</span></a>
   </div>
 </li>
@@ -283,19 +287,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/exercises.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/exercises.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Exercises</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/ml.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/ml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">ML Estimation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/equations.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/equations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SEM Equations</span></a>
   </div>
 </li>
@@ -311,34 +315,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../contents/Kline/composite.html" class="sidebar-item-text sidebar-link active">
+            <a href="../contents/Kline/composite.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Composite</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/Kline/kchap16-1.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/Kline/kchap16-1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reflective</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/Kline/kchap16-2.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/Kline/kchap16-2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Composite: Formative</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/Kline/kchap16-3.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/Kline/kchap16-3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Composite: PLS-PM</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/Kline/kchap16-4.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/Kline/kchap16-4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Composite: HO</span></a>
   </div>
 </li>
@@ -346,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/Kline/kchap21.html" class="sidebar-item-text sidebar-link">
+  <a href="../contents/Kline/kchap21.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Latent Growth Curve</span></a>
   </div>
 </li>
@@ -380,7 +384,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#reflective-measurement-and-effect-indicators" id="toc-reflective-measurement-and-effect-indicators" class="nav-link active" data-scroll-target="#reflective-measurement-and-effect-indicators">Reflective Measurement and Effect Indicators</a></li>
+  <li><a href="#장-잠재변수모형-ii-연습문제-2번.-1-4" id="toc-장-잠재변수모형-ii-연습문제-2번.-1-4" class="nav-link active" data-scroll-target="#장-잠재변수모형-ii-연습문제-2번.-1-4">18장 잠재변수모형 II 연습문제 2번. (1) ~ (4)</a></li>
+  <li><a href="#장-잠재변수모형-ii-연습문제-4번." id="toc-장-잠재변수모형-ii-연습문제-4번." class="nav-link" data-scroll-target="#장-잠재변수모형-ii-연습문제-4번.">18장 잠재변수모형 II 연습문제 4번.</a></li>
+  <li><a href="#장-잠재성장모형-연습문제-2번.-1-4" id="toc-장-잠재성장모형-연습문제-2번.-1-4" class="nav-link" data-scroll-target="#장-잠재성장모형-연습문제-2번.-1-4">21장 잠재성장모형 연습문제 2번. (1) ~ (4)</a></li>
   </ul>
 </nav>
     </div>
@@ -389,8 +395,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Chapter 13. Multiple-Indicator Measurement</h1>
-<p class="subtitle lead">Principles and Practice of Structural Equation Modeling (5e) by Rex B. Kline</p>
+<h1 class="title d-none d-lg-block">Exercises</h1>
+<p class="subtitle lead">Multiple Regression and Beyond (3e) by Timothy Z. Keith</p>
 </div>
 
 
@@ -407,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 22, 2024</p>
+      <p class="date">December 16, 2024</p>
     </div>
   </div>
   
@@ -419,21 +425,88 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <details class="code-fold">
 <summary>Load libraries</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>library(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>library(lavaan)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>library(semTools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="reflective-measurement-and-effect-indicators" class="level2">
-<h2 class="anchored" data-anchor-id="reflective-measurement-and-effect-indicators">Reflective Measurement and Effect Indicators</h2>
-<p><img src="images/kline-fig13-2.png" class="img-fluid" width="650"></p>
-<div style="line-height: 1.5em; font-size: .9em">
-<p>FIGURE 13.2. Measurement models for a set of three indicators: reflective measurement with effect indicators (a), causal–for‑ mative measurement with causal indicators (b), and composite (composite–formative) measurement with composite indicators (c). L, latent; M, manifest; C, composite.</p>
-<p>Source: Fig 13.2 (p.&nbsp;219)</p>
+<section id="장-잠재변수모형-ii-연습문제-2번.-1-4" class="level2">
+<h2 class="anchored" data-anchor-id="장-잠재변수모형-ii-연습문제-2번.-1-4">18장 잠재변수모형 II 연습문제 2번. (1) ~ (4)</h2>
+<p><img src="images/fig18-23.png" class="img-fluid" width="700"></p>
+<p><img src="images/table18-4.png" class="img-fluid" width="700"></p>
+<p>Residual covariance에 대한 제약</p>
+<ul>
+<li>교사 보고(teacher report)로 측정된 변수들 간의 상관을 모두 추정; 3개</li>
+<li>어머니 보고(mother report)로 측정된 변수들 간의 상관을 모두 추정; 3개</li>
+<li>두 개의 최종 변수들(행동문제 외현화, 사교역량)은 서로 독립; 1개</li>
+</ul>
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="163">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>eisenberg <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 18 latent var SEM 2/Eisenberg et al 2001.sav"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ext_mr =</span> exter_mr)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>eisenberg <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 176 × 8
+  exp_mo exp_msr reg_mr   reg_tr ext_mr ext_tr   soc_mr soc_tr
+   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+1 -1.70        6 -0.257 -0.474       29      9  0.350    0.402
+2  2.19       10  1.49   1.51         1      4  0.509    0.706
+3  0.959       6 -0.628 -1.50        27     22  0.00530 -1.71 
+4  0.925       7  1.24  -0.00363     23     15  1.49    -0.825
+5  1.66        6 -0.567  0.455       17     14 -0.386    0.299
+6  1.62        7 -1.80  -0.530       24     15 -1.60    -0.128
+# ℹ 170 more rows</code></pre>
 </div>
+</div>
+<!-- ## Direct effects -->
+<!-- ## Hierarchical Factors -->
+</section>
+<section id="장-잠재변수모형-ii-연습문제-4번." class="level2">
+<h2 class="anchored" data-anchor-id="장-잠재변수모형-ii-연습문제-4번.">18장 잠재변수모형 II 연습문제 4번.</h2>
+<p><img src="images/fig18-24.png" class="img-fluid" width="700"></p>
+<div id="cell-21" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="87">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nels <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 18 latent var SEM 2/ach locus sex data 2.sav"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>nels <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 857 × 10
+  byses     sex        bytxrstd bytxmstd bytxsstd bytxhstd f1s62b  f1s62c  f1s62f  f1s62m 
+  &lt;dbl+lbl&gt; &lt;dbl+lbl&gt;  &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
+1 -0.563    2 [Female] 65.5     59.5     64.7     67.8     3 [DIS… 3 [DIS… 3 [DIS… 2 [AGR…
+2  0.123    1 [Male]   50.6     48.0     49.1     46.9     2 [AGR… 3 [DIS… 2 [AGR… 2 [AGR…
+3  0.229    2 [Female] 59.1     42.8     49.1     47.9     2 [AGR… 2 [AGR… 3 [DIS… 2 [AGR…
+4  0.687    1 [Male]   44.4     49.2     35.5     57.3     3 [DIS… 3 [DIS… 3 [DIS… 3 [DIS…
+5  0.633    2 [Female] 63.3     52.5     51.8     52.1     2 [AGR… 3 [DIS… 2 [AGR… 3 [DIS…
+6  0.992    1 [Male]   31.8     44.5     39.5     38.3     3 [DIS… 3 [DIS… 3 [DIS… 3 [DIS…
+# ℹ 851 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="장-잠재성장모형-연습문제-2번.-1-4" class="level2">
+<h2 class="anchored" data-anchor-id="장-잠재성장모형-연습문제-2번.-1-4">21장 잠재성장모형 연습문제 2번. (1) ~ (4)</h2>
+<p><img src="images/alcohol-adols.png" class="img-fluid" width="500"></p>
+<div id="cell-23" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"adol1"</span>, <span class="st">"adol2"</span>, <span class="st">"adol3"</span>, <span class="st">"rebel1"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"parent"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.81</span>, <span class="fl">3.98</span>, <span class="fl">4.79</span>, <span class="fl">0.69</span>, <span class="fl">1.4</span>, <span class="fl">0.5</span>, <span class="fl">0.49</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">1</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">0.68 1</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">0.5 0.68 1</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">0.3 0.29 0.32 1</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st">0.31 0.31 0.23 0.14 1</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="st">0.01 0.06 0.1 0.14 -0.03 1</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="st">0.12 0.17 0.2 0.12 -0.15 0 1</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>alcohol <span class="ot">&lt;-</span> <span class="fu">getCov</span>(lower, <span class="at">names =</span> vars, <span class="at">sd =</span> sd)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.36</span>, <span class="fl">2.12</span>, <span class="fl">3.18</span>, <span class="fl">2.58</span>, <span class="fl">12.91</span>, <span class="fl">0.52</span>, <span class="fl">0.56</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>데이터가 아닌 공분산과 평균으로 추정하니, 다음과 같이 모형을 추정할 때, 표본의 공분산 행렬, 평균값, 표본 수를 이용해 진행하세요.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">growth</span>(model, <span class="at">sample.cov =</span> alcohol, <span class="at">sample.mean =</span> mean, <span class="at">sample.nobs =</span> <span class="dv">363</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -866,10 +939,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../contents/diagnostics.html" class="pagination-link" aria-label="Diagnostics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Diagnostics</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../contents/Kline/kchap16-1.html" class="pagination-link" aria-label="Reflective">
-        <span class="nav-page-text">Reflective</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../contents/ml.html" class="pagination-link" aria-label="ML Estimation">
+        <span class="nav-page-text">ML Estimation</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
