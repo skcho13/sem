@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-12-16">
+<meta name="dcterms.date" content="2024-12-17">
 
 <title>Chapter 19. Latent Means in SEM –  CHA Statistics II in R</title>
 <style>
@@ -439,6 +439,7 @@ window.Quarto = {
   <li><a href="#no-interaction-effect" id="toc-no-interaction-effect" class="nav-link" data-scroll-target="#no-interaction-effect">No Interaction Effect</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#latent-change-score-model" id="toc-latent-change-score-model" class="nav-link" data-scroll-target="#latent-change-score-model">Latent Change Score Model</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -466,7 +467,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 16, 2024</p>
+      <p class="date">December 17, 2024</p>
     </div>
   </div>
   
@@ -2022,27 +2023,20 @@ Effect Size
 치료 효과의 크기에 대해서는 Int 변수의 metric으로 28.3점 감소한다고 해석할 수 있으나, 표준화하려면 Pre-test의 통제집단과 처치집단의 pooled standard deviation을 사용해야 함; 여러 방식이 제안됨. 논란의 여지가 있음! <a href="https://www.psychometrica.de/effect_size.html">참고</a></p>
 <p>즉, cohen’s d = -28.3 / pooled SD = <span class="math inline">\(\displaystyle \frac{-28.3}{\sqrt{\frac{255.7 + 143.7}{2}}} = -2.00\)</span><br>
 앞서 더미 변수 방식에서는 Group(Hypnosis) → Post의 회귀계수는 -28.6(비표준화), -1.39(표준화)</p>
-<p>참고: HF와 int 측정치의 분산 차이가 매우 크므로, 잠재변수를 구성할 때 effect coding을 사용하면 더 적절한 결과를 얻을 수 있지 않을까… 즉, 요인 부하량의 평균이 1이 되도록 제약해서 두 변수의 영향력을 동등하게 만듦<br>
-이 때, 위의 cohen’s d = -1.85로 계산됨</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ NA*a*int1 + b*HF1</span></span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ NA*c*int2 + d*HF2</span></span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="st">  a + b == 2</span></span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="st">  c + d == 2</span></span>
-<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="st">  ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Latent Change Score Model 방식도 고려; 맨 아래</p>
 </div>
 </div>
-<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="75">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-test 잠재변수의 분산 확인</span></span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~~"</span> <span class="sc">&amp;</span> (lhs <span class="sc">==</span> <span class="st">"hf_pre"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-64" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-test 잠재변수의 분산 확인</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~~"</span> <span class="sc">&amp;</span> (lhs <span class="sc">==</span> <span class="st">"hf_pre"</span>)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      lhs op    rhs block group label     est     se     z pvalue ci.lower ci.upper
 13 hf_pre ~~ hf_pre     1     1       255.650 97.491 2.622  0.009   64.572  446.727
 32 hf_pre ~~ hf_pre     2     2       143.736 60.058 2.393  0.017   26.024  261.449</code></pre>
 </div>
 </div>
-<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-65" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg5) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op     rhs block group label     est     se     z pvalue ci.lower ci.upper
 6      HF1 ~~     HF2     1     1        64.439 15.850 4.066  0.000   33.373   95.505
@@ -2068,28 +2062,28 @@ Effect Size
 <h4 class="anchored" data-anchor-id="no-interaction-effect">No Interaction Effect</h4>
 <p>앞서 Slopes differs에서처럼 pretest → posttest의 관계가 집단에 따라 동일하다고 가정하면,<br>
 즉, no slope difference를 가정</p>
-<div id="cell-67" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No slope difference: interaction</span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg7 <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ c(a, a)*hf_pre</span></span>
-<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
-<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ 0*int2  # fix the covariance to 0</span></span>
-<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ 0*1</span></span>
-<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>hotflash_fit_mg7 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model_mg7,</span>
-<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hotflash,</span>
-<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">meanstructure =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"g"</span>, <span class="co"># factor type</span></span>
-<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
-<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-67" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No slope difference: interaction</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg7 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre =~ int1 + HF1</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post =~ int2 + HF2</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_post ~ c(a, a)*hf_pre</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ 0*int2  # fix the covariance to 0</span></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="st">  hf_pre ~ 0*1</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>hotflash_fit_mg7 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model_mg7,</span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hotflash,</span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">meanstructure =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"g"</span>, <span class="co"># factor type</span></span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit_mg5, hotflash_fit_mg7) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-68" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compareFit</span>(hotflash_fit_mg5, hotflash_fit_mg7) <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>################### Nested Model Comparison #########################
 
@@ -2116,8 +2110,8 @@ The following lavaan models were compared:
 To view results, assign the compareFit() output to an object and  use the summary() method; see the class?FitDiff help page.</code></pre>
 </div>
 </div>
-<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg5, <span class="at">standardized=</span><span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg5, <span class="at">standardized=</span><span class="st">"std.all"</span>) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       lhs op    rhs block group label    est    se      z pvalue ci.lower ci.upper
 5  hf_post  ~ hf_pre     1     1        1.169 0.271  4.315  0.000    0.638    1.700
@@ -2142,13 +2136,285 @@ Note
 <p>즉, 사전검사와 어느 집단에 속하는지가 서로 상호작용하여 사후검사에 효과가 나타났음; interaction effect</p>
 </div>
 </div>
-<!-- ## Latent Change Score Model
-
-![](images/latent-change-model.png){width=700} -->
-
-
 </section>
 </section>
+</section>
+<section id="latent-change-score-model" class="level2">
+<h2 class="anchored" data-anchor-id="latent-change-score-model">Latent Change Score Model</h2>
+<p><img src="images/latent-change-model.png" class="img-fluid" width="450"></p>
+<div id="cell-72" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="157">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg_lcm <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="st">  PreTest =~ 1*int1 + a*HF1 + 1*int2 + a*HF2 </span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Change =~ 1*int2 + a*HF2</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Change ~~ PreTest</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ 0*int2</span></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a><span class="st">  PreTest ~ 1</span></span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a><span class="st">  Change ~ 1</span></span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~ 0*1</span></span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a><span class="st">  int2 ~ 0*1</span></span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-73" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="158">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>hotflash_fit_mg_lcm <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model_mg_lcm,</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hotflash,</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">meanstructure =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"g"</span>, <span class="co"># factor type</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hotflash_fit_mg_lcm, </span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove.unused =</span> <span class="cn">FALSE</span>, <span class="co"># keep the unused parameters</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 295 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        30
+  Number of equality constraints                     7
+
+  Number of observations per group:                   
+    control                                         48
+    treatment                                       48
+
+Model Test User Model:
+                                                      
+  Test statistic                                 4.325
+  Degrees of freedom                                 5
+  P-value (Chi-square)                           0.504
+  Test statistic for each group:
+    control                                      0.602
+    treatment                                    3.723
+
+Model Test Baseline Model:
+
+  Test statistic                               182.941
+  Degrees of freedom                                12
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    1.000
+  Tucker-Lewis Index (TLI)                       1.009
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)              -1425.196
+  Loglikelihood unrestricted model (H1)      -1423.033
+                                                      
+  Akaike (AIC)                                2896.392
+  Bayesian (BIC)                              2955.372
+  Sample-size adjusted Bayesian (SABIC)       2882.751
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.000
+  90 Percent confidence interval - lower         0.000
+  90 Percent confidence interval - upper         0.186
+  P-value H_0: RMSEA &lt;= 0.050                    0.571
+  P-value H_0: RMSEA &gt;= 0.080                    0.339
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.067
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+
+Group 1 [control]:
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  PreTest =~                                                            
+    int1              1.000                              17.587    0.814
+    HF1        (a)    0.344    0.038    9.047    0.000    6.044    0.579
+    int2              1.000                              17.587    0.818
+    HF2        (a)    0.344    0.038    9.047    0.000    6.044    0.557
+  Change =~                                                             
+    int2              1.000                               7.544    0.351
+    HF2        (a)    0.344    0.038    9.047    0.000    2.592    0.239
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  PreTest ~~                                                            
+    Change           -9.541   44.450   -0.215    0.830   -0.072   -0.072
+ .HF1 ~~                                                                
+   .HF2              63.485   15.644    4.058    0.000   63.485    0.852
+ .int1 ~~                                                               
+   .int2              0.000                               0.000    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    PreTest          46.526    3.055   15.232    0.000    2.645    2.645
+    Change           -4.518    2.470   -1.829    0.067   -0.599   -0.599
+   .int1              0.000                               0.000    0.000
+   .int2              0.000                               0.000    0.000
+   .HF1     (.20.)    1.191    1.705    0.698    0.485    1.191    0.114
+   .HF2     (.21.)    1.290    0.886    1.456    0.145    1.290    0.119
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .int1            157.929   59.157    2.670    0.008  157.929    0.338
+   .HF1              72.423   16.558    4.374    0.000   72.423    0.665
+   .int2            114.843   57.030    2.014    0.044  114.843    0.249
+   .HF2              76.628   17.446    4.392    0.000   76.628    0.651
+    PreTest         309.313   85.946    3.599    0.000    1.000    1.000
+    Change           56.909   42.216    1.348    0.178    1.000    1.000
+
+
+Group 2 [treatment]:
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  PreTest =~                                                            
+    int1              1.000                              12.867    0.701
+    HF1        (a)    0.344    0.038    9.047    0.000    4.422    0.400
+    int2              1.000                              12.867    1.212
+    HF2        (a)    0.344    0.038    9.047    0.000    4.422    0.826
+  Change =~                                                             
+    int2              1.000                              15.974    1.504
+    HF2        (a)    0.344    0.038    9.047    0.000    5.489    1.026
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  PreTest ~~                                                            
+    Change         -188.179   62.743   -2.999    0.003   -0.916   -0.916
+ .HF1 ~~                                                                
+   .HF2              46.707   10.353    4.512    0.000   46.707    0.954
+ .int1 ~~                                                               
+   .int2              0.000                               0.000    0.000
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    PreTest          38.768    2.558   15.158    0.000    3.013    3.013
+    Change          -27.749    3.103   -8.941    0.000   -1.737   -1.737
+   .int1              0.000                               0.000    0.000
+   .int2              0.000                               0.000    0.000
+   .HF1     (.20.)    1.191    1.705    0.698    0.485    1.191    0.108
+   .HF2     (.21.)    1.290    0.886    1.456    0.145    1.290    0.241
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .int1            171.170   64.030    2.673    0.008  171.170    0.508
+   .HF1             102.362   23.079    4.435    0.000  102.362    0.840
+   .int2             68.417   19.755    3.463    0.001   68.417    0.607
+   .HF2              23.405    5.491    4.262    0.000   23.405    0.817
+    PreTest         165.561   63.980    2.588    0.010    1.000    1.000
+    Change          255.157   74.217    3.438    0.001    1.000    1.000
+</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Effect Size">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Effect Size
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>통제집단에서 Change 점수의 표준화 점수는 -0.599(n.s)</li>
+<li>치료집단에서 Change 점수의 표준화 점수는 -1.737</li>
+<li>위 계산은 int 변수의 metric으로 해석됨</li>
+</ul>
+</div>
+</div>
+<p>두 indicator의 metric을 고르게 반영하려면 effect coding을 고려해 볼 것.</p>
+<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="159">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>hotflash_model_mg_lcm2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="st">  PreTest =~ NA*b*HF1 + a*int1 + b*HF2 + a*int2</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Change =~ NA*b*HF2 + a*int2</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="st">  a + b == 2  # average loading = 1</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Change ~~ PreTest</span></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~~ HF2</span></span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~~ 0*int2</span></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a><span class="st">  PreTest ~ 1</span></span>
+<span id="cb77-12"><a href="#cb77-12" aria-hidden="true" tabindex="-1"></a><span class="st">  Change ~ 1</span></span>
+<span id="cb77-13"><a href="#cb77-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-14"><a href="#cb77-14" aria-hidden="true" tabindex="-1"></a><span class="st">  HF1 ~ c1*1</span></span>
+<span id="cb77-15"><a href="#cb77-15" aria-hidden="true" tabindex="-1"></a><span class="st">  int1 ~ c2*1</span></span>
+<span id="cb77-16"><a href="#cb77-16" aria-hidden="true" tabindex="-1"></a><span class="st">  c1 + c2 == 0  # average intercept = 0</span></span>
+<span id="cb77-17"><a href="#cb77-17" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb77-18"><a href="#cb77-18" aria-hidden="true" tabindex="-1"></a><span class="st">  HF2 ~ d1*1</span></span>
+<span id="cb77-19"><a href="#cb77-19" aria-hidden="true" tabindex="-1"></a><span class="st">  int2 ~ d2*1</span></span>
+<span id="cb77-20"><a href="#cb77-20" aria-hidden="true" tabindex="-1"></a><span class="st">  d1 + d2 == 0  # average intercept = 0</span></span>
+<span id="cb77-21"><a href="#cb77-21" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="160">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>hotflash_fit_mg_lcm2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(hotflash_model_mg_lcm2,</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> hotflash,</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">meanstructure =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"g"</span>, <span class="co"># factor type</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"loadings"</span>, <span class="st">"intercepts"</span>)</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(hotflash_fit_mg_lcm2) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       lhs op rhs block group label     est    se      z pvalue ci.lower ci.upper
+10 PreTest ~1         1     1        31.853 2.015 15.811  0.000   27.905   35.802
+11  Change ~1         1     1        -2.986 1.398 -2.136  0.033   -5.725   -0.247
+12     HF1 ~1         1     1    c1   0.886 1.289  0.687  0.492   -1.641    3.413
+13    int1 ~1         1     1    c2  -0.886 1.289 -0.687  0.492   -3.413    1.641
+14     HF2 ~1         1     1    d1   0.960 0.678  1.416  0.157   -0.369    2.290
+15    int2 ~1         1     1    d2  -0.960 0.678 -1.416  0.157   -2.290    0.369
+31 PreTest ~1         2     2        26.641 1.714 15.545  0.000   23.282   30.000
+32  Change ~1         2     2       -18.593 1.942 -9.574  0.000  -22.400  -14.787
+33     HF1 ~1         2     2    c1   0.886 1.289  0.687  0.492   -1.641    3.413
+34    int1 ~1         2     2    c2  -0.886 1.289 -0.687  0.492   -3.413    1.641
+35     HF2 ~1         2     2    d1   0.960 0.678  1.416  0.157   -0.369    2.290
+36    int2 ~1         2     2    d2  -0.960 0.678 -1.416  0.157   -2.290    0.369</code></pre>
+</div>
+</div>
+<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standardizedSolution</span>(hotflash_fit_mg_lcm2) <span class="sc">|&gt;</span> <span class="fu">subset</span>(op <span class="sc">==</span> <span class="st">"~1"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       lhs op rhs group label est.std    se      z pvalue ci.lower ci.upper
+10 PreTest ~1         1         2.696 0.407  6.617  0.000    1.897    3.494
+11  Change ~1         1        -0.589 0.355 -1.659  0.097   -1.285    0.107
+12     HF1 ~1         1    c1   0.085 0.125  0.677  0.498   -0.161    0.331
+13    int1 ~1         1    c2  -0.041 0.060 -0.688  0.491   -0.158    0.076
+14     HF2 ~1         1    d1   0.089 0.064  1.373  0.170   -0.038    0.215
+15    int2 ~1         1    d2  -0.045 0.032 -1.408  0.159   -0.107    0.018
+31 PreTest ~1         2         3.082 0.601  5.132  0.000    1.905    4.259
+32  Change ~1         2        -1.733 0.292 -5.934  0.000   -2.305   -1.160
+33     HF1 ~1         2    c1   0.080 0.117  0.686  0.492   -0.149    0.309
+34    int1 ~1         2    c2  -0.048 0.070 -0.686  0.493   -0.186    0.090
+35     HF2 ~1         2    d1   0.179 0.128  1.404  0.160   -0.071    0.430
+36    int2 ~1         2    d2  -0.090 0.065 -1.402  0.161   -0.217    0.036</code></pre>
+</div>
+</div>
+<p>실제 평균값을 살펴보면,</p>
+<div id="cell-80" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="151">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>hotflash <span class="ot">&lt;-</span> hotflash <span class="sc">|&gt;</span> </span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hf_change =</span> HF2 <span class="sc">-</span> HF1, <span class="at">int_change =</span> int2 <span class="sc">-</span> int1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-81" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="156">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>hotflash <span class="sc">|&gt;</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(g) <span class="sc">|&gt;</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(HF1<span class="sc">:</span>int_change, mean)) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  g           HF1   HF2  int1  int2 hf_change int_change
+  &lt;fct&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 control    17.1 15.5   46.3  42.2     -1.57      -4.06
+2 treatment  14.4  5.04  39    10.9     -9.36     -28.1 </code></pre>
+</div>
+</div>
+
+
 </section>
 </section>
 
