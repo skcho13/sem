@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-12-16">
+<meta name="dcterms.date" content="2024-12-18">
 
 <title>Exercises –  CHA Statistics II in R</title>
 <style>
@@ -413,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 16, 2024</p>
+      <p class="date">December 18, 2024</p>
     </div>
   </div>
   
@@ -425,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
+<div id="cell-1" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
 <details class="code-fold">
 <summary>Load libraries</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -443,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>어머니 보고(mother report)로 측정된 변수들 간의 상관을 모두 추정; 3개</li>
 <li>두 개의 최종 변수들(행동문제 외현화, 사교역량)은 서로 독립; 1개</li>
 </ul>
-<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="163">
+<div id="cell-5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>eisenberg <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 18 latent var SEM 2/Eisenberg et al 2001.sav"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ext_mr =</span> exter_mr)</span>
