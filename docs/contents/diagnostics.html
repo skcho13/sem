@@ -2049,8 +2049,14 @@ Variances:
 </section>
 <section id="imputation" class="level3">
 <h3 class="anchored" data-anchor-id="imputation">Imputation</h3>
-<p>semTools에서 제공하는 imputation이 통합된 lavaan 함수를 이용하면; <code>sem.mi()</code></p>
-<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="169">
+<ul>
+<li>semTools에서 제공하는 imputation이 통합된 lavaan 함수를 이용하면; <code>sem.mi()</code>
+<ul>
+<li>MICE를 이용해 회귀모형에 기반해 결측치를 추정한 여러 셋트의 데이터를 생성 후 평균내는 방식</li>
+</ul></li>
+<li>Machine learning 기반의 알고리즘들로 직접 결측값을 채워 새로운 데이터셋을 생성한 후 분석할 수도 있음.</li>
+</ul>
+<div id="cell-69" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
 <details class="code-fold">
 <summary>Load data</summary>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>hw_mean <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sav</span>(<span class="st">"data/chap 19 latent means/Homework means.sav"</span>)</span>
@@ -2853,7 +2859,7 @@ Variances:
 </section>
 <section id="linearity" class="level1">
 <h1>Linearity</h1>
-<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="321">
+<div id="cell-76" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>trendlines <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mapping, ...){</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="at">mapping =</span> mapping) <span class="sc">+</span> </span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> loess, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"orange"</span>, ...)</span>
@@ -2868,7 +2874,7 @@ Variances:
 </div>
 </div>
 </div>
-<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="323">
+<div id="cell-78" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(eng92 <span class="sc">~</span> hw10, <span class="at">data=</span>hw_mean)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">crPlots</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
