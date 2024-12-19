@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sungkyun Cho">
-<meta name="dcterms.date" content="2024-12-19">
+<meta name="dcterms.date" content="2024-12-20">
 
 <title>Diagnostics –  CHA Statistics II in R</title>
 <style>
@@ -458,7 +458,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 19, 2024</p>
+      <p class="date">December 20, 2024</p>
     </div>
   </div>
   
@@ -1548,7 +1548,7 @@ Bootstrapped p value = 0.217
 <section id="분포에-대한-가정이-없는-방법" class="level3">
 <h3 class="anchored" data-anchor-id="분포에-대한-가정이-없는-방법">분포에 대한 가정이 없는 방법</h3>
 <p>WLS (fully weighted least squares); <code>estimator = "WLS"</code><br>
-also called ADF (Asymptotically Distribution-Free) estimator</p>
+also called ADF (Asymptotically Distribution-Free) estimator: 부정적인 견해 존재; p.&nbsp;141, Klein, R. B. (2023)</p>
 <div id="cell-45" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="357">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sem_fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(hw_model, <span class="at">data =</span> hw_mean, <span class="at">estimator =</span> <span class="st">"WLS"</span>)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem_fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
